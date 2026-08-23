@@ -1,54 +1,55 @@
-import { envelope } from "@powerchain/local-energy-api";
+import { secureRandomId } from "@powerchain/crypto-utils";
+import { envelope, parseBigIntField } from "@powerchain/local-energy-api";
 import { validateRuntimeConfiguration } from "@powerchain/system-management";
-import { resolveEntitlement } from "@powerchain/saas";
+import { CANONICAL_PLANS, generateTenantApiKey, resolveEntitlement } from "@powerchain/saas";
+import { RATE_LIMITS } from "@powerchain/rate-limit";
+import { allocateEpoch, deterministicAllocationRoot, type RewardContribution, type RewardEpoch } from "@powerchain/rewards";
 import { localEnergyService } from "./service.js";
 import { resolveRequestContext } from "./context.js";
-import { LOCAL_ENERGY_PLANS, LOCAL_ENERGY_SUBSCRIPTIONS } from "./saas.js";
-import { energyBatchFromDto, energyOrderFromDto, energyPositionFromDto, gridConstraintFromDto } from "./dto.js";
+import { LOCAL_ENERGY_SUBSCRIPTIONS } from "./saas.js";
+import { chainRepresentationFromDto, energyBatchFromDto, energyOrderFromDto, energyPositionFromDto, energyRwaFromDto, gridConstraintFromDto } from "./dto.js";
+import { createMarketDataClients, explorerLinks, processCurrencyRates, type PriceObservation } from "./integrations.js";
+import { enforceRateLimit, safeMutation } from "./security.js";
 
-export interface RouteRegistrar {
-  get(path: string, handler: (request: any, reply?: any) => unknown): unknown;
-  post(path: string, handler: (request: any, reply?: any) => unknown): unknown;
-}
+export interface RouteRegistrar { get(path:string,handler:(request:any,reply?:any)=>unknown):unknown; post(path:string,handler:(request:any,reply?:any)=>unknown):unknown; }
+const rid=(request:any)=>{const c=resolveRequestContext(request);if(c.tenantId)usage.set(c.tenantId,(usage.get(c.tenantId)??0)+1);return c.requestId;};
+const rwaContext=(request:any)=>{const c=resolveRequestContext(request);if(!c.tenantId)throw new Error("TENANT_CONTEXT_REQUIRED");return{tenantId:c.tenantId,organizationId:c.organizationId,companyId:request?.headers?.["x-company-id"]?String(request.headers["x-company-id"]):undefined,actorId:request?.user?.id,scopes:request?.user?.scopes??[]};};
+const epochs=new Map<string,RewardEpoch>(); const contributions=new Map<string,RewardContribution[]>(); const apiKeys=new Map<string,ReturnType<typeof generateTenantApiKey>["record"]>(); const usage=new Map<string,number>();
 
-function rid(request: any) { return resolveRequestContext(request).requestId; }
+export function registerLocalEnergyRoutes(app:RouteRegistrar){
+  app.get("/api/v1/energy-batches/:id",(request:any)=>{enforceRateLimit(request);const batch=localEnergyService.batches.get(String(request.params.id));if(!batch)throw new Error("ENERGY_BATCH_NOT_FOUND");const c=resolveRequestContext(request);if(batch.tenantId&&batch.tenantId!==c.tenantId)throw new Error("TENANT_SCOPE_DENIED");if(batch.organizationId&&c.organizationId&&batch.organizationId!==c.organizationId)throw new Error("ORGANIZATION_SCOPE_DENIED");return envelope(batch,rid(request));});
+  app.post("/api/v1/energy-batches",async(request:any)=>{const c=resolveRequestContext(request);const dto=energyBatchFromDto({...request.body,tenantId:c.tenantId??request.body.tenantId,organizationId:c.organizationId??request.body.organizationId});return envelope(await safeMutation(request,{action:"energy-batch.create",risk:"WRITE",scope:"energy.write"},()=>localEnergyService.putBatch(dto)),rid(request));});
+  app.post("/api/v1/energy-positions",async(request:any)=>{const c=resolveRequestContext(request);const dto=energyPositionFromDto({...request.body,tenantId:c.tenantId??request.body.tenantId,organizationId:c.organizationId??request.body.organizationId,companyId:request.headers?.["x-company-id"]??request.body.companyId});return envelope(await safeMutation(request,{action:"energy-position.create",risk:"WRITE",scope:"energy-rwa.write"},()=>localEnergyService.putPosition(dto)),rid(request));});
+  app.get("/api/v1/energy-rwa",(request:any)=>{enforceRateLimit(request);return envelope(localEnergyService.listEnergyRwa(rwaContext(request)),rid(request));});
+  app.get("/api/v1/energy-rwa/:id",(request:any)=>{enforceRateLimit(request);return envelope(localEnergyService.getEnergyRwa(String(request.params.id),rwaContext(request)),rid(request));});
+  app.post("/api/v1/energy-rwa",async(request:any)=>{const dto=energyRwaFromDto(request.body);return envelope(await safeMutation(request,{action:"energy-rwa.create",risk:"WRITE",scope:"energy-rwa.write"},()=>localEnergyService.createEnergyRwa(dto,rwaContext(request))),rid(request));});
+  app.post("/api/v1/energy-rwa/:id/representations",async(request:any)=>{const rep=chainRepresentationFromDto(request.body);return envelope(await safeMutation(request,{action:"energy-rwa.represent",risk:"CHAIN_WRITE",scope:"energy-rwa.chain-write"},()=>localEnergyService.addRepresentation(String(request.params.id),rep,rwaContext(request))),rid(request));});
+  app.post("/api/v1/energy-rwa/:id/retire",async(request:any)=>{const amountWh=parseBigIntField(request.body.amountWh,"amountWh");return envelope(await safeMutation(request,{action:"energy-rwa.retire",risk:"WRITE",scope:"energy-rwa.retire"},()=>localEnergyService.retireEnergyRwa(String(request.params.id),{retirementId:String(request.body.retirementId??secureRandomId("r")),amountWh,reason:request.body.reason??"SETTLED",tradeId:request.body.tradeId,settlementId:request.body.settlementId,receiptReference:request.body.receiptReference},rwaContext(request))),rid(request));});
+  app.post("/api/v1/energy-orders",async(request:any)=>envelope(await safeMutation(request,{action:"energy-order.create",risk:"WRITE",scope:"market.write"},()=>localEnergyService.createOrder(energyOrderFromDto(request.body))),rid(request)));
+  app.post("/api/v1/energy-orders/match",async(request:any)=>{const{sellerOrderId,buyerOrderId,constraint}=request.body;return envelope(await safeMutation(request,{action:"energy-order.match",risk:"WRITE",scope:"market.match"},()=>localEnergyService.match(String(sellerOrderId),String(buyerOrderId),gridConstraintFromDto(constraint))),rid(request));});
 
-export function registerLocalEnergyRoutes(app: RouteRegistrar) {
-  app.get("/api/v1/energy-batches/:id", (request: any) => {
-    const batch = localEnergyService.batches.get(String(request.params.id));
-    if (!batch) throw new Error("Energy batch not found");
-    return envelope(batch, rid(request));
-  });
-  app.post("/api/v1/energy-batches", (request: any) => envelope(localEnergyService.putBatch(energyBatchFromDto(request.body)), rid(request)));
-  app.post("/api/v1/energy-positions", (request: any) => envelope(localEnergyService.putPosition(energyPositionFromDto(request.body)), rid(request)));
-  app.post("/api/v1/energy-orders", (request: any) => envelope(localEnergyService.createOrder(energyOrderFromDto(request.body)), rid(request)));
-  app.post("/api/v1/energy-orders/match", (request: any) => {
-    const { sellerOrderId, buyerOrderId, constraint } = request.body;
-    return envelope(localEnergyService.match(String(sellerOrderId), String(buyerOrderId), gridConstraintFromDto(constraint)), rid(request));
-  });
+  app.get("/api/v1/explorer/solana/:kind/:id",(request:any)=>{enforceRateLimit(request);const id=String(request.params.id),kind=String(request.params.kind),network=request.query?.network??"mainnet-beta";const url=kind==="tx"?explorerLinks.solscan.transaction(id,network):kind==="token"?explorerLinks.solscan.token(id,network):explorerLinks.solscan.account(id,network);return envelope({provider:"SOLSCAN",network,kind,id,url},rid(request));});
+  app.get("/api/v1/explorer/sui/:kind/:id",(request:any)=>{enforceRateLimit(request);const id=String(request.params.id),kind=String(request.params.kind),network=request.query?.network??"mainnet";const url=kind==="tx"?explorerLinks.suiscan.transaction(id,network):kind==="account"?explorerLinks.suiscan.account(id,network):kind==="coin"?explorerLinks.suiscan.coin(id,network):explorerLinks.suiscan.object(id,network);return envelope({provider:"SUISCAN",network,kind,id,url},rid(request));});
 
-  app.get("/api/v1/pwrc/bridge/config", (request: any) => envelope({ source: "SOLANA", sourceAsset: "PWRC", destination: "SUI", destinationAsset: "wPWRC", backingRatio: "1:1", energyAsset: false }, rid(request)));
+  app.get("/api/v1/oracles/pyth/:feedId",async(request:any)=>{enforceRateLimit(request,RATE_LIMITS.oracle);const clients=createMarketDataClients();return envelope(await clients.pyth.latest({feedId:String(request.params.feedId),base:String(request.query?.base??"SOL"),quote:String(request.query?.quote??"USD")}),rid(request));});
+  app.get("/api/v1/market-data/birdeye/:address",async(request:any)=>{enforceRateLimit(request,RATE_LIMITS.oracle);const client=createMarketDataClients().birdeye;if(!client)throw new Error("BIRDEYE_NOT_CONFIGURED");return envelope(await client.latest({address:String(request.params.address),chain:String(request.query?.chain??"solana"),base:String(request.query?.base??"PWRC"),quote:String(request.query?.quote??"USD")}),rid(request));});
+  app.get("/api/v1/market-data/coinmarketcap",async(request:any)=>{enforceRateLimit(request,RATE_LIMITS.oracle);const client=createMarketDataClients().coinmarketcap;return envelope(await client.latest({symbol:request.query?.symbol?String(request.query.symbol):undefined,id:request.query?.id?String(request.query.id):undefined,quote:String(request.query?.quote??"USD")}),rid(request));});
+  app.post("/api/v1/rates/process",async(request:any)=>{enforceRateLimit(request,RATE_LIMITS.oracle);const observations=(request.body.observations??[]).map((o:any)=>({...o,observedAt:new Date(o.observedAt),receivedAt:new Date(o.receivedAt)})) as PriceObservation[];return envelope(processCurrencyRates({base:String(request.body.base),quotes:(request.body.quotes??[]).map(String)},observations),rid(request));});
 
-  app.get("/api/v1/saas/apps", (request: any) => envelope([
-    "energy", "platform", "companies", "grid", "plants", "wind", "ev", "charging", "mapper", "supply-chain"
-  ], rid(request)));
+  app.get("/api/v1/rewards/epochs",(request:any)=>{enforceRateLimit(request);return envelope([...epochs.values()],rid(request));});
+  app.post("/api/v1/rewards/epochs",async(request:any)=>envelope(await safeMutation(request,{action:"reward-epoch.create",risk:"ADMIN",scope:"rewards.manage"},()=>{const e:RewardEpoch={id:String(request.body.id??secureRandomId("r")),startsAt:new Date(request.body.startsAt),endsAt:new Date(request.body.endsAt),state:request.body.state??"COLLECTING",rewardPoolPwrcBaseUnits:parseBigIntField(request.body.rewardPoolPwrcBaseUnits,"rewardPoolPwrcBaseUnits")};epochs.set(e.id,e);return e;}),rid(request)));
+  app.post("/api/v1/rewards/epochs/:id/contributions",async(request:any)=>envelope(await safeMutation(request,{action:"reward-epoch.contribute",risk:"WRITE",scope:"rewards.write"},()=>{const id=String(request.params.id);if(!epochs.has(id))throw new Error("REWARD_EPOCH_NOT_FOUND");const c:RewardContribution={id:String(request.body.id??secureRandomId("r")),epochId:id,tenantId:String(request.body.tenantId),participantId:String(request.body.participantId),category:request.body.category,verifiedWh:request.body.verifiedWh?parseBigIntField(request.body.verifiedWh,"verifiedWh"):undefined,qualityScorePpm:parseBigIntField(request.body.qualityScorePpm??"1000000","qualityScorePpm"),reliabilityScorePpm:parseBigIntField(request.body.reliabilityScorePpm??"1000000","reliabilityScorePpm"),weightPpm:parseBigIntField(request.body.weightPpm??"1000000","weightPpm")};contributions.set(id,[...(contributions.get(id)??[]),c]);return c;}),rid(request)));
+  app.post("/api/v1/rewards/epochs/:id/finalize",async(request:any)=>envelope(await safeMutation(request,{action:"reward-epoch.finalize",risk:"FINANCIAL",scope:"rewards.finalize"},()=>{const id=String(request.params.id),e=epochs.get(id);if(!e)throw new Error("REWARD_EPOCH_NOT_FOUND");const finalizing={...e,state:"FINALIZING" as const};const allocations=allocateEpoch(finalizing,contributions.get(id)??[]);const finalized:RewardEpoch={...finalizing,state:"FINALIZED",allocationRoot:deterministicAllocationRoot(allocations)};epochs.set(id,finalized);return{epoch:finalized,allocations};}),rid(request)));
 
-  app.get("/api/v1/saas/tenant/:organizationId", (request: any) => envelope({ organizationId: String(request.params.organizationId), tenantId: resolveRequestContext(request).tenantId ?? null }, rid(request)));
+  app.get("/api/v1/pwrc/bridge/config",(request:any)=>envelope({source:"SOLANA",sourceAsset:"PWRC",destination:"SUI",destinationAsset:"wPWRC",backingRatio:"1:1",energyAsset:false},rid(request)));
+  app.get("/api/v1/saas/apps",(request:any)=>envelope(["energy","platform","companies","grid","plants","wind","ev","charging","mapper","supply-chain"],rid(request)));
+  app.get("/api/v1/saas/plans",(request:any)=>envelope(CANONICAL_PLANS,rid(request)));
+  app.get("/api/v1/saas/tenant/:organizationId",(request:any)=>envelope({organizationId:String(request.params.organizationId),tenantId:resolveRequestContext(request).tenantId??null},rid(request)));
+  app.post("/api/v1/saas/entitlements/resolve",(request:any)=>envelope(resolveEntitlement({context:request.body,plans:CANONICAL_PLANS,subscriptions:LOCAL_ENERGY_SUBSCRIPTIONS}),rid(request)));
+  app.post("/api/v1/saas/api-keys",async(request:any)=>{enforceRateLimit(request,RATE_LIMITS.apiKeyCreate);const c=resolveRequestContext(request);if(!c.tenantId)throw new Error("TENANT_CONTEXT_REQUIRED");return envelope(await safeMutation(request,{action:"saas.api-key.create",risk:"ADMIN",scope:"api-keys.manage"},()=>{const generated=generateTenantApiKey({tenantId:c.tenantId!,name:String(request.body.name??"API Key"),scopes:(request.body.scopes??[]).map(String)});apiKeys.set(generated.record.id,generated.record);return{...generated.record,secretHash:undefined,secret:generated.secret};}),rid(request));});
+  app.post("/api/v1/saas/api-keys/:id/revoke",async(request:any)=>envelope(await safeMutation(request,{action:"saas.api-key.revoke",risk:"ADMIN",scope:"api-keys.manage"},()=>{const key=apiKeys.get(String(request.params.id));if(!key)throw new Error("API_KEY_NOT_FOUND");key.revokedAt=new Date();return{...key,secretHash:undefined};}),rid(request)));
+  app.get("/api/v1/saas/usage",(request:any)=>{const c=resolveRequestContext(request);if(!c.tenantId)throw new Error("TENANT_CONTEXT_REQUIRED");return envelope({tenantId:c.tenantId,metric:"apiRequests",used:usage.get(c.tenantId)??0},rid(request));});
 
-  app.post("/api/v1/saas/entitlements/resolve", (request: any) => envelope(resolveEntitlement({
-    context: request.body,
-    plans: LOCAL_ENERGY_PLANS,
-    subscriptions: LOCAL_ENERGY_SUBSCRIPTIONS,
-  }), rid(request)));
-
-  app.post("/api/v1/system/runtime/validate", (request: any) => envelope(validateRuntimeConfiguration(request.body), rid(request)));
-
-  app.get("/api/v1/system/local-energy-os", (request: any) => envelope({
-    product: "PowerChain Local Energy OS",
-    version: "1.0.0",
-    canonicalEnergyUnit: "Wh",
-    pwrcNetwork: "SOLANA",
-    wpwrcNetwork: "SUI",
-    physicalEnergyAuthoritative: true,
-  }, rid(request)));
+  app.post("/api/v1/system/runtime/validate",(request:any)=>envelope(validateRuntimeConfiguration(request.body),rid(request)));
+  app.get("/api/v1/system/local-energy-os",(request:any)=>envelope({product:"PowerChain Local Energy OS",version:"1.0.0",canonicalEnergyUnit:"Wh",energyRwaMetadata:"PET-20 v1.0.0",pwrcNetwork:"SOLANA",wpwrcNetwork:"SUI",explorers:["SOLSCAN","SUISCAN"],marketData:["PYTH","BIRDEYE","COINMARKETCAP"],physicalEnergyAuthoritative:true},rid(request)));
 }

@@ -14,7 +14,14 @@
     "@powerchain/cctp": "workspace:*",
     "@powerchain/cross-chain": "workspace:*",
     "@powerchain/svm": "workspace:*",
-    "@powerchain/sui": "workspace:*"
+    "@powerchain/sui": "workspace:*",
+    "@powerchain/explorers": "workspace:*",
+    "@powerchain/market-data": "workspace:*",
+    "@powerchain/rate-limit": "workspace:*",
+    "@powerchain/safe-actions": "workspace:*",
+    "@powerchain/rewards": "workspace:*",
+    "@powerchain/crypto-utils": "workspace:*",
+    "@powerchain/local-energy-config": "workspace:*"
   },
   "apps/energy": {
     "@powerchain/energy-core": "workspace:*",
@@ -52,6 +59,12 @@
   "apps/platform": {
     "@powerchain/saas": "workspace:*",
     "@powerchain/system-management": "workspace:*",
-    "@powerchain/pwrc": "workspace:*"
+    "@powerchain/pwrc": "workspace:*",
+    "@powerchain/energy-rwa": "workspace:*",
+    "@powerchain/explorers": "workspace:*",
+    "@powerchain/market-data": "workspace:*"
+  },
+  "apps/explorer": {
+    "@powerchain/explorers": "workspace:*"
   }
 }

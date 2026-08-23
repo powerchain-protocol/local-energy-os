@@ -72,3 +72,31 @@ pnpm --filter @powerchain/docs build
 The docs app renders canonical source files from `docs/`, including `docs/WHITEPAPER.md`.
 
 Contribution guidance is available at [`CONTRIBUTORS.md`](./CONTRIBUTORS.md).
+## Energy RWA, explorers, market data and safety
+
+The v1.0.0 integration includes PowerChain PET-20 Energy RWA metadata, deterministic serialization, tenant/company authorization, Solscan/Suiscan links, Pyth/Birdeye/CoinMarketCap adapters, fixed-point currency-rate processing, reward epochs, rate limiting, idempotent safe actions, and expanded SaaS API-key/usage controls.
+
+
+
+## Workspace repair
+
+If the Local Energy OS files were copied into an existing PowerChain monorepo
+but the root scripts are missing, run:
+
+```bash
+node scripts/local-energy-os/repair-workspace.mjs .
+```
+
+Then:
+
+```bash
+pnpm local-energy:doctor
+pnpm local-energy:verify
+pnpm local-energy:build
+pnpm local-energy:typecheck
+pnpm typecheck
+```
+
+The Local Energy OS build/typecheck commands intentionally filter only the
+Local Energy OS packages. The full `pnpm typecheck` remains the repository-wide
+validation gate.

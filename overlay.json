@@ -38,5 +38,23 @@
       "provenance",
       "programmable coordination"
     ]
+  },
+  "integrations": {
+    "explorers": [
+      "Solscan",
+      "Suiscan"
+    ],
+    "marketData": [
+      "Pyth Hermes",
+      "Birdeye",
+      "CoinMarketCap"
+    ],
+    "energyRwaMetadata": "PET-20 v1.0.0",
+    "security": [
+      "rate-limit",
+      "safe-actions",
+      "idempotency"
+    ],
+    "rewards": "epoch-based"
   }
 }

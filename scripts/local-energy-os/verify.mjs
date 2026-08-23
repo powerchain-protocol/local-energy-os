@@ -15,6 +15,16 @@ const required = [
   "packages/cross-chain/src/index.ts",
   "packages/svm/src/index.ts",
   "packages/sui/src/index.ts",
+  "packages/crypto-utils/src/index.ts",
+  "packages/local-energy-config/src/index.ts",
+  "packages/explorers/src/index.ts",
+  "packages/market-data/src/index.ts",
+  "packages/rate-limit/src/index.ts",
+  "packages/safe-actions/src/index.ts",
+  "packages/rewards/src/index.ts",
+  "scripts/local-energy-os/workspace-runner.mjs",
+  "scripts/local-energy-os/repair-workspace.mjs",
+  "docs/BUILD-TROUBLESHOOTING.md",
   "CONTRIBUTORS.md",
   "docs/WHITEPAPER.md",
   "apps/docs/src/app/[slug]/page.tsx",
@@ -24,6 +34,7 @@ const required = [
   "apps/platform/src/local-energy-os/catalog.ts",
   "supabase/migrations/202608230001_local_energy_os.sql",
   "supabase/migrations/202608230002_local_energy_saas_system.sql",
+  "supabase/migrations/202608230003_energy_rwa_integrations_security.sql",
   "docs/LOCAL-ENERGY-OS.md",
   "docs/SECURITY.md",
   "docs/OPERATIONS.md",
@@ -37,4 +48,22 @@ if (!pwrc.includes('network: "solana-mainnet-beta"')) throw new Error("PWRC must
 if (!pwrc.includes('symbol: "wPWRC"') || !pwrc.includes('network: "sui"')) throw new Error("wPWRC must remain the Sui bridge representation");
 const system = fs.readFileSync(path.join(root, "packages/system-management/src/index.ts"), "utf8");
 if (!system.includes("MAINNET + MOCK DATA + WRITES ENABLED")) throw new Error("Runtime safety contract missing");
+
+const rwa = fs.readFileSync(path.join(root, "packages/energy-rwa/src/types.ts"), "utf8");
+if (!rwa.includes('standard: "PET-20"') || !rwa.includes('canonicalUnit: "Wh"')) throw new Error("PET-20 Energy RWA metadata contract missing");
+const explorers = fs.readFileSync(path.join(root, "packages/explorers/src/index.ts"), "utf8");
+if (!explorers.includes("solscan.io") || !explorers.includes("suiscan.xyz")) throw new Error("Explorer integration missing");
+const market = fs.readFileSync(path.join(root, "packages/market-data/src/pyth.ts"), "utf8");
+if (!market.includes("/v2/updates/price/latest")) throw new Error("Pyth Hermes v2 integration missing");
+
+
+const rootPackage = JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8"));
+for (const script of ["local-energy:doctor", "local-energy:verify", "local-energy:build", "local-energy:typecheck"]) {
+  if (!rootPackage.scripts?.[script]) throw new Error(`Root orchestration script missing: ${script}`);
+}
+const docsPackage = JSON.parse(fs.readFileSync(path.join(root, "apps/docs/package.json"), "utf8"));
+if (!["@powerchain/docs-app", "@powerchain/docs"].includes(docsPackage.name)) {
+  throw new Error(`Unexpected docs app package name: ${docsPackage.name}`);
+}
+
 console.log("PowerChain Local Energy OS v1.0.0 canonical verification passed.");

@@ -1,0 +1,5 @@
+export const ENERGY_RWA_PLATFORM_MODEL = {
+  standard:"PET-20", version:"1.0.0", canonicalUnit:"Wh", denominations:["kWh","MWh"],
+  lifecycle:["AVAILABLE","RESERVED","COMMITTED","DELIVERING","DELIVERED","SETTLING","SETTLED","RETIRED"],
+  invariants:["PHYSICAL_ENERGY_AUTHORITATIVE","ACTIVE_REPRESENTATIONS_LTE_CANONICAL_BACKING","PAYMENT_NE_DELIVERY"],
+} as const;

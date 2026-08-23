@@ -128,3 +128,7 @@ PowerChain keeps six critical domains separate: **Physical Energy, Energy Eviden
 ## Canonical Principle
 
 PowerChain coordinates energy; it does not invent energy. Every Energy RWA originates from verified physical supply, every cross-chain representation preserves that supply, every settlement remains traceable to physical evidence, and PWRC/wPWRC remain economically distinct from kWh/MWh Energy RWAs.
+## Integrated market/explorer/security services
+
+The v1.0.0 control plane includes server-side Pyth Hermes, Birdeye, and CoinMarketCap adapters; fixed-point rate processing; Solscan and Suiscan explorer links; PET-20 Energy RWA metadata; reward epochs; sliding-window rate limits; and safe, idempotent write actions. Explorer links are presentation aids only; RPC/indexer and physical-energy evidence remain authoritative.
+

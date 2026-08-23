@@ -14,6 +14,7 @@
     "apps/home/src/features/local-energy-os/**/*.ts",
     "apps/grid/src/features/local-energy-os/**/*.ts",
     "apps/charging/src/features/local-energy-os/**/*.ts",
-    "apps/mapper/src/features/local-energy-os/**/*.ts"
+    "apps/mapper/src/features/local-energy-os/**/*.ts",
+    "apps/explorer/src/local-energy/**/*.ts"
   ]
 }

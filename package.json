@@ -1,5 +1,5 @@
 {
-  "name": "@powerchain/local-energy-os-overlay",
+  "name": "@powerchain/local-energy-os",
   "version": "1.0.0",
   "private": true,
   "packageManager": "pnpm@11.22.0",
@@ -9,14 +9,15 @@
   "scripts": {
     "local-energy:doctor": "node scripts/local-energy-os/doctor.mjs",
     "local-energy:verify": "node scripts/local-energy-os/verify.mjs",
-    "local-energy:build": "pnpm -r --filter \"@powerchain/*\" build",
+    "local-energy:build": "node scripts/local-energy-os/workspace-runner.mjs build",
     "typecheck": "tsc -p tsconfig.overlay.json --noEmit",
-    "local-energy:typecheck": "tsc -p tsconfig.overlay.json --noEmit",
-    "docs:dev": "pnpm --filter @powerchain/docs dev",
-    "docs:build": "pnpm --filter @powerchain/docs build",
-    "docs:typecheck": "pnpm --filter @powerchain/docs typecheck"
+    "local-energy:typecheck": "node scripts/local-energy-os/workspace-runner.mjs typecheck",
+    "docs:dev": "pnpm --filter @powerchain/docs-app dev",
+    "docs:build": "pnpm --filter @powerchain/docs-app build",
+    "docs:typecheck": "pnpm --filter @powerchain/docs-app typecheck"
   },
   "devDependencies": {
     "typescript": "5.9.3"
-  }
+  },
+  "description": "PowerChain Local Energy OS v1.0.0 canonical full-stack energy platform and integration overlay"
 }

@@ -16,6 +16,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@powerchain/energy-core": "workspace:*"
+    "@powerchain/energy-core": "workspace:*",
+    "@powerchain/crypto-utils": "workspace:*"
   }
 }

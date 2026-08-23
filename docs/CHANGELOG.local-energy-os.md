@@ -25,3 +25,13 @@
 - Added root `CONTRIBUTORS.md`.
 - Added whitepaper, architecture, API, Energy RWA, PWRC/wPWRC, SaaS, Solana, Sui, cross-chain, x402, CCTP, oracle, security, and operations routes.
 - Added responsive light-theme documentation UI using PowerChain green, neutral gray/black, and Sui blue only for Sui-specific surfaces.
+
+## 1.0.0 — Workspace Integration Hardening — 2026-08-23
+
+- Added root orchestration for `local-energy:doctor`, `local-energy:verify`, `local-energy:build`, and `local-energy:typecheck`.
+- Added `workspace-runner.mjs` so Local Energy OS validation targets only Local Energy OS packages rather than unrelated `@powerchain/*` packages.
+- Added `repair-workspace.mjs` for already-integrated PowerChain repositories.
+- Added TypeScript 6 / WebCrypto `BufferSource` compatibility for `packages/token/src/solana/pda.ts` without changing SHA-256 input bytes.
+- Aligned documentation orchestration with the existing `@powerchain/docs-app` package name.
+- Hardened `apply.mjs` to merge an existing docs package manifest instead of replacing its package identity.
+- Added build/typecheck troubleshooting documentation.

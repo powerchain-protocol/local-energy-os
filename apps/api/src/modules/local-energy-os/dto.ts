@@ -45,3 +45,14 @@ export function gridConstraintFromDto(body: any) {
     maxTransferWh: parseBigIntField(body.maxTransferWh, "maxTransferWh"),
   };
 }
+
+
+export function energyRwaFromDto(body: any) {
+  return {
+    id: String(body.id), tenantId: String(body.tenantId), organizationId: String(body.organizationId),
+    ...(body.companyId ? { companyId: String(body.companyId) } : {}), positionId: String(body.positionId),
+    denomination: body.denomination === "MWh" ? "MWh" as const : "kWh" as const,
+    provenance: body.provenance ?? {},
+  };
+}
+export function chainRepresentationFromDto(body:any){return{energyPositionId:String(body.energyPositionId),network:body.network==="SUI"?"SUI" as const:"SOLANA" as const,reference:String(body.reference),amountWh:parseBigIntField(body.amountWh,"amountWh"),state:body.state??"ACTIVE",...(body.explorerUrl?{explorerUrl:String(body.explorerUrl)}:{})};}

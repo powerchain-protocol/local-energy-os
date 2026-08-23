@@ -14,3 +14,11 @@ Start with [LOCAL-ENERGY-OS.md](./LOCAL-ENERGY-OS.md). The documentation is spli
 ## Documentation application
 
 The deployable documentation experience lives in `apps/docs/` and renders this `docs/` directory as its canonical content source.
+
+- [`MARKET-DATA.md`](./MARKET-DATA.md)
+
+- [`EXPLORERS.md`](./EXPLORERS.md)
+
+- [`REWARDS.md`](./REWARDS.md)
+
+- [`SAFE-ACTIONS.md`](./SAFE-ACTIONS.md)

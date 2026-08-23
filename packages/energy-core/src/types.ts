@@ -34,6 +34,8 @@ export type WorkspaceContextType =
 
 export interface EnergyMeasurement {
   id: string;
+  tenantId?: string;
+  organizationId?: string;
   siteId: string;
   meterId: string;
   intervalStart: Date;
@@ -47,6 +49,8 @@ export interface EnergyMeasurement {
 
 export interface EnergyProof {
   id: string;
+  tenantId?: string;
+  organizationId?: string;
   batchId: string;
   siteId: string;
   meterId: string;
@@ -76,6 +80,9 @@ export type EnergyBatchState =
 
 export interface EnergyBatch {
   id: string;
+  tenantId?: string;
+  organizationId?: string;
+  companyId?: string;
   siteId: string;
   gridAreaId?: string;
   source: EnergySource;
@@ -116,6 +123,9 @@ export type EnergyRetirementReason =
 
 export interface EnergyPosition {
   id: string;
+  tenantId?: string;
+  organizationId?: string;
+  companyId?: string;
   energyBatchId: string;
   ownerId: string;
   amountWh: EnergyWh;
