@@ -1,0 +1,12 @@
+{
+  "version": "1.0.0",
+  "brandLogo": "logo-green.png",
+  "pwrc": "pwrc.jpeg",
+  "wpwrc": "wpwrc.jpeg",
+  "p2pIllustration": "p2p-local-energy.png",
+  "contracts": {
+    "PWRC": "native on Solana",
+    "wPWRC": "1:1 bridged to Sui",
+    "energyRwa": "Wh canonical; kWh/MWh display denominations"
+  }
+}

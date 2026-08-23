@@ -1,0 +1,36 @@
+{
+  "version": "1.0.0",
+  "network": "solana",
+  "programs": [
+    {
+      "name": "registry",
+      "implementation": "anchor-or-pinocchio",
+      "status": "adapter-ready"
+    },
+    {
+      "name": "energy-batch",
+      "implementation": "pinocchio-candidate",
+      "status": "adapter-ready"
+    },
+    {
+      "name": "energy-position",
+      "implementation": "pinocchio-candidate",
+      "status": "adapter-ready"
+    },
+    {
+      "name": "energy-market",
+      "implementation": "anchor-or-pinocchio",
+      "status": "adapter-ready"
+    },
+    {
+      "name": "energy-settlement",
+      "implementation": "pinocchio-candidate",
+      "status": "adapter-ready"
+    },
+    {
+      "name": "pwrc-rewards",
+      "implementation": "pinocchio-candidate",
+      "status": "adapter-ready"
+    }
+  ]
+}

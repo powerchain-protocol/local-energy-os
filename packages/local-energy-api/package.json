@@ -1,0 +1,26 @@
+{
+  "name": "@powerchain/local-energy-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@powerchain/energy-core": "workspace:*",
+    "@powerchain/local-energy-market": "workspace:*",
+    "@powerchain/local-energy-settlement": "workspace:*",
+    "@powerchain/energy-rwa": "workspace:*",
+    "@powerchain/pwrc": "workspace:*",
+    "@powerchain/pwrc-bridge": "workspace:*"
+  }
+}

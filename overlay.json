@@ -1,0 +1,42 @@
+{
+  "name": "PowerChain Local Energy OS",
+  "title": "Canonical Full-Stack Platform Documentation",
+  "version": "1.0.0",
+  "kind": "monorepo-overlay",
+  "requires": {
+    "node": ">=24 <25",
+    "packageManager": "pnpm@11.22.0"
+  },
+  "canonical": {
+    "sequence": [
+      "MEASURE",
+      "VERIFY",
+      "LOCATE",
+      "PROVE",
+      "POSITION",
+      "RESERVE",
+      "ROUTE",
+      "TRADE",
+      "DELIVER",
+      "RECONCILE",
+      "SETTLE",
+      "RETIRE",
+      "REWARD"
+    ],
+    "energyAccountingUnit": "Wh",
+    "energyRwaDisplayUnits": [
+      "kWh",
+      "MWh"
+    ],
+    "pwrc": "native Solana Token-2022 ecosystem asset; not electricity",
+    "wpwrc": "1:1 bridged representation of PWRC on Sui; not electricity",
+    "physicalEnergyAuthoritative": true,
+    "blockchainRoles": [
+      "settlement",
+      "representation",
+      "interoperability",
+      "provenance",
+      "programmable coordination"
+    ]
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "version": "1.0.0",
+  "capabilities": [
+    {
+      "domain": "smart-metering",
+      "protocol": "DLMS/COSEM"
+    },
+    {
+      "domain": "industrial",
+      "protocol": "OPC UA / Modbus"
+    },
+    {
+      "domain": "iot",
+      "protocol": "MQTT"
+    },
+    {
+      "domain": "ev-backend",
+      "protocol": "OCPP"
+    },
+    {
+      "domain": "ev-charger",
+      "protocol": "ISO 15118"
+    },
+    {
+      "domain": "charging-roaming",
+      "protocol": "OCPI"
+    },
+    {
+      "domain": "demand-response",
+      "protocol": "OpenADR"
+    },
+    {
+      "domain": "grid-model",
+      "protocol": "IEC CIM"
+    },
+    {
+      "domain": "substation-plant",
+      "protocol": "IEC 61850"
+    },
+    {
+      "domain": "supply-chain",
+      "protocol": "GS1 EPCIS"
+    },
+    {
+      "domain": "machine-payments",
+      "protocol": "x402"
+    },
+    {
+      "domain": "usdc-cross-chain",
+      "protocol": "CCTP"
+    },
+    {
+      "domain": "svm",
+      "protocol": "Solana / Anza"
+    },
+    {
+      "domain": "programs",
+      "protocol": "Anchor / Pinocchio"
+    },
+    {
+      "domain": "solana-assets",
+      "protocol": "Metaplex"
+    },
+    {
+      "domain": "move",
+      "protocol": "Sui"
+    },
+    {
+      "domain": "oracle",
+      "protocol": "Pyth / Chainlink"
+    }
+  ]
+}
