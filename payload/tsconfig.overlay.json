@@ -1,0 +1,20 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": [
+    "packages/*/src/**/*.ts",
+    "apps/api/src/modules/local-energy-os/**/*.ts",
+    "apps/platform/src/local-energy-os/**/*.ts",
+    "apps/worker/src/jobs/local-energy/**/*.ts",
+    "apps/realtime/src/local-energy/**/*.ts",
+    "apps/indexer/src/local-energy/**/*.ts",
+    "apps/energy/src/features/local-energy-os/**/*.ts",
+    "apps/home/src/features/local-energy-os/**/*.ts",
+    "apps/grid/src/features/local-energy-os/**/*.ts",
+    "apps/charging/src/features/local-energy-os/**/*.ts",
+    "apps/mapper/src/features/local-energy-os/**/*.ts",
+    "apps/explorer/src/local-energy/**/*.ts"
+  ]
+}

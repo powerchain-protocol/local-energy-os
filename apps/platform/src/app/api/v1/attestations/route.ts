@@ -1,0 +1,2 @@
+import{NextResponse}from"next/server";import{createAttestation}from"@/lib/proof-of-energy";import{attestationStore,measurementStore}from"@/lib/proof-of-energy/store";
+export async function POST(req:Request){const body=await req.json()as{measurementId:string;validatorIds:string[]};const m=measurementStore.get(body.measurementId);if(!m)return NextResponse.json({error:"Measurement not found"},{status:404});const att=createAttestation(m,body.validatorIds);attestationStore.set(att.attestationId,att);return NextResponse.json({data:att},{status:201})}

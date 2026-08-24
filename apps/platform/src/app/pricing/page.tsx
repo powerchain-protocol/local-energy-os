@@ -1,0 +1,2 @@
+"use client";
+import{Shell}from"@/components/shell";import{Pricing}from"@/components/pricing/pricing";export default function PricingPage(){return <Shell><div className="content-container"><header className="mb-8"><p className="eyebrow">PowerChain SaaS</p><h1 className="page-title">Plans for every energy participant</h1><p className="page-subtitle">Start with personal energy intelligence and scale to multi-tenant enterprise operations.</p></header><Pricing/></div></Shell>}

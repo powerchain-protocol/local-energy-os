@@ -1,0 +1,6 @@
+[build]
+target-dir = "target"
+
+[alias]
+check-program = "check --all-targets --all-features"
+test-program = "test --all-targets --all-features"

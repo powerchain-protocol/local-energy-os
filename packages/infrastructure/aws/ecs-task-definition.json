@@ -1,0 +1,50 @@
+{
+  "family": "powerchain-platform-1-0-0",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "1024",
+  "memory": "2048",
+  "executionRoleArn": "arn:aws:iam::ACCOUNT_ID:role/powerchain-ecs-execution",
+  "taskRoleArn": "arn:aws:iam::ACCOUNT_ID:role/powerchain-platform",
+  "containerDefinitions": [
+    {
+      "name": "platform",
+      "image": "ACCOUNT_ID.dkr.ecr.REGION.amazonaws.com/powerchain/platform:1.0.0",
+      "essential": true,
+      "readonlyRootFilesystem": true,
+      "portMappings": [{ "containerPort": 3000, "protocol": "tcp" }],
+      "environment": [
+        { "name": "NODE_ENV", "value": "production" },
+        { "name": "PORT", "value": "3000" }
+      ],
+      "secrets": [
+        {
+          "name": "DATABASE_URL",
+          "valueFrom": "arn:aws:secretsmanager:REGION:ACCOUNT_ID:secret:powerchain/database-url"
+        },
+        {
+          "name": "SUPABASE_SECRET_KEY",
+          "valueFrom": "arn:aws:secretsmanager:REGION:ACCOUNT_ID:secret:powerchain/supabase-secret-key"
+        }
+      ],
+      "healthCheck": {
+        "command": [
+          "CMD-SHELL",
+          "node -e \"fetch('http://127.0.0.1:3000/api/v1/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))\""
+        ],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 45
+      },
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/powerchain/platform",
+          "awslogs-region": "REGION",
+          "awslogs-stream-prefix": "platform"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+"use client";
+import {Search}from'lucide-react';export function GlobalSearch(){return <label className='relative block w-full max-w-xl'><Search className='absolute left-3 top-2.5 h-4 w-4 muted'/><input className='w-full rounded-xl border border-[var(--border)] bg-transparent py-2 pl-9 pr-3 text-sm outline-none focus:ring-2 focus:ring-emerald-700/30' placeholder='Search assets, devices, reports…'/></label>}

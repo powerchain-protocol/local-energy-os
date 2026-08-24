@@ -1,0 +1,12 @@
+{
+  "program": "PAF",
+  "title": "PowerChain Architecture Framework",
+  "version": "1.0-draft",
+  "artifacts": [
+    {"id":"PAF-000","title":"Constitutional Principles","classification":"architecture-principles","status":"working-draft"},
+    {"id":"PAF-100","title":"Capability Model","classification":"capability-model","status":"working-draft"},
+    {"id":"PAF-200","title":"Reference Model Framework","classification":"reference-model","status":"working-draft"},
+    {"id":"PAF-300","title":"Architecture Contracts","classification":"architecture-contract","status":"working-draft"},
+    {"id":"PAF-400","title":"Quality Model","classification":"quality-model","status":"working-draft"}
+  ]
+}

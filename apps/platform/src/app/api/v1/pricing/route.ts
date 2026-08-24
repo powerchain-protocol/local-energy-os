@@ -1,0 +1,1 @@
+import { NextRequest,NextResponse } from "next/server";import { tiers } from "@/data/tiers";export async function GET(req:NextRequest){const currency=req.nextUrl.searchParams.get("currency")??"USD";return NextResponse.json({data:tiers.map(t=>({...t,currency,billingPeriod:"month"})),meta:{currency,generatedAt:new Date().toISOString()}})}

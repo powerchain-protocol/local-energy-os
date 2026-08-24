@@ -1,0 +1,3 @@
+import{NextResponse}from"next/server";import{z}from"zod";
+const schema=z.object({requestId:z.string().min(3),quoteId:z.string().min(3),inputTokens:z.number().int().nonnegative(),outputTokens:z.number().int().nonnegative(),providerCostUsd:z.string(),platformFeeUsd:z.string(),totalCostUsd:z.string(),pwrcUsdPrice:z.string(),pwrcCharged:z.string()});
+export async function POST(request:Request){const parsed=schema.safeParse(await request.json().catch(()=>({})));if(!parsed.success)return NextResponse.json({error:"Invalid AI settlement",details:parsed.error.flatten()},{status:400});return NextResponse.json({data:{...parsed.data,pricingSnapshotId:`price_${Date.now()}`,settledAt:new Date().toISOString()}},{status:201});}

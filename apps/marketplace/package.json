@@ -1,0 +1,19 @@
+{
+  "name": "@powerchain/marketplace-app",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit",
+    "dev": "node --import tsx src/server.ts",
+    "start": "node --import tsx src/server.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@powerchain/application-runtime": "workspace:*",
+    "@powerchain/marketplace": "workspace:*"
+  },
+  "devDependencies": {
+    "tsx": "4.23.12"
+  }
+}

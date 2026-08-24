@@ -1,0 +1,1 @@
+export const alarms=[{severity:'critical',title:'High load detected',asset:'California Grid Zone CA-4',time:'2m'},{severity:'warning',title:'Storage capacity full',asset:'Battery Node B-17',time:'25m'},{severity:'info',title:'Maintenance scheduled',asset:'Wind Farm #88231',time:'1h'}] as const;

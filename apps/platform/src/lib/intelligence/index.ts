@@ -1,0 +1,3 @@
+import{intelligenceSignals,modelPredictions,optimizationActions}from"@/data/intelligence";
+export function getGridLlmSnapshot(){return{engine:"GRIDLLM",version:"0.1-beta",status:"operational",signals:intelligenceSignals,predictions:modelPredictions,actions:optimizationActions,updatedAt:new Date().toISOString()}}
+export function forecastNetPosition(productionMwh:number,demandMwh:number,storageAvailableMwh:number){const net=productionMwh-demandMwh;return{netMwh:Number(net.toFixed(3)),afterStorageMwh:Number((net+storageAvailableMwh).toFixed(3)),recommendation:net>=0?"sell_surplus":"buy_or_discharge_storage" as const}}

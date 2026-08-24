@@ -1,0 +1,122 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ES2024"
+    ],
+    "allowImportingTsExtensions": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@/components/ui/*": [
+        "packages/ui/src/components/*"
+      ],
+      "@/components/common/*": [
+        "packages/shared/src/components/common/*"
+      ],
+      "@/config/*": [
+        "packages/configuration/src/config/*"
+      ],
+      "@/env/*": [
+        "packages/configuration/src/env/*"
+      ],
+      "@/env": [
+        "packages/configuration/src/env/index.ts"
+      ],
+      "@/context/*": [
+        "packages/shared/src/context/*"
+      ],
+      "@/constants": [
+        "packages/shared/src/constants/index.ts"
+      ],
+      "@/constants/*": [
+        "packages/shared/src/constants/*"
+      ],
+      "@/utils": [
+        "packages/shared/src/utils/index.ts"
+      ],
+      "@/utils/*": [
+        "packages/shared/src/utils/*"
+      ],
+      "@/types": [
+        "packages/types/src/types/index.ts"
+      ],
+      "@/types/*": [
+        "packages/types/src/types/*"
+      ],
+      "@/schemas/*": [
+        "packages/types/src/schemas/*"
+      ],
+      "@/data": [
+        "packages/data/src/application/catalog/index.ts"
+      ],
+      "@/data/*": [
+        "packages/data/src/application/catalog/*"
+      ],
+      "@/store/*": [
+        "packages/data/src/application/store/*"
+      ],
+      "@/storage/*": [
+        "packages/data/src/application/storage/*"
+      ],
+      "@/lib/database": [
+        "packages/database/src/clients/index.ts"
+      ],
+      "@/lib/database/*": [
+        "packages/database/src/clients/*"
+      ],
+      "@/routes/*": [
+        "apps/platform/src/routing/routes/*"
+      ],
+      "@/routers/*": [
+        "apps/platform/src/routing/routers/*"
+      ],
+      "@/redirect/*": [
+        "apps/platform/src/routing/redirects/*"
+      ],
+      "@/*": [
+        "apps/platform/src/*"
+      ],
+      "@powerchain/actions/manifest": [
+        "packages/actions/actions.json"
+      ],
+      "@powerchain/*": [
+        "packages/*/src/index.ts"
+      ],
+      "@powerchain/integration/*": [
+        "packages/integration/src/*/index.ts"
+      ],
+      "@powerchain/database/energy-outbox-worker": [
+        "packages/database/src/repositories/energy-outbox-worker.ts"
+      ],
+      "@powerchain/database/copilot": [
+        "packages/database/src/repositories/copilot.ts"
+      ],
+      "@powerchain/local-energy": [
+        "packages/local-energy/src/index.ts"
+      ],
+      "@powerchain/database/local-energy": [
+        "packages/database/src/repositories/local-energy.ts"
+      ]
+    },
+    "types": [
+      "node",
+      "react",
+      "react-dom"
+    ]
+  },
+  "include": [
+    "apps/*/src/**/*.ts",
+    "apps/*/src/**/*.tsx",
+    "packages/*/src/**/*.ts",
+    "packages/*/src/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/dist/**",
+    "**/tests/**",
+    "**/*.stories.tsx"
+  ]
+}

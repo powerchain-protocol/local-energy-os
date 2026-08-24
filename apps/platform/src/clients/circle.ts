@@ -1,0 +1,1 @@
+export async function getCircleBalances() { const key = process.env.CIRCLE_API_KEY; if (!key) return { available: false, balances: [] }; const response = await fetch("https://api.circle.com/v1/businessAccount/balances", { headers: { Authorization: `Bearer ${key}` }, cache: "no-store" }); if (!response.ok) throw new Error(`Circle API ${response.status}`); return response.json(); }

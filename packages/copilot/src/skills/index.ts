@@ -1,0 +1,15 @@
+import type { CopilotSkillDefinition } from "../types";
+
+export const COPILOT_SKILLS: readonly CopilotSkillDefinition[] = [
+  { id:"asset-analysis", name:"Analyze Asset", category:"ASSETS", description:"Analyze renewable asset production, capacity, efficiency and performance.", permissions:["READ","ANALYZE"], output:"Evidence-backed asset performance findings." },
+  { id:"forecast-analysis", name:"Compare Forecast", category:"ASSETS", description:"Compare observed production with operating forecasts and explain material deviation.", permissions:["READ","ANALYZE"], output:"Forecast variance with evidence and confidence." },
+  { id:"anomaly-detection", name:"Risk Review", category:"RISK", description:"Detect data, operational, treasury and configuration anomalies.", permissions:["READ","ANALYZE","RECOMMEND"], output:"INFORMATION / WATCH / ATTENTION / CRITICAL risk classification." },
+  { id:"market-research", name:"Market Research", category:"ASSETS", description:"Prepare source-based external or internal renewable infrastructure research.", permissions:["READ","ANALYZE"], output:"Findings, sources, why it matters and confidence." },
+  { id:"document-analysis", name:"Analyze Documents", category:"DOCUMENTS", description:"Summarize, compare and verify renewable RWA documents and completeness.", permissions:["READ","ANALYZE"], output:"Document findings, missing information and verification status." },
+  { id:"rwa-verification", name:"Verify RWA", category:"RISK", description:"Check Energy RWA backing, provenance, chain references and canonical invariants.", permissions:["READ","ANALYZE","RECOMMEND"], output:"Backing and verification findings with evidence references." },
+  { id:"treasury-analysis", name:"Treasury Review", category:"CAPITAL", description:"Analyze treasury movement, settlements, distributions and anomalies.", permissions:["READ","ANALYZE","RECOMMEND"], output:"Treasury findings without moving funds." },
+  { id:"funding-analysis", name:"Funding Analysis", category:"CAPITAL", description:"Analyze funding velocity, allocation status and participation signals.", permissions:["READ","ANALYZE"], output:"Funding status, velocity, attention items and recommended next action." },
+  { id:"report-generation", name:"Generate Report", category:"OPERATIONS", description:"Prepare asset, portfolio, treasury, funding and impact report drafts.", permissions:["READ","ANALYZE","DRAFT","REQUEST_APPROVAL"], output:"Reviewable report draft." },
+  { id:"workflow-planning", name:"Create Workflow", category:"OPERATIONS", description:"Prepare tasks, SOPs, milestones and operator workflows.", permissions:["READ","ANALYZE","DRAFT","RECOMMEND","REQUEST_APPROVAL"], output:"Reviewable workflow or task draft." },
+  { id:"impact-calculation", name:"Impact Analysis", category:"IMPACT", description:"Analyze energy and environmental impact under explicit methodology.", permissions:["READ","ANALYZE"], output:"Methodology-linked impact metrics and assumptions." },
+] as const;

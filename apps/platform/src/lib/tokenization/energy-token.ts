@@ -1,0 +1,1 @@
+import type{EnergyTokenClass}from"@/types/proof-of-energy";export function selectEnergyTokenClass(wh:number):EnergyTokenClass{return wh>=1_000_000?"MWH":"KWH"}export function tokenQuantity(wh:number,kind:EnergyTokenClass){return kind==="MWH"?wh/1_000_000:kind==="KWH"?wh/1000:wh}

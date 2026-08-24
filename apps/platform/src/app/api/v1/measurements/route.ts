@@ -1,0 +1,2 @@
+import{NextResponse}from"next/server";import type{EnergyMeasurement}from"@/types/proof-of-energy";import{validateMeasurement}from"@/lib/proof-of-energy";import{measurementStore}from"@/lib/proof-of-energy/store";
+export async function POST(req:Request){const body=await req.json()as EnergyMeasurement;const result=validateMeasurement(body);if(!result.valid)return NextResponse.json({error:"Invalid measurement",details:result.errors},{status:400});measurementStore.set(body.measurementId,body);return NextResponse.json({data:body,status:"accepted"},{status:201})}

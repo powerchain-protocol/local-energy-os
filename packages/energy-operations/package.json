@@ -1,0 +1,14 @@
+{
+  "name": "@powerchain/energy-operations",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Operational Digital Twin, delivery, reconciliation and settlement domain for PowerChain Digital Energy OS",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@powerchain/energy-core": "workspace:*",
+    "@powerchain/energy-controls": "workspace:*"
+  }
+}

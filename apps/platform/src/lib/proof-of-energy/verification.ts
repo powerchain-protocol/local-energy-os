@@ -1,0 +1,3 @@
+import type{EnergyMeasurement}from"@/types/proof-of-energy";import{validateMeasurement}from"./validation";import{createAttestation}from"./attestation";
+export function verifyEnergyMeasurement(m:EnergyMeasurement,validators=["validator-eu-1","validator-eu-2","validator-eu-3"]){const result=validateMeasurement(m);if(!result.valid)return{validation:result,attestation:null};return{validation:result,attestation:createAttestation(m,validators)}}
+export function buildProofRecord(measurement:EnergyMeasurement){const result=verifyEnergyMeasurement(measurement);return{measurementId:measurement.measurementId,status:result.attestation?.status??"rejected",validation:result.validation,attestation:result.attestation,verifiedAt:result.attestation?.verifiedAt??null}}

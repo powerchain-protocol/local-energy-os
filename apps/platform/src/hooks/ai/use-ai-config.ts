@@ -1,0 +1,2 @@
+"use client";import{useEffect,useState}from"react";import type{PowerChainAIModel}from"@/config/ai/models";import type{PowerChainAgent}from"@/types/ai/agents";
+export function useAIConfig(){const[state,setState]=useState<{models:PowerChainAIModel[];agents:PowerChainAgent[];loading:boolean}>({models:[],agents:[],loading:true});useEffect(()=>{fetch("/api/v1/ai/settings").then(r=>r.json()).then(p=>setState({models:p.data.models,agents:p.data.agents,loading:false})).catch(()=>setState(x=>({...x,loading:false})))},[]);return state}

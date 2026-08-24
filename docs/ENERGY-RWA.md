@@ -1,38 +1,82 @@
-# Energy RWA
+# PowerChain Energy RWA — PET-20 v1.0.0
 
-The authoritative accounting unit is integer **Wh**. `1 kWh = 1,000 Wh`, `1 MWh = 1,000,000 Wh`, and `1 GWh = 1,000,000,000 Wh`.
+PowerChain Energy RWA represents a verified physical-energy position without making blockchain state authoritative for electricity.
 
-A kWh Energy RWA is intended for households, prosumers, local energy communities, EV charging, batteries, P2P markets, commercial sites, community solar, and distributed renewables. MWh Energy RWAs are intended for wind farms, solar farms, utilities, power plants, industrial customers, aggregators, VPPs, and energy companies.
-
-## Proof → Batch → Position
+## Canonical hierarchy
 
 ```text
-Meter Reading → Validation → Physical Plausibility → Quality Scoring → Energy Proof → Energy Batch → Energy Position
+Energy Proof
+    ↓
+Finalized Energy Batch
+    ↓
+Canonical Energy Position
+    ↓
+PET-20 Metadata
+    ↓
+Optional representations
+   ├── Solana / SPL Token-2022
+   └── Sui / Move Object
 ```
 
-Energy Proofs preserve site, meter, source, interval, measured Wh, verified Wh, quality score, evidence root, verifier, and verification version.
-
-## Physical-Supply Invariant
+PET-20 uses:
 
 ```text
-Issued / represented active energy
+assetClass    = VERIFIED_ENERGY_POSITION
+backingLedger = POWERCHAIN_ENERGY_LEDGER
+canonicalUnit = Wh
+version       = 1.0.0
+```
+
+## Backing invariant
+
+```text
+Active reservations
 +
-Reserved energy
+Active Solana representation Wh
++
+Active Sui representation Wh
++
+Retired Wh
 <=
-Verified physical energy
--
-Invalidated energy
+Canonical Energy Position Wh
 ```
 
-The same invariant is enforced at API, database, Solana, Sui, market, and cross-chain boundaries.
+Across positions, active economic energy cannot exceed verified Energy Batch backing.
 
-## Position Lifecycle
+## Position lifecycle
 
 ```text
-AVAILABLE → RESERVED → COMMITTED → DELIVERING → DELIVERED → SETTLING → SETTLED → RETIRED
-RESERVED → RELEASED → AVAILABLE
-SETTLING → DISPUTED → RECONCILED → SETTLING/SETTLED
-AVAILABLE → TRANSFERRED → AVAILABLE/RESERVED
+AVAILABLE → RESERVED → COMMITTED → DELIVERING → DELIVERED
+                                              ↓
+                                         SETTLING
+                                              ↓
+                                           SETTLED
+                                              ↓
+                                           RETIRED
 ```
 
-Retirement reasons: `CONSUMED`, `SETTLED`, `CERTIFIED`, `INVALIDATED`, `CANCELLED`, `MIGRATED`.
+Controlled release/dispute paths remain part of `@powerchain/energy-core`.
+
+## Safe actions
+
+The Energy RWA workspace uses review-first execution. Reserve, represent and retire operations fetch current backing before final submission and the server revalidates the invariant inside the authoritative runtime.
+
+A canonical Energy Position cannot retire while active reservations or chain representations remain. Reservations must be released and active representations must be retired/migrated first.
+
+## Cross-chain
+
+Solana and Sui representations share one canonical backing pool:
+
+```text
+Solana Active Wh + Sui Active Wh <= Canonical Position Wh
+```
+
+Creating 100 MWh on Solana and another 100 MWh on Sui from the same 100 MWh physical position is invalid.
+
+PWRC and wPWRC are separate from Energy RWA accounting:
+
+```text
+PWRC  = native Solana utility/governance asset
+wPWRC = 1:1 bridge-backed Sui representation of PWRC
+Wh    = physical energy accounting unit
+```

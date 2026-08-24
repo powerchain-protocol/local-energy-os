@@ -1,0 +1,3 @@
+"use client";
+import { useEffect, useState } from "react";
+export function useSolanaAccount(address?: string | null) { const [data,setData]=useState<unknown>(null); const [error,setError]=useState<string|null>(null); const [loading,setLoading]=useState(false); useEffect(()=>{if(!address)return;const controller=new AbortController();setLoading(true);fetch(`/api/v1/solana?address=${encodeURIComponent(address)}`,{signal:controller.signal}).then(r=>r.ok?r.json():Promise.reject(new Error("Unable to load account"))).then(setData).catch(e=>e.name!=="AbortError"&&setError(e.message)).finally(()=>setLoading(false));return()=>controller.abort();},[address]);return{data,error,loading}; }

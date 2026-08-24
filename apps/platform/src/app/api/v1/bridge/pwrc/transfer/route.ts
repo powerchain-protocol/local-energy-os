@@ -1,0 +1,2 @@
+import{NextRequest,NextResponse}from"next/server";import{preparePwrcBridgeTransfer}from"@/services/bridge/pwrc-bridge";
+export async function POST(req:NextRequest){try{const body=await req.json();if(!body.sourceAddress||!body.destinationAddress)return NextResponse.json({error:"Source and destination addresses are required"},{status:400});return NextResponse.json({data:preparePwrcBridgeTransfer(body)},{status:201})}catch(e){return NextResponse.json({error:e instanceof Error?e.message:"Bridge transfer failed"},{status:400})}}

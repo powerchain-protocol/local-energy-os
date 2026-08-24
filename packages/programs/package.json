@@ -1,0 +1,8 @@
+{
+  "name": "@powerchain/programs",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "optionalDependencies": { "@coral-xyz/anchor": "^0.32.1" }
+}

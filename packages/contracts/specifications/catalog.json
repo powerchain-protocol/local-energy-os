@@ -1,0 +1,35 @@
+{
+  "version": "1.0.0",
+  "contracts": [
+    {
+      "id": "POE-SINGLE-ISSUANCE",
+      "domain": "proof-of-energy",
+      "classification": "execution",
+      "status": "normative"
+    },
+    {
+      "id": "ENERGY-SETTLEMENT-TRACE",
+      "domain": "settlement",
+      "classification": "protocol",
+      "status": "normative"
+    },
+    {
+      "id": "DIGITAL-TWIN-IDENTITY",
+      "domain": "digital-twin",
+      "classification": "information",
+      "status": "draft"
+    },
+    {
+      "id": "GRIDLLM-ACTION-APPROVAL",
+      "domain": "ai",
+      "classification": "execution",
+      "status": "draft"
+    },
+    {
+      "id": "PPS-PWRC-SOLANA-001",
+      "name": "PWRC Solana Bridge Contract",
+      "path": "contracts/m/pwrc-solana/contract.json",
+      "status": "draft"
+    }
+  ]
+}

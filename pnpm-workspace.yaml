@@ -1,3 +1,31 @@
 packages:
-  - 'apps/*'
-  - 'packages/*'
+  - "."
+  - "apps/*"
+  - "packages/*"
+
+minimumReleaseAge: 0
+pmOnFail: ignore
+engineStrict: true
+verifyDepsBeforeRun: error
+trustLockfile: true
+blockExoticSubdeps: true
+strictDepBuilds: true
+strictPeerDependencies: false
+autoInstallPeers: true
+dedupePeers: true
+
+allowBuilds:
+  "@prisma/client": true
+  "@prisma/engines": true
+  prisma: true
+  bufferutil: true
+  utf-8-validate: true
+  protobufjs: true
+  tiny-secp256k1: true
+  blake-hash: true
+  bigint-buffer: true
+  esbuild: true
+  sharp: true
+  "@stellar/stellar-sdk": false
+  core-js-pure: false
+  usb: false

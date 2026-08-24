@@ -1,0 +1,1 @@
+export function isTelemetryFresh(timestamp:string,maxAgeMs=300000){return Date.now()-Date.parse(timestamp)<=maxAgeMs}export function queueOffline<T>(queue:T[],item:T,max=1000){return[...queue.slice(-(max-1)),item]}

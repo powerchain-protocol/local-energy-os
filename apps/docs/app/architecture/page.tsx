@@ -1,0 +1,1 @@
+export default function Page(){return <main><div className="page"><p className="eyebrow">Architecture</p><h1>Cloud, edge, energy and financial infrastructure</h1><p>PowerChain separates foundation, fabric, runtime, domains and experience layers through explicit contracts.</p></div></main>}

@@ -1,0 +1,2 @@
+import{NextResponse}from"next/server";import{exchangeListings,exchangeTrades,orderBook}from"@/data/exchange";import{clearingPrice,marketLiquidity}from"@/lib/exchange";
+export async function GET(){return NextResponse.json({data:{metrics:{marketVolumeUsd:12800000,liquidity:marketLiquidity(orderBook),energyAvailableGwh:18.4,carbonSavedTco2e:42680,gridBalance:98.7,clearingPrice:clearingPrice(orderBook)},listings:exchangeListings,trades:exchangeTrades},meta:{timestamp:new Date().toISOString()}})}

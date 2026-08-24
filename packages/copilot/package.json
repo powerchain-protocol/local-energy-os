@@ -1,0 +1,13 @@
+{
+  "name": "@powerchain/copilot",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Unified PowerChain Copilot orchestrator, Renewable RWA agents, skills, contextual suggestions and approval-safe action contracts.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@powerchain/ai-core": "workspace:*"
+  }
+}

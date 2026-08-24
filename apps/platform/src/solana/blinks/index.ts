@@ -1,0 +1,2 @@
+export type SolanaBlink={title:string;description:string;icon:string;label:string;href:string};
+export function createEnergyBlink(projectId:string,amountPwrc:number):SolanaBlink{return{title:"Fund renewable energy",description:`Contribute ${amountPwrc} PWRC to PowerChain project ${projectId}.`,icon:"/PWRC.png",label:`Fund ${amountPwrc} PWRC`,href:`solana-action:https://powerchain.energy/api/v1/projects/${encodeURIComponent(projectId)}/fund?amount=${amountPwrc}`};}

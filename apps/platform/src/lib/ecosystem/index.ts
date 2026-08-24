@@ -1,0 +1,1 @@
+import type{LeaderboardEntry}from"@/types/ecosystem";export function totalScore(e:LeaderboardEntry){return Math.round(e.energyScore*.35+e.carbonScore*.25+e.networkScore*.25+e.reputationScore*.15)}export function rankParticipants(entries:LeaderboardEntry[]){return[...entries].sort((a,b)=>totalScore(b)-totalScore(a)).map((e,i)=>({...e,rank:i+1}))}

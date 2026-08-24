@@ -1,0 +1,2 @@
+import { Shell } from "@/components/shell"; import { EnergyDetail } from "@/components/energy/energy-detail";
+export default function Page(){return <Shell><EnergyDetail title="Solar operations" subtitle="PV generation, inverter performance, irradiance and plant availability." metrics={[{label:"Generation",value:"38.2 MW",detail:"Current fleet output"},{label:"Availability",value:"98.7%",detail:"Across 14 PV sites"},{label:"Irradiance",value:"782 W/m²",detail:"Portfolio average"},{label:"Inverter health",value:"97.9%",detail:"2 devices need review"}]}/></Shell>}

@@ -1,0 +1,1 @@
+export type MapNode={id:string;lat:number;lng:number;status:'normal'|'risk'}; export const gridNodes:MapNode[]=[{id:'TX-1',lat:29.76,lng:-95.36,status:'normal'},{id:'CA-4',lat:34.05,lng:-118.24,status:'risk'}];

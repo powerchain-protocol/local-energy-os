@@ -1,0 +1,2 @@
+import { Shell } from "@/components/shell"; import { EnergyDetail } from "@/components/energy/energy-detail";
+export default function Page(){return <Shell><EnergyDetail title="Battery storage" subtitle="State of charge, dispatch readiness, degradation and reserve capacity." metrics={[{label:"Available",value:"31.8 MWh",detail:"Dispatchable energy"},{label:"State of charge",value:"74%",detail:"Fleet weighted average"},{label:"Reserve",value:"8.4 MW",detail:"Grid services committed"},{label:"Health",value:"96.1%",detail:"Expected usable capacity"}]}/></Shell>}

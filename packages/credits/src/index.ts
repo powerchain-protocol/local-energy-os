@@ -1,0 +1,7 @@
+export type CreditLedgerEntryType="deposit"|"purchase"|"reservation"|"settlement"|"release"|"refund"|"adjustment";
+export interface CreditLedgerEntry{id:string;accountId:string;type:CreditLedgerEntryType;amountPwrcBaseUnits:string;balanceAfter?:string;requestId?:string;quoteId?:string;metadata?:Record<string,string>;createdAt:string}
+export interface CreditReservation{id:string;accountId:string;quoteId:string;reservedBaseUnits:string;state:"reserved"|"settled"|"released";createdAt:string}
+const SCALE=1_000_000n;
+export function decimalToBaseUnits(value:string,decimals=6):bigint{if(!/^\d+(\.\d+)?$/.test(value))throw new Error("Invalid decimal amount");const [whole,fraction=""]=value.split(".");const padded=(fraction+"0".repeat(decimals)).slice(0,decimals);return BigInt(whole)*10n**BigInt(decimals)+BigInt(padded||"0")}
+export function quotePwrc(usdCharge:string,pwrcUsdPrice:string){const usd=decimalToBaseUnits(usdCharge);const price=decimalToBaseUnits(pwrcUsdPrice);if(price<=0n)throw new Error("PWRC price must be positive");return ((usd*SCALE)+price-1n)/price}
+export function createUsageQuote(input:{estimatedUsd:string;pwrcUsdPrice:string;ttlSeconds?:number}){const now=Date.now();return{quoteId:`aiq_${crypto.randomUUID()}`,estimatedUsd:input.estimatedUsd,pwrcUsdPrice:input.pwrcUsdPrice,estimatedPwrc:quotePwrc(input.estimatedUsd,input.pwrcUsdPrice).toString(),expiresAt:new Date(now+(input.ttlSeconds??120)*1000).toISOString()}}

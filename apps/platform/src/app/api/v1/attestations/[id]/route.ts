@@ -1,0 +1,1 @@
+import{NextResponse}from"next/server";import{attestationStore}from"@/lib/proof-of-energy/store";export async function GET(_:Request,{params}:{params:Promise<{id:string}>}){const{id}=await params;const data=attestationStore.get(id);return data?NextResponse.json({data}):NextResponse.json({error:"Attestation not found"},{status:404})}

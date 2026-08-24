@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: powerchain-platform }
+spec:
+  replicas: 3
+  revisionHistoryLimit: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: { maxUnavailable: 0, maxSurge: 1 }
+  selector: { matchLabels: { app: powerchain-platform } }
+  template:
+    metadata: { labels: { app: powerchain-platform } }
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: web
+          image: powerchain/platform:1.0.0
+          imagePullPolicy: IfNotPresent
+          ports: [{ containerPort: 3000 }]
+          envFrom: [{ secretRef: { name: powerchain-platform-env } }]
+          startupProbe: { httpGet: { path: /api/v1/health, port: 3000 }, failureThreshold: 30, periodSeconds: 2 }
+          readinessProbe: { httpGet: { path: /api/v1/readiness, port: 3000 }, periodSeconds: 10, timeoutSeconds: 3 }
+          livenessProbe: { httpGet: { path: /api/v1/health, port: 3000 }, periodSeconds: 20, timeoutSeconds: 3 }
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: { drop: ["ALL"] }
+            readOnlyRootFilesystem: true
+          resources:
+            requests: { cpu: 250m, memory: 256Mi }
+            limits: { cpu: "1", memory: 1Gi }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: powerchain-platform }
+spec:
+  selector: { app: powerchain-platform }
+  ports: [{ port: 80, targetPort: 3000 }]

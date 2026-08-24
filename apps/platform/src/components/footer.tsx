@@ -1,0 +1,4 @@
+"use client";
+import Link from "next/link";
+import { useNetworkStatus } from "@/hooks/use-network-status";
+export function Footer(){const {status,latencyMs}=useNetworkStatus();return <footer className="app-footer"><div className="flex min-w-0 items-center gap-3"><span className={`status-dot ${status!=="online"?"opacity-60":""}`}/><span className="truncate">PowerChain v1.0.0</span><span className="hidden capitalize text-emerald-700 sm:inline dark:text-emerald-400">{status}</span>{latencyMs!==null&&<span className="hidden text-[var(--muted)] md:inline">API {latencyMs} ms</span>}</div><nav aria-label="Footer" className="flex items-center gap-3"><Link href="/legal/privacy">Privacy</Link><Link href="/legal/terms">Terms</Link><Link href="/legal/cookies">Cookies</Link><Link href="/docs/legal">Legal</Link></nav></footer>}

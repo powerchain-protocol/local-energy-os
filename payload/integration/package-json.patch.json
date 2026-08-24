@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "local-energy:verify": "node scripts/local-energy-os/verify.mjs",
+    "local-energy:doctor": "node scripts/local-energy-os/doctor.mjs"
+  }
+}

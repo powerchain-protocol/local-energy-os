@@ -1,0 +1,10 @@
+{
+  "name": "@powerchain/infrastructure",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "docker:build": "docker build -f docker/Dockerfile -t powerchain/platform:1.0.0 ../..",
+    "docker:up": "docker compose -f docker/compose.yml up --build"
+  }
+}

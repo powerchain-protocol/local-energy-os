@@ -1,0 +1,2 @@
+"use client";
+import{TrendingUp}from'lucide-react';export function KpiCard({label,value,trend}:{label:string;value:string;trend:string}){return <article className='panel p-4'><div className='text-sm muted'>{label}</div><div className='mt-2 text-2xl font-bold'>{value}</div><div className='mt-3 flex items-center gap-1 text-xs text-emerald-600'><TrendingUp className='h-3.5 w-3.5'/>{trend} vs last period</div></article>}

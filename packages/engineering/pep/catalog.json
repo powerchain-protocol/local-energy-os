@@ -1,0 +1,6 @@
+{
+  "program": "PEP",
+  "title": "PowerChain Engineering Program",
+  "version": "1.0-draft",
+  "assetClasses": ["OpenAPI","AsyncAPI","GraphQL SDL","JSON Schema","Protocol Buffers","CloudEvents","State Machines","Test Vectors","Benchmarks","SDKs","Reference Implementations"]
+}

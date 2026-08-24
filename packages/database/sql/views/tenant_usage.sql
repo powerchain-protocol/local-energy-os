@@ -1,0 +1,1 @@
+CREATE OR REPLACE VIEW tenant_usage AS SELECT o.id AS organization_id,count(DISTINCT a.id) AS assets,count(t.id) AS telemetry_points FROM organizations o LEFT JOIN energy_assets a ON a.organization_id=o.id LEFT JOIN telemetry t ON t.asset_id=a.id GROUP BY o.id;

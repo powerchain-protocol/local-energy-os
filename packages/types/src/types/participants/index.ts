@@ -1,0 +1,2 @@
+export type ParticipantRole="consumer"|"prosumer"|"provider"|"enterprise"|"partner"|"utility"|"community"|"aggregator"|"grid_operator"|"asset_owner"|"investor"|"installer"|"auditor"|"regulator";
+export interface Participant {id:string;slug:string;name:string;roles:ParticipantRole[];region:string;status:"active"|"pending"|"suspended";assets:number;meters:number;marketVolume:number;renewableShare:number;verified:boolean;}

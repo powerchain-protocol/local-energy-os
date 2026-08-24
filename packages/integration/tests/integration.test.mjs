@@ -1,0 +1,3 @@
+import test from "node:test"; import assert from "node:assert/strict"; import fs from "node:fs";
+test("integration package exposes reliability primitives",()=>{for(const file of ["src/core/adapter.ts","src/core/result.ts","src/core/circuit-breaker.ts","src/core/idempotency.ts","src/sap/index.ts","src/mqtt/index.ts","src/solana/index.ts","src/sui/index.ts"]){assert.equal(fs.existsSync(new URL(`../${file}`,import.meta.url)),true,file)}});
+test("production policy forbids silent fixture fallback",()=>{const result=fs.readFileSync(new URL("../src/core/result.ts",import.meta.url),"utf8");assert.match(result,/unavailable/);assert.match(result,/misconfigured/)});

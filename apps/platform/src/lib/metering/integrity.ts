@@ -1,0 +1,1 @@
+export function isContinuousSequence(previous:number,current:number){return current===previous+1}export function detectReplay(seen:Set<string>,id:string){if(seen.has(id))return true;seen.add(id);return false}

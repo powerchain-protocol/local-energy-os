@@ -1,0 +1,1 @@
+export function safeRedirect(target:string,fallback="/"){ try{const url=new URL(target,"https://powerchain.local");return url.origin==="https://powerchain.local"?`${url.pathname}${url.search}${url.hash}`:fallback;}catch{return fallback;} }

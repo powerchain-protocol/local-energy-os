@@ -1,0 +1,2 @@
+import { NextResponse } from "next/server";
+export async function POST(request:Request){const form=await request.formData();const file=form.get("file");if(!(file instanceof File))return NextResponse.json({ok:false,error:"file is required"},{status:400});if(file.size>5*1024*1024)return NextResponse.json({ok:false,error:"file exceeds 5 MB"},{status:413});return NextResponse.json({ok:true,data:{name:file.name,size:file.size,type:file.type,url:`/uploads/${encodeURIComponent(file.name)}`}});}

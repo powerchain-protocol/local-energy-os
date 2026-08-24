@@ -1,0 +1,2 @@
+import{NextRequest,NextResponse}from"next/server";
+export async function POST(req:NextRequest){const body=await req.json().catch(()=>null);if(!body?.creditId||!Number.isFinite(Number(body?.tonnes))||Number(body.tonnes)<=0)return NextResponse.json({error:"creditId and a positive tonnes value are required"},{status:400});return NextResponse.json({data:{retirementId:`ret_${crypto.randomUUID()}`,status:"completed",certificateId:`CERT-${new Date().getUTCFullYear()}-${Math.floor(Math.random()*900000+100000)}`,retiredAt:new Date().toISOString(),...body}},{status:201})}

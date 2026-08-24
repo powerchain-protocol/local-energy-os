@@ -1,0 +1,2 @@
+import { Shell } from "@/components/shell"; import { EnergyDetail } from "@/components/energy/energy-detail";
+export default function Page(){return <Shell><EnergyDetail title="Forecast & dispatch" subtitle="AI-assisted renewable forecasting, demand planning and market scheduling." metrics={[{label:"24h forecast",value:"1.84 GWh",detail:"Expected renewable output"},{label:"Confidence",value:"96.2%",detail:"Ensemble model score"},{label:"Peak demand",value:"112 MW",detail:"Expected at 18:30"},{label:"Trade window",value:"14:00",detail:"Best surplus sale period"}]}/></Shell>}

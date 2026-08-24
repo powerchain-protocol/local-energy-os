@@ -1,0 +1,2 @@
+export type RenewableAgentInput={prompt:string;assetIds?:string[];locale?:string};
+export async function runRenewablesAgent(input:RenewableAgentInput){const normalized=input.prompt.trim();return {summary:`Renewables analysis prepared for: ${normalized.slice(0,120)}`,recommendations:["Review forecast confidence before dispatch changes.","Confirm telemetry freshness for selected assets.","Record operator approval for automated actions."],confidence:0.86,assetIds:input.assetIds??[]};}

@@ -1,0 +1,1 @@
+export function escrowReserve(amount:number,bps=250){return Math.round(amount*bps)/10000}export function releaseEscrow(deliveryVerified:boolean){if(!deliveryVerified)throw new Error("Delivery verification required");return{released:true,releasedAt:new Date().toISOString()}}

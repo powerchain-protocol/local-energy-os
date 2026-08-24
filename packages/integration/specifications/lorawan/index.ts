@@ -1,0 +1,2 @@
+export type LoRaWANUplink={deviceId:string;gatewayId:string;fPort:number;rssi:number;snr:number;payload:string;receivedAt:string};
+export function normalizeLoRaWANUplink(input:Record<string,unknown>):LoRaWANUplink{return{deviceId:String(input.device_id??input.devEui??"unknown"),gatewayId:String(input.gateway_id??"unknown"),fPort:Number(input.f_port??0),rssi:Number(input.rssi??0),snr:Number(input.snr??0),payload:String(input.payload??input.frm_payload??""),receivedAt:String(input.received_at??new Date().toISOString())};}

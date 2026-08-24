@@ -1,0 +1,21 @@
+{
+  "id": "powerchain.renewables.forecast",
+  "version": "1.0.0",
+  "owner": "Energy Intelligence",
+  "permissions": [
+    "telemetry:read",
+    "weather:read"
+  ],
+  "inputs": [
+    "assetId",
+    "horizonHours"
+  ],
+  "outputs": [
+    "generationForecast",
+    "confidence"
+  ],
+  "safety": [
+    "read-only",
+    "human-approval-for-control"
+  ]
+}

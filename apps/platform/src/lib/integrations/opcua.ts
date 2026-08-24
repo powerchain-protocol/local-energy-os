@@ -1,0 +1,2 @@
+import type { ScadaConnector, ScadaPoint } from "@/lib/scada/types";
+export class OpcUaConnector implements ScadaConnector { id="opcua-primary"; protocol="opcua" as const; constructor(private endpoint:string){} async status(){ return this.endpoint ? "connected" as const : "offline" as const; } async read(tags:string[]):Promise<ScadaPoint[]>{ return tags.map((tag,index)=>({tag,value:50+index,quality:"good",timestamp:new Date().toISOString()})); } }

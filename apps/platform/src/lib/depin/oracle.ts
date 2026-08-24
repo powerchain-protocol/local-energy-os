@@ -1,0 +1,1 @@
+export interface OracleVote{validatorId:string;accepted:boolean;confidence:number}export function oracleConsensus(votes:OracleVote[],threshold=.67){const accepted=votes.filter(v=>v.accepted);const ratio=accepted.length/Math.max(1,votes.length);return{verified:votes.length>=3&&ratio>=threshold,ratio,confidence:accepted.reduce((s,v)=>s+v.confidence,0)/Math.max(1,accepted.length)}}

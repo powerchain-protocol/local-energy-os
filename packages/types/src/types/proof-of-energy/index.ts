@@ -1,0 +1,7 @@
+export type EnergySource="solar"|"wind"|"hydro"|"battery"|"biomass"|"geothermal";
+export interface EnergyMeasurement{measurementId:string;meterId:string;assetId:string;organizationId:string;gridZoneId:string;source:EnergySource;generatedWh:number;consumedWh:number;exportedWh:number;importedWh:number;voltage:number;frequency:number;powerFactor:number;measuredAt:string;sequence:number;signature:string;}
+export interface EncryptedEnergyEnvelope{envelopeId:string;deviceId:string;algorithm:"AES-256-GCM";keyId:string;nonce:string;ciphertext:string;authenticationTag:string;deviceSignature:string;createdAt:string;}
+export interface EnergyAttestation{attestationId:string;measurementId:string;validatorIds:string[];verifiedWh:number;confidenceScore:number;consensusThreshold:number;status:"pending"|"verified"|"rejected";proofHash:string;verifiedAt?:string;}
+export type EnergyTokenClass="KWH"|"MWH"|"REC"|"CRT";
+export interface EnergyTokenRecord{tokenId:string;class:EnergyTokenClass;measurementId:string;attestationId:string;quantity:number;unit:"Wh"|"kWh"|"MWh"|"tCO2e";status:"minted"|"reserved"|"transferred"|"retired"|"burned";network:"solana"|"sui"|"evm";mintedAt:string;}
+export interface SettlementRecord{settlementId:string;orderId:string;tokenId:string;buyerId:string;sellerId:string;asset:"FIAT"|"USDC"|"PWRC"|"WPWRC"|"CREDIT";amount:number;fees:number;status:"pending"|"escrowed"|"delivering"|"verified"|"settled"|"failed";createdAt:string;updatedAt:string;}

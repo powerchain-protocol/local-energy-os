@@ -1,0 +1,2 @@
+"use client";import{useMemo,useState}from"react";import{DOCUMENTATION_CATALOG}from"@/config/docs/catalog";
+export function useDocumentation(){const[query,setQuery]=useState("");const results=useMemo(()=>{const q=query.trim().toLowerCase();return q?DOCUMENTATION_CATALOG.filter(x=>`${x.title} ${x.description} ${x.category}`.toLowerCase().includes(q)):DOCUMENTATION_CATALOG},[query]);return{query,setQuery,results}}

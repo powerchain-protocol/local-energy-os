@@ -1,0 +1,8 @@
+{
+  "name": "@powerchain/configuration",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./src/index.ts", "./config/*": "./src/config/*.ts", "./env/*": "./src/env/*.ts", "./cluster/*": "./src/cluster/*.ts" },
+  "dependencies": { "zod": "^3.25.76" }
+}

@@ -1,9 +1,1 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  poweredByHeader: false,
-  output: "standalone",
-  reactStrictMode: true,
-};
-
-export default nextConfig;
+import type { NextConfig } from "next"; const config: NextConfig = { reactStrictMode:true, transpilePackages:["@powerchain/shared"] }; export default config;

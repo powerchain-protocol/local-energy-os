@@ -1,0 +1,6 @@
+[
+  {"id":"open-overview","label":"Open overview","description":"View platform KPIs and system health","category":"navigation","href":"/"},
+  {"id":"open-renewables","label":"Open renewables","description":"Inspect renewable generation and forecasts","category":"navigation","href":"/renewables"},
+  {"id":"open-ai","label":"Open AI operations","description":"Launch the PowerChain AI workspace","category":"ai","href":"/ai"},
+  {"id":"connect-wallet","label":"Connect wallet","description":"Connect a supported blockchain wallet","category":"wallet"}
+]

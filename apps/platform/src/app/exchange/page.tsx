@@ -1,0 +1,2 @@
+import{Shell}from"@/components/shell";import{ExchangeDashboard}from"@/components/exchange/exchange-dashboard";
+export default function Page(){return <Shell><div className="content-container space-y-6"><header><p className="text-xs font-bold uppercase tracking-[.18em] text-emerald-700">PowerChain Exchange</p><h1 className="mt-1 text-3xl font-black tracking-tight">Distributed Energy Exchange</h1><p className="mt-2 max-w-3xl muted">Trade energy, share infrastructure and power communities through a unified multi-market exchange.</p></header><ExchangeDashboard/></div></Shell>}

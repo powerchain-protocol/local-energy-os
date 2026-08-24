@@ -1,0 +1,2 @@
+"use client";
+import type{ReactNode}from'react';export function PageTemplate({title,subtitle,children}:{title:string;subtitle:string;children?:ReactNode}){return <><div className='mb-6'><h1 className='text-2xl font-bold tracking-tight'>{title}</h1><p className='mt-1 text-sm muted'>{subtitle}</p></div>{children??<div className='panel p-8'><h2 className='font-semibold'>Workspace ready</h2><p className='mt-2 text-sm muted'>This module is wired into the platform shell and ready for domain integrations.</p></div>}</>}

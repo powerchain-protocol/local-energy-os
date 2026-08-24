@@ -1,0 +1,37 @@
+{
+  "version": "5.0-draft",
+  "chain": [
+    "architecture-principle",
+    "capability",
+    "reference-model",
+    "standard-section",
+    "schema-or-api",
+    "implementation",
+    "conformance-test",
+    "certification-profile"
+  ],
+  "requirements": [
+    {
+      "id": "REQ-POE-001",
+      "principle": "PPA-PR-TRUST",
+      "capability": "CAP-ENERGY-VERIFICATION",
+      "model": "RM-ENERGY-MEASUREMENT",
+      "standard": "PTSP-210",
+      "artifact": "src/app/api/v1/proof-of-energy/verify",
+      "implementation": "src/lib/proof-of-energy/verification.ts",
+      "test": "tests/ecosystem.test.mjs",
+      "profile": "core"
+    },
+    {
+      "id": "REQ-SEC-001",
+      "principle": "PPA-PR-ZERO-TRUST",
+      "capability": "CAP-IDENTITY-AUTHORIZATION",
+      "model": "RM-IDENTITY",
+      "standard": "PTSP-700",
+      "artifact": "src/middleware/security.ts",
+      "implementation": "src/lib/security",
+      "test": "tests/permissions.test.mjs",
+      "profile": "core"
+    }
+  ]
+}

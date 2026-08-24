@@ -1,0 +1,3 @@
+import{NextRequest,NextResponse}from"next/server";
+const allowed=["matched","validated","reserved","signature_required","escrowed","delivering","settled","failed"];
+export async function POST(req:NextRequest){const body=await req.json().catch(()=>null);if(!body?.tradeId||!allowed.includes(body?.state))return NextResponse.json({error:{code:"INVALID_SETTLEMENT",message:"tradeId and a valid settlement state are required."}},{status:400});return NextResponse.json({data:{settlementId:`set-${crypto.randomUUID()}`,tradeId:body.tradeId,state:body.state,auditId:`aud-${crypto.randomUUID()}`,updatedAt:new Date().toISOString()}},{status:201})}

@@ -1,0 +1,2 @@
+export function mintableEnergyWh(verifiedWh:number,lossBps=180,previouslyTokenizedWh=0,disputedWh=0){const afterLoss=Math.floor(verifiedWh*(1-lossBps/10000));return Math.max(0,afterLoss-previouslyTokenizedWh-disputedWh)}
+export function assertSingleIssuance(measurementId:string,issued:Set<string>){if(issued.has(measurementId))throw new Error("Measurement already tokenized");issued.add(measurementId)}

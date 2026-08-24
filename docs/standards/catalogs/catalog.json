@@ -1,0 +1,23 @@
+{
+  "program": "PTSP",
+  "version": "5.0-draft",
+  "publisher": "PowerChain Foundation",
+  "classifications": [
+    "normative-standard",
+    "reference-model",
+    "reference-architecture",
+    "engineering-guide",
+    "informative-report",
+    "governance-document"
+  ],
+  "lifecycle": [
+    "proposal",
+    "working-draft",
+    "public-review",
+    "candidate-standard",
+    "approved-standard",
+    "long-term-support",
+    "deprecated",
+    "retired"
+  ]
+}

@@ -1,0 +1,1 @@
+{"id":"PPS-PWRC-SOLANA-001","version":"1.0.0-draft","ticker":{"powerchain":"PWRC","solana":"PWRC","sui":"wPWRC"},"invariant":"solanaCirculating <= nativeLockedForSolana","directions":["powerchain-to-solana","solana-to-powerchain"]}

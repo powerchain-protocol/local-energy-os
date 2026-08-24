@@ -1,0 +1,1 @@
+import type{EnergyTokenRecord}from"@/types/proof-of-energy";export function burnToken(token:EnergyTokenRecord){if(token.status==="retired"||token.status==="burned")throw new Error("Token is final");return{...token,status:"burned"as const}}

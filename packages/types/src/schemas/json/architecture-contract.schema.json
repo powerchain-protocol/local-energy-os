@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://powerchain.example/schemas/architecture-contract.schema.json",
+  "title": "PPA Architecture Contract",
+  "type": "object",
+  "required": ["id", "version", "layer", "owner", "requirements"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^PPA-[0-9]{3,4}$" },
+    "version": { "type": "string" },
+    "layer": { "type": "string" },
+    "owner": { "type": "string" },
+    "requirements": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+  },
+  "additionalProperties": false
+}

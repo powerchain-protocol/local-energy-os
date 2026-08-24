@@ -1,0 +1,4 @@
+"use client";
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+const data = [{d:"May 29",v:14.2},{d:"May 30",v:15.8},{d:"May 31",v:15.1},{d:"Jun 1",v:17.4},{d:"Jun 2",v:16.9},{d:"Jun 3",v:18.1},{d:"Jun 4",v:18.64}];
+export function GenerationChart(){return <section className="rounded-2xl border bg-white p-5 shadow-sm dark:bg-slate-950"><div className="mb-5"><h2 className="font-semibold">Renewable generation</h2><p className="text-sm text-slate-500">Portfolio production across all connected assets</p></div><div className="h-72"><ResponsiveContainer width="100%" height="100%"><AreaChart data={data}><CartesianGrid strokeDasharray="3 3" vertical={false}/><XAxis dataKey="d" fontSize={12}/><YAxis fontSize={12} unit=" GWh"/><Tooltip/><Area type="monotone" dataKey="v" stroke="currentColor" fill="currentColor" fillOpacity={0.12}/></AreaChart></ResponsiveContainer></div></section>}

@@ -1,0 +1,2 @@
+export const dynamic = "force-dynamic";
+export async function GET(){const encoder=new TextEncoder();let timer:ReturnType<typeof setInterval>;const stream=new ReadableStream({start(controller){const send=()=>controller.enqueue(encoder.encode(`data: ${JSON.stringify({timestamp:new Date().toISOString(),generationMw:42.7,gridHz:50.01,status:"nominal"})}\n\n`));send();timer=setInterval(send,5000);},cancel(){clearInterval(timer);}});return new Response(stream,{headers:{"content-type":"text/event-stream","cache-control":"no-cache, no-transform","connection":"keep-alive"}});}

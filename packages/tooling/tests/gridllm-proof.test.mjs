@@ -1,0 +1,3 @@
+import test from"node:test";import assert from"node:assert/strict";import fs from"node:fs";
+test("GRIDLLM, proof-of-energy and digital twin routes exist",()=>{for(const f of["apps/platform/src/app/intelligence/page.tsx","apps/platform/src/app/proof-of-energy/page.tsx","apps/platform/src/app/digital-twins/page.tsx","apps/platform/src/app/api/v1/proof-of-energy/verify/route.ts","packages/programs/anchor/src/proof_of_energy.rs"])assert.equal(fs.existsSync(f),true,f)});
+test("package release is stable 1.0.0",()=>{const p=JSON.parse(fs.readFileSync("package.json","utf8"));assert.equal(p.version,"1.0.0")});

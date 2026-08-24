@@ -1,0 +1,5 @@
+export type CertificationStatus = "draft" | "pending" | "verified" | "issued" | "suspended" | "revoked" | "expired";
+export type CertificateKind = "REC" | "GO" | "CRT" | "PEC" | "DEVICE" | "PLATFORM";
+export interface CertificationProgram { id:string; slug:string; name:string; kind:CertificateKind; authority:string; standard:string; status:"active"|"pilot"|"planned"; jurisdictions:string[]; validForDays:number; requirements:string[]; }
+export interface TokenizedCertificate { id:string; programId:string; kind:CertificateKind; ownerId:string; assetId:string; quantity:string; unit:"kWh"|"MWh"|"tCO2e"|"unit"; vintage:number; status:CertificationStatus; issuedAt?:string; expiresAt?:string; blockchain?:"solana"|"sui"; mint?:string; metadataUri?:string; proofHash:string; }
+export interface EnergyTariff { id:string; region:string; countryCode:string; currency:string; unit:"kWh"|"MWh"; price:string; market:"retail"|"wholesale"|"day-ahead"|"real-time"; source:string; observedAt:string; state:"available"|"degraded"|"unavailable"|"misconfigured"; stale?:boolean; }

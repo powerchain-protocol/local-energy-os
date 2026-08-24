@@ -1,0 +1,1 @@
+import{AiWorkspacePage}from"@/components/ai/workspace-page";export default function Page(){return <AiWorkspacePage title="PWRC credits" description="Quote, reserve, settle and reconcile AI usage through an append-only credit ledger."/>}

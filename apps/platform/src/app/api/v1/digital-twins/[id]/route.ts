@@ -1,0 +1,1 @@
+import{NextResponse}from"next/server";import{getDigitalTwin}from"@/lib/digital-twin";export async function GET(_:Request,{params}:{params:Promise<{id:string}>}){const{id}=await params;const twin=getDigitalTwin(id);return twin?NextResponse.json(twin):NextResponse.json({error:"Digital twin not found"},{status:404})}

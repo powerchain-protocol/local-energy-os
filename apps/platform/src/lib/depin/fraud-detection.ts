@@ -1,0 +1,1 @@
+export function fraudSignals(input:{duplicate:boolean;tamper:boolean;weatherMismatch:number;sequenceGap:number}){const risk=(input.duplicate?45:0)+(input.tamper?45:0)+Math.min(30,input.weatherMismatch*30)+Math.min(20,input.sequenceGap*2);return{risk:Math.min(100,risk),blocked:risk>=70}}

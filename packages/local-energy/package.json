@@ -1,0 +1,13 @@
+{
+  "name": "@powerchain/local-energy",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Canonical Local Energy OS domain contracts for communities, grid-aware P2P markets, flexibility, metering, delivery and settlement.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@powerchain/energy-core": "workspace:*"
+  }
+}

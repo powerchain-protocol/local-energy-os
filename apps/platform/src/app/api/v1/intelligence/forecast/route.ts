@@ -1,0 +1,3 @@
+import{NextResponse}from"next/server";import{getGridLlmSnapshot,forecastNetPosition}from"@/lib/intelligence";
+export async function GET(){return NextResponse.json(getGridLlmSnapshot())}
+export async function POST(req:Request){const body=await req.json().catch(()=>({}));const production=Number(body.productionMwh);const demand=Number(body.demandMwh);const storage=Number(body.storageAvailableMwh??0);if(![production,demand,storage].every(Number.isFinite))return NextResponse.json({error:"productionMwh, demandMwh and storageAvailableMwh must be numeric"},{status:400});return NextResponse.json(forecastNetPosition(production,demand,storage))}

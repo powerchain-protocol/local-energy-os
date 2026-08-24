@@ -1,0 +1,3 @@
+const allowedOrigins=(process.env.CORS_ALLOWED_ORIGINS??"http://localhost:3000").split(",").map(v=>v.trim());
+function headers(request:Request){const origin=request.headers.get("origin")??"";const allowed=allowedOrigins.includes(origin)?origin:allowedOrigins[0]??"";return {"access-control-allow-origin":allowed,"access-control-allow-methods":"GET,POST,PUT,PATCH,DELETE,OPTIONS","access-control-allow-headers":"content-type,authorization,x-request-id","access-control-max-age":"86400","vary":"Origin"};}
+export async function OPTIONS(request:Request){return new Response(null,{status:204,headers:headers(request)})} export async function GET(request:Request){return Response.json({ok:true,data:{allowedOrigins,credentials:false}},{headers:headers(request)})}

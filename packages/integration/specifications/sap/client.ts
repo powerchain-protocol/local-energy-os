@@ -1,0 +1,2 @@
+export type SapConfig = { baseUrl: string; username: string; password: string };
+export class SapClient { constructor(private config: SapConfig) {} async request<T>(path: string): Promise<T> { const response = await fetch(new URL(path, this.config.baseUrl), { headers: { Authorization: `Basic ${Buffer.from(`${this.config.username}:${this.config.password}`).toString("base64")}`, Accept: "application/json" }, cache: "no-store" }); if (!response.ok) throw new Error(`SAP request failed: ${response.status}`); return response.json() as Promise<T>; } }

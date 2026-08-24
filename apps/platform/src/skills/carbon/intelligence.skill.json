@@ -1,0 +1,1 @@
+{"id":"carbon-intelligence","name":"Carbon Intelligence","domain":"carbon","model":"gridllm-energy","inputs":["generation","emission-factors","credits","retirements"],"outputs":["avoided-emissions","credit-pricing","esg-summary"]}

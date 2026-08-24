@@ -1,0 +1,3 @@
+"use client";
+import { depinNodes } from "@/lib/depin";
+export function DePINNetwork(){return <div className="grid gap-3 md:grid-cols-3">{depinNodes.map(node=><article key={node.id} className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4"><div className="flex justify-between"><strong>{node.provider.toUpperCase()}</strong><span className="text-xs font-bold text-emerald-600">{node.status}</span></div><p className="mt-3 text-sm">{node.location}</p><p className="mt-1 text-xs muted">{node.network.toUpperCase()} · {node.id}</p><p className="mt-5 text-2xl font-black">{node.rewardsPwrc} PWRC</p><p className="text-xs muted">estimated network rewards</p></article>)}</div>}

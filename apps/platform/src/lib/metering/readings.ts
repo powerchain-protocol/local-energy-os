@@ -1,0 +1,1 @@
+import type{EnergyMeasurement}from"@/types/proof-of-energy";export function sortReadings(readings:EnergyMeasurement[]){return[...readings].sort((a,b)=>a.sequence-b.sequence)}export function latestReading(readings:EnergyMeasurement[]){return sortReadings(readings).at(-1)}

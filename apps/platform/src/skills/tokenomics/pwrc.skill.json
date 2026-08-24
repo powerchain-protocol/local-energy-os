@@ -1,0 +1,1 @@
+{"id":"pwrc-tokenomics","name":"PWRC Tokenomics Analysis","domain":"tokenomics","model":"tokenomics-lora","inputs":["supply","price","fees","treasury","bridge-state"],"outputs":["supply-analysis","price-scenarios","risk-flags"]}

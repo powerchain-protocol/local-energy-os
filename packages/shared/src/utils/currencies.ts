@@ -1,0 +1,3 @@
+export const CURRENCIES={USD:{symbol:"$",decimals:2},EUR:{symbol:"€",decimals:2},GBP:{symbol:"£",decimals:2},PWRC:{symbol:"PWRC",decimals:4},CRT:{symbol:"CRT",decimals:4},SOL:{symbol:"SOL",decimals:6},SUI:{symbol:"SUI",decimals:6}} as const;
+export type CurrencyCode=keyof typeof CURRENCIES;
+export function formatCurrency(amount:number,currency:CurrencyCode="USD",locale="en-US"){const config=CURRENCIES[currency];if(["USD","EUR","GBP"].includes(currency))return new Intl.NumberFormat(locale,{style:"currency",currency,maximumFractionDigits:config.decimals}).format(amount);return `${new Intl.NumberFormat(locale,{maximumFractionDigits:config.decimals}).format(amount)} ${config.symbol}`;}

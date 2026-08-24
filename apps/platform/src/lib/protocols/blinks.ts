@@ -1,0 +1,2 @@
+export type BlinkAction={title:string;icon:string;description:string;label:string;href:string;disabled?:boolean};
+export function createRenewableBlink(projectId:string,baseUrl:string):BlinkAction{return{title:"Support a verified renewable project",icon:"/PWRC.png",description:"Review and authorize a PowerChain project contribution.",label:"Review project",href:`${baseUrl.replace(/\/$/,"")}/explore/projects/${encodeURIComponent(projectId)}`}}

@@ -1,0 +1,3 @@
+"use client";
+import {aiModels}from"@/types/ai/models";
+export function AISettings(){return <section className="panel p-5"><h2 className="text-lg font-black">AI model settings</h2><p className="mt-1 text-sm muted">Choose models according to privacy, latency and domain specialization.</p><div className="mt-4 space-y-3">{aiModels.map(m=><label key={m.id} className="flex items-start gap-3 rounded-xl border border-[var(--border)] p-3"><input type="radio" name="model" defaultChecked={m.id==="powerchain-renewables"}/><span><strong>{m.name}</strong><span className="ml-2 rounded-full bg-emerald-950/10 px-2 py-0.5 text-xs uppercase">{m.kind}</span><span className="mt-1 block text-xs muted">{m.capabilities.join(" · ")}</span></span></label>)}</div></section>}

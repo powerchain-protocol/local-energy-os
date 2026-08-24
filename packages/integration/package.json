@@ -1,0 +1,42 @@
+{
+  "name": "@powerchain/integration",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./core": "./src/core/index.ts",
+    "./sap": "./src/sap/index.ts",
+    "./scada": "./src/scada/index.ts",
+    "./opc-ua": "./src/opc-ua/index.ts",
+    "./mqtt": "./src/mqtt/index.ts",
+    "./helium": "./src/helium/index.ts",
+    "./lorawan": "./src/lorawan/index.ts",
+    "./solana": "./src/solana/index.ts",
+    "./sui": "./src/sui/index.ts",
+    "./web3": "./src/web3/index.ts",
+    "./web3/onramp": "./src/web3/onramp/index.ts",
+    "./web3/circle": "./src/web3/circle/index.ts",
+    "./web3/pyth": "./src/web3/pyth/index.ts",
+    "./web3/jupiter": "./src/web3/jupiter/index.ts",
+    "./web3/raydium": "./src/web3/raydium/index.ts",
+    "./web3/orca": "./src/web3/orca/index.ts",
+    "./web3/meteora": "./src/web3/meteora/index.ts",
+    "./web3/helius": "./src/web3/helius/index.ts",
+    "./web3/metaplex": "./src/web3/metaplex/index.ts",
+    "./web3/helium": "./src/web3/helium/index.ts",
+    "./web3/cetus": "./src/web3/cetus/index.ts",
+    "./web3/streamflow": "./src/web3/streamflow/index.ts",
+    "./payments": "./src/payments/index.ts",
+    "./payments/stripe": "./src/payments/stripe/index.ts",
+    "./payments/moonpay": "./src/payments/moonpay/index.ts",
+    "./payments/coinbase-pay": "./src/payments/coinbase-pay/index.ts",
+    "./payments/solana-pay": "./src/payments/solana-pay/index.ts"
+  },
+  "peerDependencies": {
+    "zod": "^3.25.76"
+  },
+  "dependencies": {
+    "helius-sdk": "3.1.0"
+  }
+}

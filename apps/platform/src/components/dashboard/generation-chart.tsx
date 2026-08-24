@@ -1,0 +1,2 @@
+import MetricsChart from "@/components/metrics-chart";
+export function GenerationChart(){return <article className="dashboard-panel chart-panel"><div className="dashboard-card-head"><div><span className="eyebrow">Generation</span><h2>Demand and renewable supply</h2></div><select aria-label="Chart period"><option>Last 7 days</option><option>Last 30 days</option></select></div><MetricsChart/></article>}

@@ -1,0 +1,2 @@
+import type { ScadaConnector, ScadaPoint } from "@/lib/scada/types";
+export class MqttConnector implements ScadaConnector { id="mqtt-primary"; protocol="mqtt" as const; constructor(private broker:string){} async status(){ return this.broker ? "connected" as const : "offline" as const; } async read(tags:string[]):Promise<ScadaPoint[]>{ return tags.map(tag=>({tag,value:0,quality:"uncertain",timestamp:new Date().toISOString()})); } }

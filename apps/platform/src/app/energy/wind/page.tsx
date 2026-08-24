@@ -1,0 +1,2 @@
+import { Shell } from "@/components/shell"; import { EnergyDetail } from "@/components/energy/energy-detail";
+export default function Page(){return <Shell><EnergyDetail title="Wind operations" subtitle="Turbine production, wind conditions, curtailment and fleet availability." metrics={[{label:"Generation",value:"29.6 MW",detail:"Current fleet output"},{label:"Availability",value:"96.8%",detail:"Across 43 turbines"},{label:"Wind speed",value:"9.4 m/s",detail:"Hub-height average"},{label:"Curtailment",value:"1.8%",detail:"Within operating target"}]}/></Shell>}

@@ -1,0 +1,1 @@
+import { NextResponse } from "next/server";import { listCertificationPrograms } from "@/lib/certification";export async function GET(){return NextResponse.json({programs:listCertificationPrograms()},{headers:{"Cache-Control":"public, max-age=300"}})}

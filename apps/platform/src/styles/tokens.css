@@ -1,0 +1,28 @@
+:root {
+  --pc-primary: 160 71% 21%;
+  --pc-primary-hover: 159 68% 25%;
+  --pc-background: 210 40% 98%;
+  --pc-surface: 0 0% 100%;
+  --pc-surface-subtle: 210 40% 96%;
+  --pc-border: 214 32% 91%;
+  --pc-text: 222 47% 11%;
+  --pc-muted: 215 16% 47%;
+  --pc-success: 142 71% 45%;
+  --pc-warning: 38 92% 50%;
+  --pc-danger: 0 72% 51%;
+  --pc-info: 217 91% 60%;
+  --pc-radius-sm: 0.5rem;
+  --pc-radius-md: 0.75rem;
+  --pc-radius-lg: 1rem;
+  --pc-shadow-card: 0 1px 2px rgb(15 23 42 / 0.04), 0 8px 30px rgb(15 23 42 / 0.05);
+}
+
+.dark {
+  --pc-background: 222 47% 7%;
+  --pc-surface: 222 36% 11%;
+  --pc-surface-subtle: 217 33% 15%;
+  --pc-border: 217 23% 22%;
+  --pc-text: 210 40% 98%;
+  --pc-muted: 215 20% 65%;
+  --pc-shadow-card: 0 14px 40px rgb(0 0 0 / 0.28);
+}

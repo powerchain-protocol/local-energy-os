@@ -1,0 +1,8 @@
+import { Shell } from "@/components/shell";
+import { ProofPipeline } from "@/components/proof-of-energy/proof-pipeline";
+const controls = [
+  ["Measurement integrity", "Device signatures, sequence continuity, calibration status and replay prevention protect every meter reading."],
+  ["Oracle consensus", "Validators compare telemetry, weather, grid state and digital-twin constraints before attestation."],
+  ["Single issuance", "Immutable measurement references prevent overlapping energy tokens, certificates and settlement claims."],
+];
+export default function ProofPage(){return <Shell><div className="content-container space-y-7"><header className="max-w-4xl"><p className="text-xs font-semibold uppercase tracking-[.2em] text-emerald-700">Trusted Energy Tokenization</p><h1 className="mt-2 text-3xl font-semibold tracking-[-.035em] sm:text-4xl">From physical renewable generation to auditable digital settlement.</h1><p className="mt-3 max-w-3xl text-sm leading-7 text-[var(--muted)]">Trace renewable production through smart-meter measurement, encrypted edge transport, DePIN oracle consensus, blockchain issuance, marketplace delivery and final payment.</p></header><ProofPipeline/><section className="grid gap-4 lg:grid-cols-3">{controls.map(([title,body],i)=><article key={title} className={`rounded-[24px] border p-5 shadow-sm ${i===0?"border-emerald-800/20 bg-emerald-950 text-white":"border-[var(--border)] bg-[var(--surface)]"}`}><span className={`text-xs font-semibold ${i===0?"text-emerald-200":"text-emerald-700"}`}>0{i+1}</span><h2 className="mt-3 text-lg font-semibold">{title}</h2><p className={`mt-2 text-sm leading-6 ${i===0?"text-emerald-100/75":"text-[var(--muted)]"}`}>{body}</p></article>)}</section></div></Shell>}

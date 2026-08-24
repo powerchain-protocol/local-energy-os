@@ -1,0 +1,10 @@
+name = "powerchain-edge"
+main = "worker.mjs"
+compatibility_date = "2026-08-21"
+workers_dev = true
+
+[vars]
+ENVIRONMENT = "production"
+
+[observability]
+enabled = true

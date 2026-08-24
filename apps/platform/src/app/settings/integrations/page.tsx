@@ -1,0 +1,2 @@
+"use client";
+import { Shell } from "@/components/shell";import { IntegrationSettings } from "@/components/settings/integration-settings";export default function IntegrationsPage(){return <Shell><div className="page-stack"><div><p className="eyebrow">Settings</p><h1 className="page-title">Networks, wallets and AI</h1><p className="page-description">Configure the services used by your PowerChain workspace.</p></div><IntegrationSettings/></div></Shell>}

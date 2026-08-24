@@ -1,0 +1,1 @@
+import type { Meta, StoryObj } from "@storybook/react"; import { StatusBadge } from "@powerchain/shared"; const meta={title:"Shared/StatusBadge",component:StatusBadge} satisfies Meta<typeof StatusBadge>; export default meta; type Story=StoryObj<typeof meta>; export const Available:Story={args:{children:"Available"}};

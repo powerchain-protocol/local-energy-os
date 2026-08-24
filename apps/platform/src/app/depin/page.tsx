@@ -1,0 +1,2 @@
+"use client";
+import { Shell } from "@/components/shell";import { DePINNetwork } from "@/components/depin/depin-network";export default function DePINPage(){return <Shell><div className="space-y-5"><div><p className="text-xs font-bold uppercase tracking-[.18em] text-emerald-700">Decentralized physical infrastructure</p><h1 className="mt-1 text-3xl font-black">DePIN & Helium</h1><p className="mt-2 max-w-3xl text-sm muted">Operate LoRaWAN gateways, smart meters and token-incentivized infrastructure with Solana settlement.</p></div><DePINNetwork/></div></Shell>}

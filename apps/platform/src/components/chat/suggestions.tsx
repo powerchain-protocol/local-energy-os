@@ -1,0 +1,3 @@
+"use client";
+const suggestions=["Forecast tomorrow's solar output","Summarize critical smart-grid alerts","Compare CRT and REC inventory","Find underperforming wind assets"];
+export function Suggestions({onSelect}:{onSelect:(value:string)=>void}){return <div className="grid gap-2 sm:grid-cols-2">{suggestions.map(item=><button type="button" key={item} onClick={()=>onSelect(item)} className="rounded-xl border border-[var(--border)] bg-[var(--surface)] p-3 text-left text-sm font-semibold hover:border-emerald-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-500">{item}</button>)}</div>}

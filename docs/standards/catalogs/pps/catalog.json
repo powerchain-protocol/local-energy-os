@@ -1,0 +1,6 @@
+{
+  "program": "PPS",
+  "title": "PowerChain Protocol Standards",
+  "version": "1.0-draft",
+  "standards": ["Identity","Object Model","Event Model","Telemetry","Smart Metering","Proof of Energy","Marketplace","Settlement","Treasury","Cross-Chain Execution","Security","Conformance"]
+}

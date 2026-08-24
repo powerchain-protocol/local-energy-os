@@ -1,0 +1,1 @@
+{"id":"grid-optimization","name":"Grid Optimization","domain":"grid","model":"gridllm-energy","inputs":["demand","generation","storage","congestion"],"outputs":["dispatch-plan","flexibility-actions","risk-score"]}

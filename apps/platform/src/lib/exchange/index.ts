@@ -1,0 +1,5 @@
+import type {ExchangeListing,ExchangeMarket,OrderBookLevel} from "@/types/exchange";
+export function filterExchangeListings(listings:ExchangeListing[],market?:ExchangeMarket,query=""){const q=query.trim().toLowerCase();return listings.filter(x=>(!market||x.market===market)&&(!q||[x.title,x.region,x.source,x.seller].some(v=>v.toLowerCase().includes(q))))}
+export function marketLiquidity(levels:OrderBookLevel[]){const buy=levels.filter(x=>x.side==="buy").reduce((s,x)=>s+x.quantity,0);const sell=levels.filter(x=>x.side==="sell").reduce((s,x)=>s+x.quantity,0);return {buy,sell,ratio:sell?buy/sell:0}}
+export function clearingPrice(levels:OrderBookLevel[]){const buys=levels.filter(x=>x.side==="buy").sort((a,b)=>b.price-a.price);const sells=levels.filter(x=>x.side==="sell").sort((a,b)=>a.price-b.price);return buys[0]&&sells[0]?Number(((buys[0].price+sells[0].price)/2).toFixed(4)):0}
+export function riskScore(input:{verified:boolean;deliveryConfidence:number;gridConstraint:number;volatility:number}){const score=(input.verified?8:24)+(100-input.deliveryConfidence)*.35+input.gridConstraint*.25+input.volatility*.2;return Math.max(0,Math.min(100,Math.round(score)))}

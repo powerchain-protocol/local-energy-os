@@ -1,0 +1,2 @@
+"use client";
+import{Shell}from"@/components/shell";import{UserManagement}from"@/workspaces/admin/components/user-management";export default function Users(){return <Shell><div className="content-container"><header className="mb-6"><p className="eyebrow">Administration</p><h1 className="page-title">User management</h1><p className="page-subtitle">Control organization memberships, roles, tiers and workspace permissions.</p></header><UserManagement/></div></Shell>}

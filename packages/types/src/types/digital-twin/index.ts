@@ -1,0 +1,2 @@
+export type TwinAssetType="solar"|"wind"|"hydro"|"battery"|"ev_charger"|"microgrid"|"hydrogen";
+export interface DigitalTwin{id:string;assetId:string;organizationId:string;name:string;type:TwinAssetType;owner:string;country:string;latitude:number;longitude:number;capacityKw:number;currentOutputKw:number;availability:number;healthScore:number;carbonAvoidedKg:number;tokenizedEnergyKwh:number;maintenanceStatus:"healthy"|"attention"|"maintenance";blockchainRegistry:{network:string;address:string;registeredAt:string};updatedAt:string}

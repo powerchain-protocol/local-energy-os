@@ -1,0 +1,1 @@
+export type ValidatorNode={id:string;uptime:number;accuracy:number;stake:number;active:boolean};export function validatorScore(v:ValidatorNode){return Math.round((v.uptime*.4+v.accuracy*.5+Math.min(1,v.stake/100000)*.1)*100)}

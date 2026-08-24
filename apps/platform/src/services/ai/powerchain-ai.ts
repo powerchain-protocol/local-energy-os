@@ -1,0 +1,5 @@
+import {POWERCHAIN_AGENTS}from"@/data/ai-agents";import{POWERCHAIN_AI_MODELS,DEFAULT_AI_SETTINGS}from"@/config/ai/models";
+const scope=/energy|renewable|solar|wind|hydro|battery|grid|meter|iot|depin|carbon|token|pwrc|wpwrc|crt|rec|market|price|treasury|asset|ev|charging|forecast|maintenance|settlement|bridge/i;
+export function isPowerChainPrompt(value:string){return value.trim().length>0&&value.length<=2000&&scope.test(value)}
+export function getAIConfig(){return{models:POWERCHAIN_AI_MODELS,agents:POWERCHAIN_AGENTS,defaults:DEFAULT_AI_SETTINGS}}
+export function selectAgent(prompt:string){const q=prompt.toLowerCase();if(/pwrc|token|supply|bridge|price/.test(q))return POWERCHAIN_AGENTS.find(x=>x.domain==="tokenomics")!;if(/carbon|crt|rec|esg/.test(q))return POWERCHAIN_AGENTS.find(x=>x.domain==="carbon")!;if(/maintenance|failure|health/.test(q))return POWERCHAIN_AGENTS.find(x=>x.domain==="maintenance")!;if(/market|trade|settlement/.test(q))return POWERCHAIN_AGENTS.find(x=>x.domain==="market")!;if(/grid|congestion|dispatch/.test(q))return POWERCHAIN_AGENTS.find(x=>x.domain==="grid")!;return POWERCHAIN_AGENTS[0]}

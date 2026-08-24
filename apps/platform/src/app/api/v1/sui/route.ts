@@ -1,0 +1,2 @@
+import { NextResponse } from "next/server"; import { getSuiBalances } from "@/sui/sui";
+export async function GET(request:Request){try{const owner=new URL(request.url).searchParams.get("owner");if(!owner)throw new Error("owner is required");return NextResponse.json({ok:true,data:await getSuiBalances(owner)});}catch(error){return NextResponse.json({ok:false,error:error instanceof Error?error.message:"Request failed",fallback:[]},{status:400});}}

@@ -1,0 +1,1 @@
+import fs from "node:fs";const schema=fs.readFileSync("packages/database/prisma/schema.prisma","utf8");for(const required of ["model User","model Membership","model AIChat","model AIMessage"]){if(!schema.includes(required))throw new Error(`Missing ${required}`)}console.log("Schema checks passed");

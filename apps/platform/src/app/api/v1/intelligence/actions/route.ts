@@ -1,0 +1,1 @@
+import{NextResponse}from"next/server";import{optimizationActions}from"@/data/intelligence";export async function GET(){return NextResponse.json({data:optimizationActions,count:optimizationActions.length})}

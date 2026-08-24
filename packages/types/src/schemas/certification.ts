@@ -1,0 +1,3 @@
+import { z } from "zod";
+export const certificateIssueSchema=z.object({programId:z.string().min(1),kind:z.enum(["REC","GO","CRT","PEC","DEVICE","PLATFORM"]),ownerId:z.string().min(1),assetId:z.string().min(1),quantity:z.string().regex(/^\d+(?:\.\d+)?$/),unit:z.enum(["kWh","MWh","tCO2e","unit"]),vintage:z.number().int().min(2000).max(2100),proofHash:z.string().min(8),blockchain:z.enum(["solana","sui"]).optional(),metadataUri:z.string().url().optional()});
+export const paymentSchema=z.object({payerId:z.string().min(1),recipient:z.string().min(1),amount:z.string().regex(/^\d+(?:\.\d+)?$/),asset:z.enum(["PWRC","USDC","EUR","USD"]),decimals:z.number().int().min(0).max(18),network:z.enum(["powerchain","solana","sui","fiat"]),idempotencyKey:z.string().min(8).max(128)});

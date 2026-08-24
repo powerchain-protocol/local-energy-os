@@ -1,0 +1,22 @@
+{
+  "version": "1.0-draft",
+  "nodes": [
+    {"id":"PRIN-001","type":"principle","title":"Proof-backed renewable value"},
+    {"id":"CAP-ENERGY-VERIFY","type":"capability","title":"Renewable Verification"},
+    {"id":"RM-ENERGY-MEASUREMENT","type":"reference-model","title":"Energy Measurement"},
+    {"id":"PTSP-210","type":"standard","title":"Proof of Energy"},
+    {"id":"ENG-POE-SCHEMA","type":"engineering-asset","title":"Proof of Energy JSON Schema"},
+    {"id":"PRI-POE-SERVICE","type":"implementation","title":"Proof of Energy Service"},
+    {"id":"TEST-POE-001","type":"test","title":"Exactly-once issuance"},
+    {"id":"PROFILE-UTILITY","type":"profile","title":"Utility Profile"}
+  ],
+  "edges": [
+    ["PRIN-001","CAP-ENERGY-VERIFY"],
+    ["CAP-ENERGY-VERIFY","RM-ENERGY-MEASUREMENT"],
+    ["RM-ENERGY-MEASUREMENT","PTSP-210"],
+    ["PTSP-210","ENG-POE-SCHEMA"],
+    ["ENG-POE-SCHEMA","PRI-POE-SERVICE"],
+    ["PRI-POE-SERVICE","TEST-POE-001"],
+    ["TEST-POE-001","PROFILE-UTILITY"]
+  ]
+}

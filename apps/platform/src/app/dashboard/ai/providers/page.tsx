@@ -1,0 +1,1 @@
+import{AiWorkspacePage}from"@/components/ai/workspace-page";export default function Page(){return <AiWorkspacePage title="Provider connections" description="Register server-side model endpoints without exposing credentials to browser clients."/>}

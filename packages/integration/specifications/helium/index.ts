@@ -1,0 +1,2 @@
+export type HeliumHotspot={address:string;name:string;lat:number;lng:number;status:string};
+export async function getHeliumHotspots(baseUrl=process.env.HELIUM_API_URL){if(!baseUrl)return [];const response=await fetch(`${baseUrl.replace(/\/$/,"")}/hotspots`,{headers:{accept:"application/json"}});if(!response.ok)throw new Error(`Helium API ${response.status}`);const body=await response.json();return (body.data??body) as HeliumHotspot[];}

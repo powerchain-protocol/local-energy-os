@@ -1,0 +1,2 @@
+export type SvmRenewableMint={assetId:string;measurementHash:string;attestationHash:string;mint:string;quantityBaseUnits:string;decimals:number;network:"devnet"|"mainnet-beta"};
+export function assertSingleIssuance(input:SvmRenewableMint,issuedMeasurementHashes:Set<string>){if(issuedMeasurementHashes.has(input.measurementHash))throw new Error("Measurement already tokenized");if(BigInt(input.quantityBaseUnits)<=0n)throw new Error("Mint quantity must be positive");if(input.decimals<0||input.decimals>9)throw new Error("Unsupported decimals");return true;}

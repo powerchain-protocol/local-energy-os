@@ -1,0 +1,1 @@
+import{AiWorkspacePage}from"@/components/ai/workspace-page";export default function Page(){return <AiWorkspacePage title="Usage and cost" description="Review model tokens, retrieval, tools, latency and PWRC settlement details."/>}

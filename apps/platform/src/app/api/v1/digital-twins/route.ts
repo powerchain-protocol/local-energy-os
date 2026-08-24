@@ -1,0 +1,1 @@
+import{NextResponse}from"next/server";import{listDigitalTwins,calculateTwinPortfolio}from"@/lib/digital-twin";export async function GET(){return NextResponse.json({data:listDigitalTwins(),portfolio:calculateTwinPortfolio()})}

@@ -1,0 +1,2 @@
+import { cookies } from "next/headers"; import { getSession } from "@/lib/auth/sessions"; import { SESSION_COOKIE, securityHeaders } from "@/lib/security/security";
+export async function GET(){const jar=await cookies();const session=getSession(jar.get(SESSION_COOKIE)?.value);return session?Response.json({ok:true,data:session},{headers:securityHeaders}):Response.json({ok:false,error:"Unauthenticated"},{status:401,headers:securityHeaders})}

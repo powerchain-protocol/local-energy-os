@@ -1,0 +1,23 @@
+[package]
+name = "powerchain-registry"
+version = "1.0.0"
+edition = "2024"
+rust-version = "1.98"
+description = "PowerChain renewable-energy registry, metering, DePIN, treasury and exchange program"
+license = "Apache-2.0"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "powerchain_registry"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+idl-build = ["anchor-lang/idl-build"]
+
+[dependencies]
+anchor-lang = "1.1.2"
+anchor-spl = "1.1.2"
