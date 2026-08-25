@@ -1,4 +1,12 @@
 
+
+## 1.0.0 — workspace validation hardening
+
+- Align workspace duplicate-package detection with `pnpm-workspace.yaml` boundaries instead of recursive filesystem scanning.
+- Downgrade missing editor/AI metadata and env templates to normal-validation warnings while keeping release validation strict.
+- Add `pnpm workspace:bootstrap` to restore missing `.vscode`, `.windsurf`, Copilot instructions and environment templates without overwriting existing files.
+- Add `pnpm doctor:strict` and use it in `release:verify`.
+- Document recovery for checkouts copied without dotfiles.
 ## 2026-08-25 — Verification, contracts and program hardening
 
 - Fixed `@powerchain/api-client` fallback-error typing (`details` union failure) and added non-JSON HTTP fallback handling.
@@ -151,3 +159,12 @@
 - Added `.env.local.example`.
 - Added professional `.vscode/` settings, extensions, tasks and launch profiles.
 - Added root `AGENTS.md`, Windsurf always-on rules and GitHub Copilot repository instructions.
+
+## 2026-08-25 — Docs workspace dependency boundary
+
+- Converted `components/docs` into the first-class `@powerchain/docs-ui` workspace package.
+- Added explicit React/Next peer dependencies and local development dependencies for isolated typechecking.
+- Replaced cross-root relative imports in `apps/docs` with `@powerchain/docs-ui`.
+- Added `components/*` to the pnpm workspace and Turbo graph.
+- Added validator checks preventing regression to implicit app-local dependency borrowing.
+- Documented the one-time `pnpm install --no-frozen-lockfile` lockfile refresh required by the new workspace importer.

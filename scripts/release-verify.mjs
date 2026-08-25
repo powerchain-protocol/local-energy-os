@@ -13,7 +13,7 @@ if (major !== 24) {
   process.exit(1);
 }
 const commands = [
-  ["pnpm", ["doctor"]],
+  ["pnpm", ["doctor:strict"]],
   ["pnpm", ["validate"]],
   ["pnpm", ["api:docs:verify"]],
   ["pnpm", ["prisma:validate"]],

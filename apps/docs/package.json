@@ -12,7 +12,8 @@
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "@powerchain/shared": "workspace:*",
-    "@powerchain/ui": "workspace:*"
+    "@powerchain/ui": "workspace:*",
+    "@powerchain/docs-ui": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.9.3",

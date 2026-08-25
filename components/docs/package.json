@@ -1,0 +1,28 @@
+{
+  "name": "@powerchain/docs-ui",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "next": "16.3.2",
+    "react": "19.2.8",
+    "@types/node": "^24.10.0",
+    "@types/react": "^19.2.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@powerchain/shared": "workspace:*",
+    "@powerchain/ui": "workspace:*"
+  },
+  "peerDependencies": {
+    "next": "16.3.2",
+    "react": "19.2.8"
+  }
+}

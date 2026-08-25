@@ -47,3 +47,7 @@ From the repository root, run the full gate with:
 pnpm local-energy:verify
 pnpm build:apps
 ```
+
+## Shared documentation components
+
+The application consumes `@powerchain/docs-ui` from `components/docs/`. Do not import `../../../components/docs` directly. The package boundary is required for pnpm strict dependency isolation and gives the shared Docs UI its own React/Next peer contract.

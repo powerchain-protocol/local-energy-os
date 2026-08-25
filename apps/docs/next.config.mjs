@@ -2,6 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
-  transpilePackages: ["@powerchain/shared", "@powerchain/ui"]
+  transpilePackages: ["@powerchain/docs-ui", "@powerchain/shared", "@powerchain/ui"]
 };
 export default nextConfig;

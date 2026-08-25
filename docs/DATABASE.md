@@ -39,10 +39,8 @@ pnpm infra:status
 Create a local environment file:
 
 ```bash
-pnpm env:setup
+cp .env.local.example .env.local
 ```
-
-The helper uses `.env.local.example` first and falls back to `.env.example`; it never overwrites an existing `.env.local`.
 
 Then validate and generate:
 
@@ -103,20 +101,21 @@ Production deployments must apply committed migrations. Do not use `prisma db pu
 
 Prisma 7 reads the datasource URL from `prisma.config.ts`, not the datasource block in `schema.prisma`. `migrate dev` and `db push` no longer generate Prisma Client automatically, so PowerChain migration scripts run `pnpm prisma:generate` explicitly where appropriate.
 
-## Troubleshooting
+## Verification troubleshooting: workspace metadata and duplicate packages
 
-### Prisma reports `Connection url is empty`
+`pnpm local-energy:verify` validates runtime architecture separately from editor metadata.
 
-This means the Prisma CLI loaded `prisma.config.ts` but received no usable datasource URL. In the current repository, run:
+If `.vscode`, `.windsurf`, Copilot instructions, or env example files were lost while copying the repository (for example by using a shell glob that excludes dotfiles), restore them with:
 
 ```bash
-pnpm env:setup
-pnpm prisma:doctor
-pnpm prisma:validate
+pnpm workspace:bootstrap
 ```
 
-`prisma.config.ts` resolves env files relative to the repository root, trims blank `DIRECT_URL`/`DATABASE_URL` values, and provides the local Docker PostgreSQL URL only outside production. If `prisma:doctor` shows a datasource but Prisma still reports an empty URL, confirm that your checkout contains the current `prisma.config.ts` rather than an older scaffold version.
+Normal validation reports missing editor metadata/env templates as warnings. Production release validation remains strict:
 
-### Validation crashes because `.env.example` is absent
+```bash
+pnpm doctor:strict
+pnpm release:verify
+```
 
-The current workspace doctor accepts either `.env.example` or `.env.local.example`. Missing both is a repository error; missing only `.env.example` is not.
+Package-name uniqueness is evaluated only across actual pnpm workspace projects defined by the repository (`package.json`, `apps/*`, `packages/*`, `store`, `storage`). Nested fixture, generated, archived, or copied `package.json` files are intentionally ignored so they cannot create false `duplicate-package` failures.

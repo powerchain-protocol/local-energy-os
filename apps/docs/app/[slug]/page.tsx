@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { DOC_PAGES, getDocPage } from "@powerchain/shared";
-import { DocPage, DocsShell } from "../../../../components/docs";
+import { DocPage, DocsShell } from "@powerchain/docs-ui";
 
 export function generateStaticParams() {
   return DOC_PAGES.map((page) => ({ slug: page.slug }));

@@ -62,7 +62,7 @@ packages/
 
 store/          Workspace client state package
 storage/        Provider-neutral evidence/object storage package
-components/docs Shared docs UI
+components/docs @powerchain/docs-ui — shared Docs UI package
 programs/       Solana programs
 move/           Sui Move package
 prisma/         Canonical schema
@@ -74,6 +74,18 @@ supabase/       RLS/migration bridge
 All operational web applications share `@powerchain/ui`. The canonical shell uses a fixed **100dvh** desktop sidebar, independently scrolling grouped navigation, a sticky top bar, responsive drawer behavior, restrained forest-green design tokens, and **no application footer**. Physical infrastructure and operational state are shown before token/network details.
 
 See `docs/DESIGN-SYSTEM.md`.
+
+## Docs UI workspace boundary
+
+`components/docs` is a first-class workspace package named `@powerchain/docs-ui`. This is required by pnpm strict dependency isolation: shared source outside `apps/docs` must resolve its own React/Next/package dependencies rather than borrowing app-local `node_modules`.
+
+When upgrading to a release that introduces or changes workspace importers, refresh the lockfile once:
+
+```bash
+pnpm install --no-frozen-lockfile
+```
+
+Commit the resulting `pnpm-lock.yaml`, then use `pnpm install --frozen-lockfile` again for normal development and CI.
 
 ## Requirements
 
@@ -364,3 +376,22 @@ Home · Energy · [PowerChain] · Assets · More
 
 The shared command palette supports search plus `↑` / `↓` selection and Enter-to-open. Operational tables use reusable `@powerchain/ui` primitives and never fabricate telemetry, balances, or connected-device state. Energy display formatting remains bigint-safe end-to-end; large Wh portfolios are formatted without converting the canonical quantity through JavaScript `Number`.
 
+
+## Repair a partially copied checkout
+
+If the repository was copied with a command that omitted dotfiles, normal verification may report missing VS Code/Windsurf metadata or env templates. Restore non-secret workspace defaults without overwriting existing files:
+
+```bash
+pnpm workspace:bootstrap
+pnpm env:setup
+```
+
+Then run:
+
+```bash
+pnpm local-energy:verify
+pnpm typecheck
+pnpm build:apps
+```
+
+`pnpm local-energy:verify` validates the runtime workspace and reports missing editor metadata as warnings. `pnpm release:verify` uses `pnpm doctor:strict` and requires the complete release metadata contract.

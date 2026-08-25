@@ -1,4 +1,4 @@
-import { DocCallout, DocCardGrid, DocsShell } from "../../../components/docs";
+import { DocCallout, DocCardGrid, DocsShell } from "@powerchain/docs-ui";
 
 export default function DocsHome() {
   return (

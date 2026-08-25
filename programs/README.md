@@ -1,66 +1,42 @@
 # PowerChain Programs
 
-**Canonical version:** 1.0.0  
-**Primary execution network:** Solana / SVM  
-**Secondary representation network:** Sui / Move
+PowerChain on-chain programs provide **settlement, representation and programmable coordination** around the canonical Energy Ledger. They do not create physical energy authority.
 
-PowerChain programs enforce digital-state invariants around verified energy and settlement. Physical electricity remains authoritative off-chain.
-
-## Repository layout
+## Current program set
 
 ```text
 programs/
 └── energy-rwa/
     ├── Anchor.toml
     ├── Cargo.toml
-    ├── README.md
     └── src/lib.rs
-
-move/powerchain/
-└── sources/energy_position.move
 ```
 
-## Energy RWA program
+## Program policy
 
-Current Anchor instructions:
+All PowerChain programs must preserve these invariants:
 
-```text
-initialize_config
-set_paused
-set_verification_authority
-create_batch
-finalize_batch
-invalidate_batch_energy
-create_position
-reserve
-release
-retire
-```
+1. Energy positions cannot exceed verified physical Wh backing.
+2. Retirement cannot exceed the issued position quantity.
+3. Reservation cannot exceed available, unretired energy.
+4. PWRC is the native PowerChain asset on Solana and is distinct from Energy RWA.
+5. Cross-chain representations must preserve canonical supply.
+6. Administrative authorities, program IDs and upgrade authorities must be explicitly configured for each environment.
 
-### Canonical invariants
+## Toolchain
 
-- `PWRC` is native Token-2022 state on Solana and is not an energy unit.
-- `wPWRC` is the 1:1 bridged Sui representation of PWRC.
-- Energy positions are backed by verification-authority-attested Energy Batches.
-- `positioned_wh <= verified_wh - invalidated_wh`.
-- `retired_wh <= positioned_wh`.
-- kWh/MWh positions must align exactly to canonical Wh.
-- Every arithmetic path that changes supply/reservation/retirement uses checked operations.
-- Program pause is an emergency control, not a substitute for transaction authorization.
+The current Energy RWA implementation uses Anchor. Compute-sensitive production paths may be migrated to or complemented by Pinocchio only after tests preserve the same account/state invariants.
 
-## Evidence boundary
-
-Raw meter telemetry is not stored on Solana. The off-chain verification pipeline produces an `evidence_root`; the finalized Energy Batch commits the verified quantity and root on-chain.
-
-## Deployment safety
-
-The checked-in `declare_id!("11111111111111111111111111111111")` is intentionally invalid for production deployment. Generate deployment identities in a secure environment, replace the ID in Rust and `Anchor.toml`, and never commit keypairs.
-
-## Validation
+Typical validation workflow:
 
 ```bash
+anchor --version
 anchor build
 anchor test
 ```
 
-The release workflow also requires Prisma/API/TypeScript application checks because program state is reconciled with the canonical Energy Ledger. See `docs/PROGRAMS.md`.
+The repository-level `pnpm local-energy:verify` validates TypeScript/API/Prisma structure but does not replace Anchor program tests.
+
+## Deployment
+
+Never deploy with the placeholder program ID. Generate/configure the deployment keypair in your secure deployment environment and synchronize IDs with Anchor tooling before deployment. Private key material must never be committed to this repository.

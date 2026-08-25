@@ -3,339 +3,233 @@ info:
   title: PowerChain Local Energy OS API
   version: 1.0.0
   summary: Canonical API for PowerChain Local Energy OS.
-  description: 'Context-aware API v1 for verified physical energy, kWh/MWh Energy RWAs,
-
+  description: |
+    Context-aware API v1 for verified physical energy, kWh/MWh Energy RWAs,
     participants, grid operations, EV charging, SaaS entitlements, PWRC,
-
     cross-chain routing, supply-chain provenance and platform health.
 
-
     Core invariants:
-
     - Physical energy remains authoritative.
-
     - PWRC is native to Solana; wPWRC is its 1:1 Sui bridge representation.
-
     - Active Energy RWA representations cannot exceed verified Wh backing.
-
     - Payment confirmation does not prove physical energy delivery.
-
-    '
 servers:
-- url: http://localhost:3002
-  description: Local development
-- url: https://api.powerchain.ventures
-  description: Production
+  - url: http://localhost:3002
+    description: Local development
+  - url: https://api.powerchain.ventures
+    description: Production
 security:
-- sessionCookie: []
+  - bearerAuth: []
 tags:
-- name: System
-- name: Participants
-- name: Energy Ledger
-- name: Energy RWA
-- name: Grid
-- name: Charging
-- name: Generation
-- name: PWRC
-- name: SaaS
-- name: Cross-chain
-- name: Oracles
-- name: Supply Chain
-- name: Authentication
+  - name: System
+  - name: Participants
+  - name: Energy Ledger
+  - name: Energy RWA
+  - name: Grid
+  - name: Charging
+  - name: Generation
+  - name: PWRC
+  - name: SaaS
+  - name: Cross-chain
+  - name: Oracles
+  - name: Supply Chain
+  - name: Authentication
 paths:
   /api/v1/health:
     get:
-      tags:
-      - System
+      tags: [System]
       summary: API health
       security: []
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
+        '200': { $ref: '#/components/responses/Success' }
   /api/v1/system/health:
     get:
-      tags:
-      - System
+      tags: [System]
       summary: Platform subsystem health
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
+        '200': { $ref: '#/components/responses/Success' }
   /api/v1/system/storage:
     get:
-      tags:
-      - System
+      tags: [System]
       summary: Storage capability status
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
+        '200': { $ref: '#/components/responses/Success' }
   /api/v1/participants/summary:
     get:
-      tags:
-      - Participants
+      tags: [Participants]
       summary: Participant summary for the current context
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
-      parameters:
-      - $ref: '#/components/parameters/OrganizationHeader'
+        '200': { $ref: '#/components/responses/Success' }
   /api/v1/prosumers:
     get:
-      tags:
-      - Participants
+      tags: [Participants]
       summary: List prosumers
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
-      parameters:
-      - $ref: '#/components/parameters/OrganizationHeader'
+        '200': { $ref: '#/components/responses/Success' }
   /api/v1/consumers:
     get:
-      tags:
-      - Participants
+      tags: [Participants]
       summary: List consumers
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
-      parameters:
-      - $ref: '#/components/parameters/OrganizationHeader'
+        '200': { $ref: '#/components/responses/Success' }
   /api/v1/clients:
     get:
-      tags:
-      - Participants
+      tags: [Participants]
       summary: List client accounts
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
-      parameters:
-      - $ref: '#/components/parameters/OrganizationHeader'
+        '200': { $ref: '#/components/responses/Success' }
   /api/v1/grid-operators:
     get:
-      tags:
-      - Participants
+      tags: [Participants]
       summary: List grid operators
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
-      parameters:
-      - $ref: '#/components/parameters/OrganizationHeader'
+        '200': { $ref: '#/components/responses/Success' }
   /api/v1/energy/command-center:
     get:
-      tags:
-      - Energy Ledger
+      tags: [Energy Ledger]
       summary: Get the Energy Command Center projection
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
-      parameters:
-      - $ref: '#/components/parameters/OrganizationHeader'
+        '200': { $ref: '#/components/responses/Success' }
   /api/v1/energy-proofs:
     get:
-      tags:
-      - Energy Ledger
+      tags: [Energy Ledger]
       summary: List Energy Proofs
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
-      parameters:
-      - $ref: '#/components/parameters/OrganizationHeader'
+        '200': { $ref: '#/components/responses/Success' }
     post:
-      tags:
-      - Energy Ledger
-      summary: Create a verified Energy Proof
-      parameters: &id001
-      - $ref: '#/components/parameters/OrganizationHeader'
-      - $ref: '#/components/parameters/IdempotencyKey'
+      tags: [Energy Ledger]
+      summary: Create an Energy Proof from validated meter evidence
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
       requestBody:
         required: true
         content:
           application/json:
-            schema:
-              $ref: '#/components/schemas/CreateEnergyProof'
+            schema: { $ref: '#/components/schemas/CreateEnergyProofInput' }
       responses:
-        '201':
-          $ref: '#/components/responses/Success'
-        '422':
-          $ref: '#/components/responses/Error'
-        '409':
-          $ref: '#/components/responses/Error'
+        '201': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Error' }
+        '422': { $ref: '#/components/responses/Error' }
   /api/v1/energy-batches:
     get:
-      tags:
-      - Energy Ledger
+      tags: [Energy Ledger]
       summary: List verified Energy Batches
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
-      parameters:
-      - $ref: '#/components/parameters/OrganizationHeader'
+        '200': { $ref: '#/components/responses/Success' }
     post:
-      tags:
-      - Energy Ledger
-      summary: Create an Energy Batch from a verified proof
-      parameters: *id001
+      tags: [Energy Ledger]
+      summary: Create an Energy Batch from a verified Energy Proof
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
       requestBody:
         required: true
         content:
           application/json:
-            schema:
-              type: object
-              required:
-              - proofId
-              properties:
-                proofId:
-                  type: string
+            schema: { $ref: '#/components/schemas/CreateEnergyBatchInput' }
       responses:
-        '201':
-          $ref: '#/components/responses/Success'
-        '422':
-          $ref: '#/components/responses/Error'
-        '409':
-          $ref: '#/components/responses/Error'
+        '201': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Error' }
+        '422': { $ref: '#/components/responses/Error' }
   /api/v1/energy-positions:
     get:
-      tags:
-      - Energy RWA
+      tags: [Energy RWA]
       summary: List Energy Positions
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
-      parameters:
-      - $ref: '#/components/parameters/OrganizationHeader'
+        '200': { $ref: '#/components/responses/Success' }
     post:
-      tags:
-      - Energy RWA
-      summary: Issue a kWh/MWh Energy RWA position
-      parameters: *id001
+      tags: [Energy RWA]
+      summary: Issue a kWh or MWh Energy Position against verified backing
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
       requestBody:
         required: true
         content:
           application/json:
-            schema:
-              $ref: '#/components/schemas/IssueEnergyPosition'
+            schema: { $ref: '#/components/schemas/IssueEnergyPositionInput' }
       responses:
-        '201':
-          $ref: '#/components/responses/Success'
-        '422':
-          $ref: '#/components/responses/Error'
-        '409':
-          $ref: '#/components/responses/Error'
+        '201': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Error' }
+        '422': { $ref: '#/components/responses/Error' }
   /api/v1/energy-reservations:
     get:
-      tags:
-      - Energy RWA
+      tags: [Energy RWA]
       summary: List Energy RWA reservations
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
-      parameters:
-      - $ref: '#/components/parameters/OrganizationHeader'
+        '200': { $ref: '#/components/responses/Success' }
     post:
-      tags:
-      - Energy RWA
-      summary: Reserve an Energy RWA position
-      parameters: *id001
+      tags: [Energy RWA]
+      summary: Reserve part of an Energy Position
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
       requestBody:
         required: true
         content:
           application/json:
-            schema:
-              $ref: '#/components/schemas/PositionAmount'
+            schema: { $ref: '#/components/schemas/PositionAmountInput' }
       responses:
-        '201':
-          $ref: '#/components/responses/Success'
-        '422':
-          $ref: '#/components/responses/Error'
-        '409':
-          $ref: '#/components/responses/Error'
+        '201': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Error' }
+        '422': { $ref: '#/components/responses/Error' }
   /api/v1/energy-retirements:
     get:
-      tags:
-      - Energy RWA
+      tags: [Energy RWA]
       summary: List Energy RWA retirements
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
-      parameters:
-      - $ref: '#/components/parameters/OrganizationHeader'
+        '200': { $ref: '#/components/responses/Success' }
     post:
-      tags:
-      - Energy RWA
-      summary: Retire delivered/settled Energy RWA
-      parameters: *id001
+      tags: [Energy RWA]
+      summary: Retire delivered or settled energy from an Energy Position
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
       requestBody:
         required: true
         content:
           application/json:
-            schema:
-              $ref: '#/components/schemas/PositionAmount'
+            schema: { $ref: '#/components/schemas/PositionAmountInput' }
       responses:
-        '201':
-          $ref: '#/components/responses/Success'
-        '422':
-          $ref: '#/components/responses/Error'
-        '409':
-          $ref: '#/components/responses/Error'
+        '201': { $ref: '#/components/responses/Success' }
+        '409': { $ref: '#/components/responses/Error' }
+        '422': { $ref: '#/components/responses/Error' }
   /api/v1/energy-rwa/units:
     get:
-      tags:
-      - Energy RWA
+      tags: [Energy RWA]
       summary: Get canonical Wh/kWh/MWh unit definitions
       security: []
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
+        '200': { $ref: '#/components/responses/Success' }
   /api/v1/grid/areas:
     get:
-      tags:
-      - Grid
+      tags: [Grid]
       summary: List grid areas
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
+        '200': { $ref: '#/components/responses/Success' }
   /api/v1/charging/stations:
     get:
-      tags:
-      - Charging
+      tags: [Charging]
       summary: List EV charging stations
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
-      parameters:
-      - $ref: '#/components/parameters/OrganizationHeader'
+        '200': { $ref: '#/components/responses/Success' }
   /api/v1/charging/sessions:
     get:
-      tags:
-      - Charging
+      tags: [Charging]
       summary: List charging sessions
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
-      parameters:
-      - $ref: '#/components/parameters/OrganizationHeader'
+        '200': { $ref: '#/components/responses/Success' }
   /api/v1/plants:
     get:
-      tags:
-      - Generation
+      tags: [Generation]
       summary: List power plants
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
-      parameters:
-      - $ref: '#/components/parameters/OrganizationHeader'
+        '200': { $ref: '#/components/responses/Success' }
   /api/v1/wind-farms:
     get:
-      tags:
-      - Generation
+      tags: [Generation]
       summary: List wind farms
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
-      parameters:
-      - $ref: '#/components/parameters/OrganizationHeader'
+        '200': { $ref: '#/components/responses/Success' }
   /api/v1/pwrc/bridge/quote:
     post:
-      tags:
-      - PWRC
+      tags: [PWRC]
       summary: Quote a PWRC Solana to wPWRC Sui bridge operation
       requestBody:
         required: true
@@ -343,66 +237,50 @@ paths:
           application/json:
             schema:
               type: object
-              required:
-              - amountBaseUnits
+              required: [amountBaseUnits]
               properties:
                 amountBaseUnits:
                   type: string
-                  pattern: ^[0-9]+$
+                  pattern: '^[0-9]+$'
                   example: '1000000000'
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
-        '400':
-          $ref: '#/components/responses/Error'
+        '200': { $ref: '#/components/responses/Success' }
+        '400': { $ref: '#/components/responses/Error' }
   /api/v1/cross-chain/routes:
     get:
-      tags:
-      - Cross-chain
+      tags: [Cross-chain]
       summary: List enabled cross-chain routes
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
+        '200': { $ref: '#/components/responses/Success' }
   /api/v1/oracles/status:
     get:
-      tags:
-      - Oracles
+      tags: [Oracles]
       summary: Get oracle-router provider status
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
+        '200': { $ref: '#/components/responses/Success' }
   /api/v1/supply-chain/passports:
     get:
-      tags:
-      - Supply Chain
+      tags: [Supply Chain]
       summary: List energy-infrastructure asset passports
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
-      parameters:
-      - $ref: '#/components/parameters/OrganizationHeader'
+        '200': { $ref: '#/components/responses/Success' }
   /api/v1/saas/apps:
     get:
-      tags:
-      - SaaS
+      tags: [SaaS]
       summary: List SaaS application catalog
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
+        '200': { $ref: '#/components/responses/Success' }
   /api/v1/saas/tenant/{organizationId}:
     get:
-      tags:
-      - SaaS
+      tags: [SaaS]
       summary: Get SaaS tenant state by organization
       parameters:
-      - $ref: '#/components/parameters/OrganizationId'
+        - $ref: '#/components/parameters/OrganizationId'
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
+        '200': { $ref: '#/components/responses/Success' }
   /api/v1/saas/entitlements/resolve:
     post:
-      tags:
-      - SaaS
+      tags: [SaaS]
       summary: Resolve a SaaS application entitlement
       requestBody:
         required: true
@@ -410,25 +288,16 @@ paths:
           application/json:
             schema:
               type: object
-              required:
-              - plan
-              - app
+              required: [plan, app]
               properties:
-                plan:
-                  type: string
-                  example: ENTERPRISE
-                app:
-                  type: string
-                  example: ENERGY
+                plan: { type: string, example: ENTERPRISE }
+                app: { type: string, example: ENERGY }
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
-        '400':
-          $ref: '#/components/responses/Error'
+        '200': { $ref: '#/components/responses/Success' }
+        '400': { $ref: '#/components/responses/Error' }
   /api/v1/auth/solana/challenge:
     post:
-      tags:
-      - Authentication
+      tags: [Authentication]
       summary: Create a short-lived Solana authentication challenge
       security: []
       requestBody:
@@ -437,10 +306,7 @@ paths:
           application/json:
             schema:
               type: object
-              required:
-              - wallet
-              - origin
-              - cluster
+              required: [wallet, origin, cluster]
               properties:
                 wallet:
                   type: string
@@ -453,218 +319,131 @@ paths:
                   type: string
                   example: solana:devnet
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
-        '400':
-          $ref: '#/components/responses/Error'
+        '200': { $ref: '#/components/responses/Success' }
+        '400': { $ref: '#/components/responses/Error' }
+  /api/v1/auth/session:
+    get:
+      tags: [Authentication]
+      summary: Get the current authenticated PowerChain session
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+        '401': { $ref: '#/components/responses/Error' }
+    delete:
+      tags: [Authentication]
+      summary: Revoke the current PowerChain session
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
   /api/v1/auth/solana/verify:
     post:
-      tags:
-      - Authentication
-      summary: Verify the exact Solana challenge message and establish an HttpOnly session
+      tags: [Authentication]
+      summary: Verify a signed Solana authentication challenge and establish a session
       security: []
       requestBody:
         required: true
         content:
           application/json:
-            schema:
-              type: object
-              required:
-              - wallet
-              - nonce
-              - signature
-              properties:
-                wallet:
-                  type: string
-                nonce:
-                  type: string
-                signature:
-                  type: string
-                  description: Base58 Ed25519 signature of the exact stored challenge message.
+            schema: { $ref: '#/components/schemas/VerifySolanaChallengeInput' }
       responses:
-        '200':
-          $ref: '#/components/responses/Success'
-        '401':
-          $ref: '#/components/responses/Error'
-        '409':
-          $ref: '#/components/responses/Error'
-        '410':
-          $ref: '#/components/responses/Error'
-  /api/v1/auth/session:
-    get:
-      tags:
-      - Authentication
-      summary: Read current authenticated session
-      responses:
-        '200':
-          $ref: '#/components/responses/Success'
-        '401':
-          $ref: '#/components/responses/Error'
-    delete:
-      tags:
-      - Authentication
-      summary: Revoke current session and clear the cookie
-      responses:
-        '200':
-          $ref: '#/components/responses/Success'
+        '200': { $ref: '#/components/responses/Success' }
+        '401': { $ref: '#/components/responses/Error' }
+        '422': { $ref: '#/components/responses/Error' }
 components:
   securitySchemes:
-    sessionCookie:
-      type: apiKey
-      in: cookie
-      name: powerchain_session
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: session
   parameters:
-    OrganizationId:
-      name: organizationId
-      in: path
-      required: true
-      schema:
-        type: string
-    OrganizationHeader:
-      name: x-organization-id
-      in: header
-      required: true
-      schema:
-        type: string
-      description: Canonical tenant organization scope.
     IdempotencyKey:
       name: Idempotency-Key
       in: header
       required: true
+      description: Unique key for replay-safe economic mutations. Reusing the same key with a different request body is rejected.
       schema:
         type: string
-        maxLength: 128
-      description: Required for economic mutations; replayed safely for 24 hours.
+        minLength: 8
+        maxLength: 200
+    OrganizationId:
+      name: organizationId
+      in: path
+      required: true
+      schema: { type: string }
   schemas:
+    CreateEnergyProofInput:
+      type: object
+      required: [siteId, meterId, source, measuredWh, verifiedWh, qualityScore, intervalStart, intervalEnd, evidenceRoot]
+      properties:
+        siteId: { type: string }
+        meterId: { type: string }
+        source:
+          type: string
+          enum: [SOLAR, WIND, HYDRO, GEOTHERMAL, BIOMASS, GRID, STORAGE_DISCHARGE]
+        measuredWh: { type: string, pattern: '^[1-9][0-9]*$' }
+        verifiedWh: { type: string, pattern: '^[1-9][0-9]*$' }
+        qualityScore: { type: string, example: '0.98' }
+        intervalStart: { type: string, format: date-time }
+        intervalEnd: { type: string, format: date-time }
+        evidenceRoot: { type: string }
+    CreateEnergyBatchInput:
+      type: object
+      required: [proofId]
+      properties:
+        proofId: { type: string }
+    IssueEnergyPositionInput:
+      type: object
+      required: [batchId, amountWh, unit]
+      properties:
+        batchId: { type: string }
+        amountWh: { type: string, pattern: '^[1-9][0-9]*$' }
+        unit: { type: string, enum: [KWH, MWH] }
+        canonicalChain: { type: string, enum: [SOLANA, SUI], default: SOLANA }
+    PositionAmountInput:
+      type: object
+      required: [positionId, amountWh]
+      properties:
+        positionId: { type: string }
+        amountWh: { type: string, pattern: '^[1-9][0-9]*$' }
+        orderId: { type: string }
+        reason: { type: string }
+        settlementId: { type: string }
+    VerifySolanaChallengeInput:
+      type: object
+      required: [wallet, nonce, signature]
+      properties:
+        wallet: { type: string }
+        nonce: { type: string }
+        signature: { type: string, description: Base58-encoded Ed25519 signature of the exact stored challenge message. }
     Meta:
       type: object
       properties:
-        requestId:
-          type: string
-        correlationId:
-          type: string
-        generatedAt:
-          type: string
-          format: date-time
+        requestId: { type: string }
+        correlationId: { type: string }
+        generatedAt: { type: string, format: date-time }
     SuccessEnvelope:
       type: object
-      required:
-      - data
-      - meta
+      required: [data, meta]
       properties:
         data: {}
-        meta:
-          $ref: '#/components/schemas/Meta'
+        meta: { $ref: '#/components/schemas/Meta' }
     ErrorEnvelope:
       type: object
-      required:
-      - error
+      required: [error]
       properties:
         error:
           type: object
-          required:
-          - code
-          - message
+          required: [code, message]
           properties:
-            code:
-              type: string
-            message:
-              type: string
-            requestId:
-              type: string
-    CreateEnergyProof:
-      type: object
-      required:
-      - siteId
-      - meterId
-      - source
-      - measuredWh
-      - verifiedWh
-      - qualityScore
-      - intervalStart
-      - intervalEnd
-      - evidenceRoot
-      properties:
-        siteId:
-          type: string
-        meterId:
-          type: string
-        source:
-          type: string
-          enum:
-          - SOLAR
-          - WIND
-          - HYDRO
-          - GEOTHERMAL
-          - BIOMASS
-          - GRID
-          - STORAGE_DISCHARGE
-        measuredWh:
-          type: string
-          pattern: ^[0-9]+$
-        verifiedWh:
-          type: string
-          pattern: ^[0-9]+$
-        qualityScore:
-          type: string
-          example: '0.98'
-        intervalStart:
-          type: string
-          format: date-time
-        intervalEnd:
-          type: string
-          format: date-time
-        evidenceRoot:
-          type: string
-    IssueEnergyPosition:
-      type: object
-      required:
-      - batchId
-      - amountWh
-      - unit
-      properties:
-        batchId:
-          type: string
-        amountWh:
-          type: string
-          pattern: ^[0-9]+$
-        unit:
-          type: string
-          enum:
-          - KWH
-          - MWH
-        canonicalChain:
-          type: string
-          enum:
-          - SOLANA
-          - SUI
-    PositionAmount:
-      type: object
-      required:
-      - positionId
-      - amountWh
-      properties:
-        positionId:
-          type: string
-        amountWh:
-          type: string
-          pattern: ^[0-9]+$
-        orderId:
-          type: string
-        reason:
-          type: string
-        settlementId:
-          type: string
+            code: { type: string }
+            message: { type: string }
+            requestId: { type: string }
   responses:
     Success:
       description: Successful PowerChain API response.
       content:
         application/json:
-          schema:
-            $ref: '#/components/schemas/SuccessEnvelope'
+          schema: { $ref: '#/components/schemas/SuccessEnvelope' }
     Error:
       description: PowerChain API error.
       content:
         application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorEnvelope'
+          schema: { $ref: '#/components/schemas/ErrorEnvelope' }

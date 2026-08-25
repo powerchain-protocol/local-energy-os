@@ -60,3 +60,7 @@ pnpm --filter @powerchain/contracts typecheck
 pnpm --filter @powerchain/api-client typecheck
 pnpm api:docs:verify
 ```
+
+## Normalized API failures
+
+All clients should consume `ApiErrorPayload` rather than constructing ad-hoc fallback unions. `details` and `requestId` are optional on every failure path, including non-JSON upstream failures. This keeps `PowerChainApiError` type-safe and allows API clients to preserve structured validation details when present without assuming that every transport error contains them.
