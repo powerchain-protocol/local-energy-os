@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { PowerChainApiClient, PowerChainApiError } from "@powerchain/api-client";
+import { PowerChainApiClient, PowerChainApiError, resolveApiBaseUrl } from "@powerchain/api-client";
 import { useEnergyContext } from "./context-provider";
 
 export function useEnergyResource<T>(path: string) {
   const { context } = useEnergyContext();
   const organizationId = process.env.NEXT_PUBLIC_DEFAULT_ORGANIZATION_ID;
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3002";
+  const apiUrl = resolveApiBaseUrl(process.env.NEXT_PUBLIC_API_URL, process.env.NODE_ENV);
   const client = useMemo(() => new PowerChainApiClient(apiUrl, () => ({ organizationId, contextType: context.type })), [apiUrl, organizationId, context.type]);
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<string | null>(null);

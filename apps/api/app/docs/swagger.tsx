@@ -1,7 +1,18 @@
 "use client";
 
-import SwaggerUI from "swagger-ui-react";
+import { useEffect } from "react";
+import { SwaggerUIBundle } from "swagger-ui-dist";
 
 export function PowerChainSwagger() {
-  return <SwaggerUI url="/openapi.yaml" deepLinking displayRequestDuration />;
+  useEffect(() => {
+    SwaggerUIBundle({
+      url: "/openapi.yaml",
+      dom_id: "#powerchain-swagger",
+      deepLinking: true,
+      displayRequestDuration: true,
+      persistAuthorization: false,
+      tryItOutEnabled: true,
+    });
+  }, []);
+  return <div id="powerchain-swagger" />;
 }

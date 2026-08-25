@@ -1,3 +1,20 @@
+# Changelog
+
+## 2026-08-25 — Full-stack database and application hardening
+
+- Added `tools/db.mjs` and canonical `db:status`, `db:doctor`, `db:up`, `db:wait`, `db:setup`, and `db:down` workflows.
+- Separated offline Prisma validation/generation from online migration/database reachability checks; P1001 conditions are detected before Prisma migration commands run.
+- Clarified fresh-database initialization versus existing-schema baselining; `baseline:resolve` is explicitly online and must never be used to create an empty database.
+- Added `@powerchain/energy-core` to the API workspace dependencies after detecting an undeclared workspace import.
+- Extended workspace validation to reject undeclared `@powerchain/*` imports automatically.
+- Hardened `@powerchain/api-client` with request timeouts, normalized network failures, and production-safe API base URL resolution.
+- Removed silent production fallback to `http://localhost:3002` from operational applications.
+- Added loading, error, and not-found boundaries to every Next.js application workspace.
+- Added production `next start` scripts to all Next.js apps.
+- Upgraded the worker from a typecheck-only build to an emitted `dist/` production artifact with `start` support.
+- Added peer-dependency diagnostics via `pnpm peers:check`; peer warnings are not suppressed without identifying the concrete incompatible relationship.
+- Replaced `swagger-ui-react` with `swagger-ui-dist` to preserve Swagger/OpenAPI while removing the extra React peer and Tree-sitter parser install dependency surface.
+- Added VS Code database setup/status and peer-check tasks.
 
 ## 2026-08-25 — Node type and toolchain hardening
 

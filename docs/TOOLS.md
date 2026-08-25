@@ -37,3 +37,24 @@ Do not add commands that require `cd /Users/...`, a developer username, or a mac
 | `tools/cache.mjs` | Reports or clears the repository-local `cache/turbo` build cache |
 
 Use `pnpm toolchain:doctor` before debugging type-resolution failures.
+
+## Database orchestration
+
+```bash
+pnpm db:status
+pnpm db:doctor
+pnpm db:up
+pnpm db:wait
+pnpm db:setup
+pnpm db:down
+```
+
+`db:setup` is a development-only bootstrap. It starts local Compose PostgreSQL when the effective datasource is local, waits for reachability, validates/generates Prisma, then creates or deploys migrations as appropriate. Managed PostgreSQL targets are never started/stopped by this tool.
+
+## Dependency diagnostics
+
+```bash
+pnpm peers:check
+```
+
+Peer warnings must be diagnosed before adding overrides. Do not suppress unknown peer incompatibilities globally.

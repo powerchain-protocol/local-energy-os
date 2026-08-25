@@ -20,8 +20,7 @@ Verified stable package baseline for PowerChain Local Energy OS v1.0.0 on 2026-0
 | @types/pg | 8.23.1 | Latest stable |
 | @types/node | 24.13.3 | Latest Node 24 type line; intentionally not Node 26 typings |
 | @types/react | 19.2.18 | Latest stable |
-| swagger-ui-react | 5.32.14 | Latest stable |
-| @types/swagger-ui-react | 5.18.0 | Current published type package |
+| swagger-ui-dist | 5.32.14 | Prebuilt Swagger UI bundle; avoids the React wrapper peer/parser chain |
 | dotenv | 17.4.2 | Latest stable |
 
 ## Upgrade policy

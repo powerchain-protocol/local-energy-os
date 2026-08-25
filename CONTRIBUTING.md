@@ -27,6 +27,7 @@ After `pnpm-lock.yaml` is updated and committed, use `pnpm install --frozen-lock
 
 ```bash
 pnpm toolchain:doctor
+pnpm db:status
 pnpm local-energy:verify
 pnpm typecheck
 pnpm build:apps
@@ -52,3 +53,15 @@ pnpm release:verify
 ## Documentation
 
 Project documentation belongs under `/docs`. Keep only the main `README.md` and this `CONTRIBUTING.md` at repository root. Tool-specific hidden instruction files may remain in their required locations.
+
+## Database-backed changes
+
+Schema, migration, repository and API integration work should use a reachable PostgreSQL database. For local development:
+
+```bash
+pnpm env:setup
+pnpm db:up
+pnpm db:setup
+```
+
+Use `pnpm prisma:migrate:baseline:resolve` only when an existing reachable database already contains the baseline schema.

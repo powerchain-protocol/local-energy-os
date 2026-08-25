@@ -1,13 +1,9 @@
 {
-  "name": "PowerChain Local Energy OS",
+  "product": "PowerChain Local Energy OS",
   "version": "1.0.0",
-  "generatedAt": "2026-08-25T14:35:00+03:00",
-  "packageManager": "pnpm@11.23.0",
-  "node": "24.19.0 LTS",
-  "typescript": "7.0.2",
-  "fileCount": 337,
-  "packageManifestCount": 48,
-  "apiV1RouteModules": 30,
+  "generatedAt": "2026-08-25T14:55:00+03:00",
+  "workspaceProjects": 48,
+  "apiRouteModules": 31,
   "files": [
     ".editorconfig",
     ".env.example",
@@ -26,9 +22,11 @@
     ".vscode/tasks.json",
     ".windsurf/rules/powerchain.md",
     "CONTRIBUTING.md",
-    "MANIFEST.json",
     "README.md",
+    "apps/admin/app/error.tsx",
     "apps/admin/app/layout.tsx",
+    "apps/admin/app/loading.tsx",
+    "apps/admin/app/not-found.tsx",
     "apps/admin/app/page.tsx",
     "apps/admin/next.config.mjs",
     "apps/admin/package.json",
@@ -69,8 +67,11 @@
     "apps/api/app/docs/layout.tsx",
     "apps/api/app/docs/page.tsx",
     "apps/api/app/docs/swagger.tsx",
+    "apps/api/app/error.tsx",
     "apps/api/app/globals.css",
     "apps/api/app/layout.tsx",
+    "apps/api/app/loading.tsx",
+    "apps/api/app/not-found.tsx",
     "apps/api/app/openapi.yaml/route.ts",
     "apps/api/app/page.tsx",
     "apps/api/lib/api.ts",
@@ -88,19 +89,29 @@
     "apps/api/next.config.mjs",
     "apps/api/package.json",
     "apps/api/tsconfig.json",
+    "apps/api/types/swagger-ui-dist.d.ts",
+    "apps/charging/app/error.tsx",
     "apps/charging/app/layout.tsx",
+    "apps/charging/app/loading.tsx",
+    "apps/charging/app/not-found.tsx",
     "apps/charging/app/page.tsx",
     "apps/charging/next.config.mjs",
     "apps/charging/package.json",
     "apps/charging/tsconfig.json",
+    "apps/companies/app/error.tsx",
     "apps/companies/app/layout.tsx",
+    "apps/companies/app/loading.tsx",
+    "apps/companies/app/not-found.tsx",
     "apps/companies/app/page.tsx",
     "apps/companies/next.config.mjs",
     "apps/companies/package.json",
     "apps/companies/tsconfig.json",
     "apps/docs/app/[slug]/page.tsx",
+    "apps/docs/app/error.tsx",
     "apps/docs/app/globals.css",
     "apps/docs/app/layout.tsx",
+    "apps/docs/app/loading.tsx",
+    "apps/docs/app/not-found.tsx",
     "apps/docs/app/page.tsx",
     "apps/docs/next.config.mjs",
     "apps/docs/package.json",
@@ -108,8 +119,11 @@
     "apps/energy/app/assets/page.tsx",
     "apps/energy/app/devices/page.tsx",
     "apps/energy/app/energy/page.tsx",
+    "apps/energy/app/error.tsx",
     "apps/energy/app/globals.css",
     "apps/energy/app/layout.tsx",
+    "apps/energy/app/loading.tsx",
+    "apps/energy/app/not-found.tsx",
     "apps/energy/app/page.tsx",
     "apps/energy/components/context-provider.tsx",
     "apps/energy/components/context-switcher.tsx",
@@ -117,33 +131,51 @@
     "apps/energy/next.config.mjs",
     "apps/energy/package.json",
     "apps/energy/tsconfig.json",
+    "apps/grid/app/error.tsx",
     "apps/grid/app/layout.tsx",
+    "apps/grid/app/loading.tsx",
+    "apps/grid/app/not-found.tsx",
     "apps/grid/app/page.tsx",
     "apps/grid/next.config.mjs",
     "apps/grid/package.json",
     "apps/grid/tsconfig.json",
+    "apps/mapper/app/error.tsx",
     "apps/mapper/app/layout.tsx",
+    "apps/mapper/app/loading.tsx",
+    "apps/mapper/app/not-found.tsx",
     "apps/mapper/app/page.tsx",
     "apps/mapper/next.config.mjs",
     "apps/mapper/package.json",
     "apps/mapper/tsconfig.json",
+    "apps/plants/app/error.tsx",
     "apps/plants/app/layout.tsx",
+    "apps/plants/app/loading.tsx",
+    "apps/plants/app/not-found.tsx",
     "apps/plants/app/page.tsx",
     "apps/plants/next.config.mjs",
     "apps/plants/package.json",
     "apps/plants/tsconfig.json",
+    "apps/platform/app/error.tsx",
     "apps/platform/app/globals.css",
     "apps/platform/app/layout.tsx",
+    "apps/platform/app/loading.tsx",
+    "apps/platform/app/not-found.tsx",
     "apps/platform/app/page.tsx",
     "apps/platform/next.config.mjs",
     "apps/platform/package.json",
     "apps/platform/tsconfig.json",
+    "apps/supply-chain/app/error.tsx",
     "apps/supply-chain/app/layout.tsx",
+    "apps/supply-chain/app/loading.tsx",
+    "apps/supply-chain/app/not-found.tsx",
     "apps/supply-chain/app/page.tsx",
     "apps/supply-chain/next.config.mjs",
     "apps/supply-chain/package.json",
     "apps/supply-chain/tsconfig.json",
+    "apps/wind/app/error.tsx",
     "apps/wind/app/layout.tsx",
+    "apps/wind/app/loading.tsx",
+    "apps/wind/app/not-found.tsx",
     "apps/wind/app/page.tsx",
     "apps/wind/next.config.mjs",
     "apps/wind/package.json",
@@ -151,6 +183,7 @@
     "apps/worker/package.json",
     "apps/worker/src/index.ts",
     "apps/worker/src/jobs.ts",
+    "apps/worker/tsconfig.build.json",
     "apps/worker/tsconfig.json",
     "cache/.gitkeep",
     "components/docs/doc-callout.tsx",
@@ -334,6 +367,7 @@
     "supabase/migrations/001_energy_rls.sql",
     "supabase/migrations/002_tenant_rls.sql",
     "tools/cache.mjs",
+    "tools/db.mjs",
     "tools/env-setup.mjs",
     "tools/infra.mjs",
     "tools/prisma-env.mjs",
@@ -346,5 +380,256 @@
     "tsconfig.base.json",
     "tsconfig.node.json",
     "turbo.json"
+  ],
+  "fileCount": 375,
+  "workspaces": [
+    {
+      "name": "@powerchain/local-energy-os",
+      "version": "1.0.0",
+      "path": "."
+    },
+    {
+      "name": "@powerchain/app-admin",
+      "version": "1.0.0",
+      "path": "apps/admin"
+    },
+    {
+      "name": "@powerchain/app-api",
+      "version": "1.0.0",
+      "path": "apps/api"
+    },
+    {
+      "name": "@powerchain/app-charging",
+      "version": "1.0.0",
+      "path": "apps/charging"
+    },
+    {
+      "name": "@powerchain/app-companies",
+      "version": "1.0.0",
+      "path": "apps/companies"
+    },
+    {
+      "name": "@powerchain/app-docs",
+      "version": "1.0.0",
+      "path": "apps/docs"
+    },
+    {
+      "name": "@powerchain/app-energy",
+      "version": "1.0.0",
+      "path": "apps/energy"
+    },
+    {
+      "name": "@powerchain/app-grid",
+      "version": "1.0.0",
+      "path": "apps/grid"
+    },
+    {
+      "name": "@powerchain/app-mapper",
+      "version": "1.0.0",
+      "path": "apps/mapper"
+    },
+    {
+      "name": "@powerchain/app-plants",
+      "version": "1.0.0",
+      "path": "apps/plants"
+    },
+    {
+      "name": "@powerchain/app-platform",
+      "version": "1.0.0",
+      "path": "apps/platform"
+    },
+    {
+      "name": "@powerchain/app-supply-chain",
+      "version": "1.0.0",
+      "path": "apps/supply-chain"
+    },
+    {
+      "name": "@powerchain/app-wind",
+      "version": "1.0.0",
+      "path": "apps/wind"
+    },
+    {
+      "name": "@powerchain/app-worker",
+      "version": "1.0.0",
+      "path": "apps/worker"
+    },
+    {
+      "name": "@powerchain/api-client",
+      "version": "1.0.0",
+      "path": "packages/api-client"
+    },
+    {
+      "name": "@powerchain/audit",
+      "version": "1.0.0",
+      "path": "packages/audit"
+    },
+    {
+      "name": "@powerchain/auth",
+      "version": "1.0.0",
+      "path": "packages/auth"
+    },
+    {
+      "name": "@powerchain/charging",
+      "version": "1.0.0",
+      "path": "packages/charging"
+    },
+    {
+      "name": "@powerchain/config",
+      "version": "1.0.0",
+      "path": "packages/config"
+    },
+    {
+      "name": "@powerchain/contracts",
+      "version": "1.0.0",
+      "path": "packages/contracts"
+    },
+    {
+      "name": "@powerchain/cross-chain",
+      "version": "1.0.0",
+      "path": "packages/cross-chain"
+    },
+    {
+      "name": "@powerchain/database",
+      "version": "1.0.0",
+      "path": "packages/database"
+    },
+    {
+      "name": "@powerchain/energy-core",
+      "version": "1.0.0",
+      "path": "packages/energy-core"
+    },
+    {
+      "name": "@powerchain/energy-rwa",
+      "version": "1.0.0",
+      "path": "packages/energy-rwa"
+    },
+    {
+      "name": "@powerchain/events",
+      "version": "1.0.0",
+      "path": "packages/events"
+    },
+    {
+      "name": "@powerchain/geospatial",
+      "version": "1.0.0",
+      "path": "packages/geospatial"
+    },
+    {
+      "name": "@powerchain/grid",
+      "version": "1.0.0",
+      "path": "packages/grid"
+    },
+    {
+      "name": "@powerchain/ledger",
+      "version": "1.0.0",
+      "path": "packages/ledger"
+    },
+    {
+      "name": "@powerchain/metering",
+      "version": "1.0.0",
+      "path": "packages/metering"
+    },
+    {
+      "name": "@powerchain/oracles",
+      "version": "1.0.0",
+      "path": "packages/oracles"
+    },
+    {
+      "name": "@powerchain/plants",
+      "version": "1.0.0",
+      "path": "packages/plants"
+    },
+    {
+      "name": "@powerchain/policy",
+      "version": "1.0.0",
+      "path": "packages/policy"
+    },
+    {
+      "name": "@powerchain/protocols",
+      "version": "1.0.0",
+      "path": "packages/protocols"
+    },
+    {
+      "name": "@powerchain/pwrc",
+      "version": "1.0.0",
+      "path": "packages/pwrc"
+    },
+    {
+      "name": "@powerchain/rewards",
+      "version": "1.0.0",
+      "path": "packages/rewards"
+    },
+    {
+      "name": "@powerchain/saas",
+      "version": "1.0.0",
+      "path": "packages/saas"
+    },
+    {
+      "name": "@powerchain/settlement",
+      "version": "1.0.0",
+      "path": "packages/settlement"
+    },
+    {
+      "name": "@powerchain/shared",
+      "version": "1.0.0",
+      "path": "packages/shared"
+    },
+    {
+      "name": "@powerchain/supply-chain",
+      "version": "1.0.0",
+      "path": "packages/supply-chain"
+    },
+    {
+      "name": "@powerchain/system-management",
+      "version": "1.0.0",
+      "path": "packages/system-management"
+    },
+    {
+      "name": "@powerchain/telemetry",
+      "version": "1.0.0",
+      "path": "packages/telemetry"
+    },
+    {
+      "name": "@powerchain/ui",
+      "version": "1.0.0",
+      "path": "packages/ui"
+    },
+    {
+      "name": "@powerchain/validation",
+      "version": "1.0.0",
+      "path": "packages/validation"
+    },
+    {
+      "name": "@powerchain/wind",
+      "version": "1.0.0",
+      "path": "packages/wind"
+    },
+    {
+      "name": "@powerchain/x402",
+      "version": "1.0.0",
+      "path": "packages/x402"
+    },
+    {
+      "name": "@powerchain/docs-ui",
+      "version": "1.0.0",
+      "path": "components/docs"
+    },
+    {
+      "name": "@powerchain/store",
+      "version": "1.0.0",
+      "path": "store"
+    },
+    {
+      "name": "@powerchain/storage",
+      "version": "1.0.0",
+      "path": "storage"
+    }
+  ],
+  "releaseNotes": [
+    "Database reachability orchestration and development db:setup",
+    "Workspace import-declaration validation",
+    "API client timeout/network hardening and production URL safety",
+    "Next.js loading/error/not-found boundaries",
+    "Production start scripts and emitted worker build",
+    "Swagger UI switched to swagger-ui-dist to reduce peer/native parser surface"
   ]
 }

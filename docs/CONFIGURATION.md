@@ -74,3 +74,7 @@ The toolchain doctor fails early when an old checkout is still using pnpm 11.22.
 ## GitHub Actions
 
 CI uses current GitHub action majors, Node from `.nvmrc`, Corepack-managed pnpm, a committed lockfile and a cache for both the pnpm store and `cache/turbo`. Dependabot monitors npm/pnpm workspace dependencies and GitHub Actions weekly.
+
+## Database reachability preflight
+
+Use `pnpm db:doctor` before commands that require a live PostgreSQL server. Migration, push, reset, and migration-status commands invoke this check automatically. In development, an unconfigured datasource resolves to `postgresql://postgres:postgres@localhost:5432/powerchain?schema=public`; that fallback is configuration only and does not start PostgreSQL. Start local services with `pnpm infra:up`, or configure `DIRECT_URL`/`DATABASE_URL` for a managed database.

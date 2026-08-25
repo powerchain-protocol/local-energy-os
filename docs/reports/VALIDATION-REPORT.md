@@ -1,55 +1,61 @@
 # PowerChain Local Energy OS v1.0.0 — Validation Report
 
-**Updated:** 2026-08-25
-**Canonical runtime:** Node.js 24.19.0 LTS
-**Package manager:** pnpm 11.23.0
+**Release date:** 2026-08-25  
+**Workspace projects:** 48  
+**API route modules:** 31  
+**Manifest-tracked files:** 376
 
-## This hardening pass
+## Passed in packaging environment
 
-- Fixed Node ambient type ownership for the worker, auth, database and events packages.
-- Added `tsconfig.node.json` with `lib: ["ES2024"]` and `types: ["node"]`.
-- Added direct `@types/node` 24.13.3 and TypeScript 7.0.2 development dependencies to Node-runtime workspace packages.
-- Replaced `NodeJS.Timeout` in the worker with `ReturnType<typeof setInterval>`.
-- Added `.nvmrc` and `.node-version` pinned to Node 24.19.0 LTS.
-- Added `.npmrc` engine/package-manager policy and `.npmignore`.
-- Added repository-local `cache/turbo`, `pnpm cache:status`, and `pnpm cache:clean`.
-- Updated GitHub CI to current action majors with explicit pnpm/Turbo cache.
-- Added Dependabot configuration for npm/pnpm and GitHub Actions.
-- Added `pnpm toolchain:doctor` to fail early on stale pnpm/TypeScript installations.
+- Repository workspace doctor: **PASS**
+- Aggregate repository validation: **PASS**
+- OpenAPI 3.1 route/method coverage: **PASS**
+- Workspace package-name uniqueness: **PASS**
+- Workspace import declarations: **PASS**
+- Prisma 7 schema contract / multiline enum checks: **PASS**
+- Energy accounting / Energy RWA invariant checks: **PASS**
+- API economic mutation/idempotency/audit/outbox structural checks: **PASS**
+- Auth/session/RLS structural checks: **PASS**
+- Solana/Sui RWA hardening structural checks: **PASS**
+- Full-height UI shell / no-footer / mobile-nav checks: **PASS**
+- Next application loading/error/not-found boundary checks: **PASS**
+- Production Next `start` script checks: **PASS**
+- Worker emitted-build/start contract: **PASS**
+- API client/contracts direct TypeScript typecheck with available compiler: **PASS**
+- TypeScript/TSX syntax parse: **PASS — 165 files**
+- JSON manifest/editor configuration parse: **PASS**
+- Database preflight behavior with unreachable localhost: **PASS**
 
-## Verified in packaging environment
+## Database behavior corrected
 
-- Workspace doctor: PASS
-- Aggregate repository validation: PASS
-- OpenAPI 3.1 HTTP method coverage: PASS
-- JSON package/editor configuration parsing: PASS
-- Node TypeScript profile resolution (`tsc --showConfig`): PASS
-- Node runtime packages extend the Node profile: PASS
-- No `NodeJS.*` namespace dependency remains in the worker: PASS
-- GitHub CI toolchain policy: PASS
-- Cache tooling: PASS
-- Workspace projects: 48
-- `/api/v1` route modules: 30
+`prisma validate` and `prisma generate` are intentionally offline-capable. Commands that require database state now use `pnpm db:doctor` first. `pnpm db:setup` can start/wait for local Compose PostgreSQL or validate a managed PostgreSQL target before migration work begins.
 
-## Target-machine release gates
+`prisma:migrate:baseline:create` remains offline. `prisma:migrate:baseline:resolve` remains online by design because it writes migration history to an existing database.
 
-This artifact environment runs Node 22 and cannot install the workspace dependency graph from npm. Run the following on the canonical Node 24.19.0 machine after updating the repository:
+## Dependency graph improvement
+
+The API documentation UI now uses `swagger-ui-dist` instead of `swagger-ui-react`. This keeps Swagger/OpenAPI while removing the React wrapper and previous Tree-sitter parser build-script approvals from the workspace policy.
+
+## Required Node 24 release gates
+
+The packaging environment is Node 22 and does not contain the installed pnpm workspace dependency graph. Run these on the canonical Node 24.19.0 / pnpm 11.23.0 machine after refreshing the lockfile:
 
 ```bash
-nvm use
-corepack enable
-corepack use pnpm@11.23.0
-rm -rf node_modules cache/turbo
 pnpm install --no-frozen-lockfile
-pnpm toolchain:doctor
-pnpm --filter @powerchain/app-worker typecheck
+pnpm peers:check
 pnpm local-energy:verify
 pnpm typecheck
 pnpm build:apps
+pnpm build:worker
 ```
 
-Commit the refreshed `pnpm-lock.yaml`, then return to `pnpm install --frozen-lockfile` for CI and release builds.
+For live database validation:
 
-## Version policy
+```bash
+pnpm db:status
+pnpm db:up
+pnpm db:setup
+pnpm prisma:migrate:status
+```
 
-The project intentionally remains on Node 24.19.0 LTS. `@types/node` therefore remains on the matching Node 24 type line (24.13.3) instead of the newer Node 26 type package. Type declarations must not advertise runtime APIs unavailable on the deployed Node major.
+After a successful dependency refresh, commit `pnpm-lock.yaml` and return CI/release installs to `pnpm install --frozen-lockfile`.

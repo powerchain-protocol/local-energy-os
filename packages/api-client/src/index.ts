@@ -11,6 +11,15 @@ export function contextHeaders(ctx: Partial<RequestContext>): HeadersInit {
   return headers;
 }
 
+export function resolveApiBaseUrl(configured: string | undefined, environment: string | undefined): string {
+  const value = configured?.trim();
+  if (value) return value.replace(/\/$/, "");
+  if (environment === "production") {
+    throw new Error("NEXT_PUBLIC_API_URL is required in production PowerChain web applications.");
+  }
+  return "http://localhost:3002";
+}
+
 export class PowerChainApiError extends Error {
   constructor(
     readonly status: number,
@@ -25,6 +34,7 @@ export class PowerChainApiError extends Error {
 }
 
 export interface MutationOptions { idempotencyKey: string; signal?: AbortSignal }
+export interface PowerChainApiClientOptions { timeoutMs?: number }
 
 async function readResponseBody<T>(response: Response): Promise<ApiSuccess<T> | ApiFailure | undefined> {
   const contentType = response.headers.get("content-type") ?? "";
@@ -45,21 +55,60 @@ function fallbackError(response: Response): ApiErrorPayload {
   };
 }
 
+function requestSignal(external: AbortSignal | null | undefined, timeoutMs: number) {
+  const controller = new AbortController();
+  let timedOut = false;
+  const timer = setTimeout(() => {
+    timedOut = true;
+    controller.abort();
+  }, timeoutMs);
+  const abort = () => controller.abort();
+  if (external) {
+    if (external.aborted) controller.abort();
+    else external.addEventListener("abort", abort, { once: true });
+  }
+  return {
+    signal: controller.signal,
+    timedOut: () => timedOut,
+    cleanup() {
+      clearTimeout(timer);
+      external?.removeEventListener("abort", abort);
+    },
+  };
+}
+
 export class PowerChainApiClient {
-  constructor(private readonly baseUrl: string, private readonly context: () => Partial<RequestContext>) {}
+  private readonly baseUrl: string;
+  private readonly timeoutMs: number;
+
+  constructor(baseUrl: string, private readonly context: () => Partial<RequestContext>, options: PowerChainApiClientOptions = {}) {
+    this.baseUrl = baseUrl.replace(/\/$/, "");
+    this.timeoutMs = options.timeoutMs ?? 15_000;
+  }
 
   private async request<T>(path: string, init: RequestInit = {}): Promise<ApiSuccess<T>> {
     const headers = new Headers(contextHeaders(this.context()));
     for (const [key, value] of new Headers(init.headers)) headers.set(key, value);
+    const controlled = requestSignal(init.signal, this.timeoutMs);
 
-    const response = await fetch(`${this.baseUrl}${path}`, { ...init, headers });
+    let response: Response;
+    try {
+      response = await fetch(`${this.baseUrl}${path}`, { ...init, headers, signal: controlled.signal });
+    } catch (cause) {
+      if (init.signal?.aborted) throw cause;
+      if (controlled.timedOut()) {
+        throw new PowerChainApiError(0, "REQUEST_TIMEOUT", `PowerChain API did not respond within ${this.timeoutMs} ms.`);
+      }
+      throw new PowerChainApiError(0, "NETWORK_ERROR", cause instanceof Error ? cause.message : "PowerChain API is unreachable.");
+    } finally {
+      controlled.cleanup();
+    }
+
     const body = await readResponseBody<T>(response);
-
     if (!response.ok || !body || "error" in body) {
       const error: ApiErrorPayload = body && "error" in body ? body.error : fallbackError(response);
       throw new PowerChainApiError(response.status, error.code, error.message, error.requestId, error.details);
     }
-
     return body;
   }
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { PowerChainApiClient, PowerChainApiError } from "@powerchain/api-client";
+import { PowerChainApiClient, PowerChainApiError, resolveApiBaseUrl } from "@powerchain/api-client";
 import { appCatalog } from "@powerchain/saas";
 import { EmptyState, PageHeader, Panel, StatCard, StatusBadge } from "@powerchain/ui";
 
@@ -12,7 +12,7 @@ export default function Page() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const organizationId = process.env.NEXT_PUBLIC_DEFAULT_ORGANIZATION_ID;
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3002";
+  const apiUrl = resolveApiBaseUrl(process.env.NEXT_PUBLIC_API_URL, process.env.NODE_ENV);
   const client = useMemo(() => new PowerChainApiClient(apiUrl, () => ({ organizationId })), [apiUrl, organizationId]);
 
   useEffect(() => {
