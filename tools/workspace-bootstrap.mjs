@@ -17,6 +17,9 @@ function ensure(relativePath, content) {
   created.push(relativePath);
 }
 
+ensure(".nvmrc", "24.19.0");
+ensure(".node-version", "24.19.0");
+
 const envTemplate = `# PowerChain Local Energy OS v1.0.0 — local development template
 POWERCHAIN_VERSION=1.0.0
 POWERCHAIN_ENVIRONMENT=development

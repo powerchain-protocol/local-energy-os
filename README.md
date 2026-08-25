@@ -113,16 +113,13 @@ allowBuilds:
   '@prisma/engines': true
   esbuild: true
   prisma: true
-  '@tree-sitter-grammars/tree-sitter-yaml@0.7.1': true
-  'tree-sitter-json@0.24.8': true
-  'tree-sitter@0.21.1 || 0.22.4': true
   'core-js-pure@3.50.0': false
   '@scarf/scarf': false
 ```
 
 After the canonical first install, commit the generated `pnpm-lock.yaml`; `pnpm release:verify` intentionally refuses production release verification without it.
 
-When `pnpm approve-builds` is shown for the Swagger/OpenAPI parser dependency tree, approve the Tree-sitter native parser packages and leave `core-js-pure` denied. The committed policy is version-pinned so a future parser version must be reviewed again before its install script can execute.
+The API reference uses the prebuilt `swagger-ui-dist` bundle rather than the React wrapper, which removes the previous Tree-sitter/native parser install-script surface from the API workspace. Keep `@scarf/scarf` denied and review any future install-script additions before approving them.
 
 Recommended verification after install:
 
@@ -159,34 +156,34 @@ pnpm cache:clean
 
 The cache directory is ignored by Git except for `cache/.gitkeep` and is restored in GitHub Actions.
 
-## Local infrastructure
+## Local infrastructure & database bootstrap
 
-Local PostgreSQL and Redis are provided through `compose.yaml`. Docker is optional only when you use external services such as Supabase PostgreSQL and a managed Redis endpoint.
+PowerChain uses PostgreSQL for canonical transactional state and Redis for asynchronous coordination. Local services are provided through `compose.yaml`; managed PostgreSQL/Supabase and managed Redis are also supported.
 
-Check the local container runtime first:
+The preferred development entry point is:
+
+```bash
+pnpm env:setup
+pnpm db:status
+pnpm db:up
+pnpm db:setup
+```
+
+`db:up` starts local Compose infrastructure only when the effective database target is local. If `DIRECT_URL`/`DATABASE_URL` points to a managed PostgreSQL service, it performs a reachability check and does not start containers. `db:setup` validates/generates Prisma and creates or applies the development migration history.
+
+Useful infrastructure commands:
 
 ```bash
 pnpm infra:doctor
-```
-
-Then start the local services:
-
-```bash
-pnpm infra:up
 pnpm infra:status
-```
-
-Useful commands:
-
-```bash
 pnpm infra:logs
 pnpm infra:down
 
-# Destructive: removes local Postgres/Redis volumes
+# Destructive: removes local PostgreSQL/Redis volumes.
 pnpm infra:reset
 ```
 
-On macOS, if `docker` is not found, install/start Docker Desktop before running `infra:up`:
+On macOS, local Compose requires Docker Desktop:
 
 ```bash
 brew install --cask docker
@@ -195,14 +192,14 @@ docker version
 docker compose version
 ```
 
-If `DATABASE_URL`, `DIRECT_URL`, and `REDIS_URL` point at externally managed services, do not run `pnpm infra:up`.
+If Docker is unavailable, configure a reachable managed PostgreSQL endpoint in `.env.local` and skip local infrastructure.
 
 ## Prisma 7, migrations & Supabase
 
 ```text
 .env.local / CI secrets
-  ├── DATABASE_URL      → application runtime
-  ├── DIRECT_URL        → Prisma CLI / migrations
+  ├── DATABASE_URL        → application runtime
+  ├── DIRECT_URL          → Prisma CLI / migrations
   └── SHADOW_DATABASE_URL → optional migrate-dev shadow DB
           ↓
 prisma.config.ts
@@ -214,18 +211,14 @@ packages/database/src/generated/prisma
 @prisma/adapter-pg
 ```
 
-Create your local environment first. The helper accepts either tracked environment template and never overwrites an existing `.env.local`:
+`prisma validate` and `prisma generate` do not require a live database. Migration/status/resolve commands do. The repository therefore separates configuration diagnostics from reachability diagnostics:
 
 ```bash
-pnpm env:setup
-pnpm prisma:doctor
+pnpm prisma:doctor   # configuration only
+pnpm db:doctor       # requires PostgreSQL to be reachable
 ```
 
-If your checkout predates `.env.example`, repository validation now falls back to `.env.local.example` instead of crashing with `ENOENT`.
-
-For the repository Docker PostgreSQL defaults, `prisma.config.ts` also has a development-only localhost fallback. Production never falls back to localhost.
-
-Useful commands:
+Common commands:
 
 ```bash
 pnpm prisma:validate
@@ -233,11 +226,19 @@ pnpm prisma:generate
 pnpm prisma:migrate:status
 ```
 
-For a fresh development database:
+If `localhost:5432` is not running, `db:doctor` now stops before Prisma and tells you to run `pnpm db:up` or configure `DIRECT_URL`/`DATABASE_URL`.
+
+For a fresh local development database:
 
 ```bash
-pnpm infra:up
+pnpm db:up
 pnpm prisma:migrate:init
+```
+
+Or use the combined bootstrap:
+
+```bash
+pnpm db:setup
 ```
 
 For later schema changes:
@@ -246,13 +247,20 @@ For later schema changes:
 pnpm prisma:migrate:dev
 ```
 
-If you already created the database with `prisma db push`, baseline it instead of replaying an initial migration over existing tables:
+If a **reachable database already contains the schema because it was previously synchronized with `prisma db push`**, create and review a baseline first:
 
 ```bash
 pnpm prisma:migrate:baseline:create
+```
+
+Only after the existing database is reachable and verified to match that baseline should it be marked applied:
+
+```bash
 pnpm prisma:migrate:baseline:resolve
 pnpm prisma:migrate:status
 ```
+
+`baseline:create` is offline; `baseline:resolve` is intentionally online because it writes migration history to the database. Do not use `baseline:resolve` to bootstrap an empty or unreachable database.
 
 For staging/production, apply committed migrations only:
 
@@ -260,8 +268,17 @@ For staging/production, apply committed migrations only:
 pnpm prisma:migrate:deploy
 ```
 
-`pnpm prisma:push` remains available for disposable development synchronization, not production deployment. See `docs/DATABASE.md`.
+`pnpm prisma:push` remains available only for disposable development synchronization. See `docs/DATABASE.md`.
 
+## Dependency health
+
+A pnpm install warning does not identify the offending peer by itself. Use the repository diagnostic before adding overrides or suppressions:
+
+```bash
+pnpm peers:check
+```
+
+Do not add broad `peerDependencyRules` merely to hide warnings; resolve or explicitly document the concrete peer relationship first.
 
 ## VS Code, Windsurf & AI coding
 

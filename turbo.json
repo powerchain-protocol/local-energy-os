@@ -124,6 +124,14 @@
         ".next/**",
         "!.next/cache/**"
       ]
+    },
+    "@powerchain/app-worker#build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**"
+      ]
     }
   }
 }
