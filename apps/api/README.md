@@ -1,29 +1,49 @@
 # PowerChain API
 
-Canonical Next.js API application for PowerChain Local Energy OS v1.0.0.
+**Package:** `@powerchain/app-api`  
+**Version:** `1.0.0`  
+**Development port:** `3002`
 
-- Dev port: `3002`
-- Namespace: `/api/v1`
-- Swagger UI: `/docs`
-- OpenAPI: `/openapi.yaml`
+## Purpose
 
-## Request boundary
+Canonical `/api/v1` service plus OpenAPI, Swagger UI and Postman developer surface.
 
-Every domain request receives one request/correlation context. Tenant-owned resources use `x-organization-id` and are independently authorized through the authenticated session membership/policy layer.
+## Product boundary
 
-Cookie-authenticated unsafe requests enforce trusted Origin validation. Development identity headers are accepted only when explicitly enabled in non-production environments.
+This application is a presentation/orchestration surface. Authoritative physical energy, permissions, financial state and Energy RWA supply are resolved through server-side APIs and domain packages. The UI must never invent telemetry, balances, settlement state or blockchain confirmation.
 
-## Economic mutations
+## Primary dependencies
 
-`POST` operations for Energy Proofs, Batches, Positions, Reservations and Retirements require `Idempotency-Key`, validated integer-string Wh quantities, a safe runtime mode and an authorized role. Successful writes emit audit and domain-event outbox rows in the same database transaction.
+- `/api/v1/*`
+- `/openapi.yaml`
+- `/docs`
 
-## Authentication
+## Shared architecture
 
-```text
-POST /api/v1/auth/solana/challenge
-POST /api/v1/auth/solana/verify
-GET  /api/v1/auth/session
-DELETE /api/v1/auth/session
+- `@powerchain/ui` — canonical full-height application shell and design tokens.
+- `@powerchain/api-client` — request/correlation/workspace-aware API transport where applicable.
+- `@powerchain/contracts` — stable request/context/wire contracts.
+- PostgreSQL/Prisma and policy checks remain server-side.
+
+## UX rules
+
+1. Physical/operational state appears before token/network details.
+2. Loading, empty, unconfigured, degraded and error states are explicit.
+3. Desktop sidebar is full-height; operational apps do not render a footer.
+4. Status is never conveyed by color alone.
+5. Mock/simulated data must be visibly identified and cannot authorize live writes.
+
+## Development
+
+```bash
+pnpm --filter @powerchain/app-api dev
+pnpm --filter @powerchain/app-api typecheck
+pnpm --filter @powerchain/app-api build
 ```
 
-Wallet authentication verifies the exact stored challenge message and establishes an opaque HttpOnly session. Wallet ownership alone does not grant organization permissions.
+From the repository root, run the full gate with:
+
+```bash
+pnpm local-energy:verify
+pnpm build:apps
+```

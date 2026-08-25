@@ -20,6 +20,7 @@ pub mod powerchain_energy_rwa {
         config.verification_authority = verification_authority;
         config.paused = false;
         config.bump = ctx.bumps.config;
+        emit!(ConfigInitialized { admin: config.admin, verification_authority });
         Ok(())
     }
 
@@ -43,12 +44,28 @@ pub mod powerchain_energy_rwa {
         batch.evidence_root = evidence_root;
         batch.finalized = false;
         batch.bump = ctx.bumps.batch;
+        emit!(BatchCreated { batch: batch.key(), batch_id, verified_wh, source, evidence_root });
         Ok(())
     }
 
     pub fn finalize_batch(ctx: Context<FinalizeBatch>) -> Result<()> {
         require!(!ctx.accounts.config.paused, EnergyError::ProgramPaused);
+        require!(!ctx.accounts.batch.finalized, EnergyError::BatchAlreadyFinalized);
         ctx.accounts.batch.finalized = true;
+        emit!(BatchFinalized { batch: ctx.accounts.batch.key() });
+        Ok(())
+    }
+
+    pub fn invalidate_batch_energy(ctx: Context<FinalizeBatch>, amount_wh: u64) -> Result<()> {
+        require!(!ctx.accounts.config.paused, EnergyError::ProgramPaused);
+        require!(amount_wh > 0, EnergyError::InvalidAmount);
+        let batch = &mut ctx.accounts.batch;
+        let next_invalidated = batch.invalidated_wh.checked_add(amount_wh).ok_or(EnergyError::MathOverflow)?;
+        require!(next_invalidated <= batch.verified_wh, EnergyError::InvalidAmount);
+        let backed = batch.verified_wh.checked_sub(next_invalidated).ok_or(EnergyError::MathOverflow)?;
+        require!(batch.positioned_wh <= backed, EnergyError::InvalidationUndercollateralizesPositions);
+        batch.invalidated_wh = next_invalidated;
+        emit!(BatchEnergyInvalidated { batch: batch.key(), amount_wh, total_invalidated_wh: next_invalidated });
         Ok(())
     }
 
@@ -83,6 +100,7 @@ pub mod powerchain_energy_rwa {
         position.retired_wh = 0;
         position.unit = unit;
         position.bump = ctx.bumps.position;
+        emit!(PositionCreated { position: position.key(), batch: batch.key(), owner: position.owner, position_nonce, amount_wh, unit });
         Ok(())
     }
 
@@ -100,6 +118,7 @@ pub mod powerchain_energy_rwa {
             .reserved_wh
             .checked_add(amount_wh)
             .ok_or(EnergyError::MathOverflow)?;
+        emit!(PositionReserved { position: position.key(), amount_wh, reserved_wh: position.reserved_wh });
         Ok(())
     }
 
@@ -109,6 +128,7 @@ pub mod powerchain_energy_rwa {
         ctx.accounts.position.reserved_wh = ctx.accounts.position.reserved_wh
             .checked_sub(amount_wh)
             .ok_or(EnergyError::MathOverflow)?;
+        emit!(PositionReleased { position: ctx.accounts.position.key(), amount_wh, reserved_wh: ctx.accounts.position.reserved_wh });
         Ok(())
     }
 
@@ -130,11 +150,13 @@ pub mod powerchain_energy_rwa {
             .checked_add(amount_wh)
             .ok_or(EnergyError::MathOverflow)?;
         require!(batch.retired_wh <= batch.positioned_wh, EnergyError::RetirementExceedsIssued);
+        emit!(PositionRetired { position: position.key(), batch: batch.key(), amount_wh, position_retired_wh: position.retired_wh, batch_retired_wh: batch.retired_wh });
         Ok(())
     }
 
     pub fn set_paused(ctx: Context<AdminConfig>, paused: bool) -> Result<()> {
         ctx.accounts.config.paused = paused;
+        emit!(ProgramPauseChanged { paused });
         Ok(())
     }
 
@@ -143,6 +165,7 @@ pub mod powerchain_energy_rwa {
         verification_authority: Pubkey,
     ) -> Result<()> {
         ctx.accounts.config.verification_authority = verification_authority;
+        emit!(VerificationAuthorityChanged { verification_authority });
         Ok(())
     }
 }
@@ -285,6 +308,27 @@ pub struct EnergyPosition {
     pub bump: u8,
 }
 
+#[event]
+pub struct ConfigInitialized { pub admin: Pubkey, pub verification_authority: Pubkey }
+#[event]
+pub struct VerificationAuthorityChanged { pub verification_authority: Pubkey }
+#[event]
+pub struct ProgramPauseChanged { pub paused: bool }
+#[event]
+pub struct BatchCreated { pub batch: Pubkey, pub batch_id: [u8; 32], pub verified_wh: u64, pub source: u8, pub evidence_root: [u8; 32] }
+#[event]
+pub struct BatchFinalized { pub batch: Pubkey }
+#[event]
+pub struct BatchEnergyInvalidated { pub batch: Pubkey, pub amount_wh: u64, pub total_invalidated_wh: u64 }
+#[event]
+pub struct PositionCreated { pub position: Pubkey, pub batch: Pubkey, pub owner: Pubkey, pub position_nonce: u64, pub amount_wh: u64, pub unit: u8 }
+#[event]
+pub struct PositionReserved { pub position: Pubkey, pub amount_wh: u64, pub reserved_wh: u64 }
+#[event]
+pub struct PositionReleased { pub position: Pubkey, pub amount_wh: u64, pub reserved_wh: u64 }
+#[event]
+pub struct PositionRetired { pub position: Pubkey, pub batch: Pubkey, pub amount_wh: u64, pub position_retired_wh: u64, pub batch_retired_wh: u64 }
+
 #[error_code]
 pub enum EnergyError {
     #[msg("Invalid amount")]
@@ -301,6 +345,10 @@ pub enum EnergyError {
     MathOverflow,
     #[msg("Energy Batch has not been finalized by the verification authority")]
     BatchNotFinalized,
+    #[msg("Energy Batch is already finalized")]
+    BatchAlreadyFinalized,
+    #[msg("Invalidation would reduce verified backing below issued Energy Positions")]
+    InvalidationUndercollateralizesPositions,
     #[msg("Program is paused")]
     ProgramPaused,
     #[msg("Energy Position references a different Energy Batch")]

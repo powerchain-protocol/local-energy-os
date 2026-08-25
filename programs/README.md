@@ -1,29 +1,66 @@
 # PowerChain Programs
 
-PowerChain blockchain programs represent and settle verified digital state; they do not verify physical electricity directly.
+**Canonical version:** 1.0.0  
+**Primary execution network:** Solana / SVM  
+**Secondary representation network:** Sui / Move
 
-## Canonical boundaries
+PowerChain programs enforce digital-state invariants around verified energy and settlement. Physical electricity remains authoritative off-chain.
 
-- **PWRC** is native Token-2022 state on Solana.
-- **wPWRC** is the 1:1 Sui bridge representation.
-- **Energy RWA** programs may represent verified kWh/MWh positions, but issuance remains bounded by an attested Energy Batch backed by the off-chain Energy Ledger.
+## Repository layout
 
-## `energy-rwa/`
+```text
+programs/
+└── energy-rwa/
+    ├── Anchor.toml
+    ├── Cargo.toml
+    ├── README.md
+    └── src/lib.rs
 
-The Anchor program now implements:
+move/powerchain/
+└── sources/energy_position.move
+```
+
+## Energy RWA program
+
+Current Anchor instructions:
 
 ```text
 initialize_config
+set_paused
+set_verification_authority
 create_batch
 finalize_batch
+invalidate_batch_energy
 create_position
 reserve
 release
 retire
-set_paused
-set_verification_authority
 ```
 
-Critical invariants include verification-authority ownership, finalized-batch issuance, checked arithmetic, kWh/MWh Wh alignment, anti-overissuance, batch/position consistency, and retirement not exceeding issued energy.
+### Canonical invariants
 
-The checked-in program ID is a scaffold placeholder and must be replaced with the deployment program ID before any deployment. Never commit deployment keypairs.
+- `PWRC` is native Token-2022 state on Solana and is not an energy unit.
+- `wPWRC` is the 1:1 bridged Sui representation of PWRC.
+- Energy positions are backed by verification-authority-attested Energy Batches.
+- `positioned_wh <= verified_wh - invalidated_wh`.
+- `retired_wh <= positioned_wh`.
+- kWh/MWh positions must align exactly to canonical Wh.
+- Every arithmetic path that changes supply/reservation/retirement uses checked operations.
+- Program pause is an emergency control, not a substitute for transaction authorization.
+
+## Evidence boundary
+
+Raw meter telemetry is not stored on Solana. The off-chain verification pipeline produces an `evidence_root`; the finalized Energy Batch commits the verified quantity and root on-chain.
+
+## Deployment safety
+
+The checked-in `declare_id!("11111111111111111111111111111111")` is intentionally invalid for production deployment. Generate deployment identities in a secure environment, replace the ID in Rust and `Anchor.toml`, and never commit keypairs.
+
+## Validation
+
+```bash
+anchor build
+anchor test
+```
+
+The release workflow also requires Prisma/API/TypeScript application checks because program state is reconciled with the canonical Energy Ledger. See `docs/PROGRAMS.md`.

@@ -4,9 +4,24 @@
   "generatedAt": "2026-08-25",
   "files": [
     {
+      "path": ".editorconfig",
+      "size": 212,
+      "sha256": "7f29c1250c12a0d7e72ea51eba70b5e13f0c4832845c6071c3a2fd819ba1fb46"
+    },
+    {
       "path": ".env.example",
-      "size": 1834,
-      "sha256": "c4e8c431b643c5604de7b5816eed70c4cfff74cc0c10ba572bee4730ccadfe8b"
+      "size": 2187,
+      "sha256": "e04aadef041c7d4f51165339711b3fac717a7a106e0f5e796bd6684618e45012"
+    },
+    {
+      "path": ".env.local.example",
+      "size": 2187,
+      "sha256": "e04aadef041c7d4f51165339711b3fac717a7a106e0f5e796bd6684618e45012"
+    },
+    {
+      "path": ".github/copilot-instructions.md",
+      "size": 660,
+      "sha256": "7ff104121321175477fe2d241b3b23d11bec5f5183af6bd64664bf07f79d1697"
     },
     {
       "path": ".github/workflows/ci.yml",
@@ -15,28 +30,58 @@
     },
     {
       "path": ".gitignore",
-      "size": 315,
-      "sha256": "0c8d871e654114f12aa7b025078cb4784e7fdfb388223abe5c84bc766e335212"
+      "size": 335,
+      "sha256": "2d9fcf8f4078e26796881cbc07e17a3d9e35cc7b24a05ebd5dbd2f2073a2c7d7"
+    },
+    {
+      "path": ".vscode/extensions.json",
+      "size": 250,
+      "sha256": "a9ddead9fab0d5c595bf53d6d9b26af5e4a41da91d907124806a98899c137e55"
+    },
+    {
+      "path": ".vscode/launch.json",
+      "size": 455,
+      "sha256": "9c1436995523e914292087cf8e2d84d48106873311210472a9bb3de9e2568984"
+    },
+    {
+      "path": ".vscode/settings.json",
+      "size": 1049,
+      "sha256": "64218e546ae81510621184b117adde98507a33b11e2a8b1f849c03d504f85cfb"
+    },
+    {
+      "path": ".vscode/tasks.json",
+      "size": 1736,
+      "sha256": "7937404e0ee1471e6cb482b7b90442e9b00aac81a9aac40169f51904d87df9b7"
+    },
+    {
+      "path": ".windsurf/rules/powerchain.md",
+      "size": 700,
+      "sha256": "647258106b2cec7070816d8d2c80490a3cf0283576661744baff584ec750fea7"
+    },
+    {
+      "path": "AGENTS.md",
+      "size": 1967,
+      "sha256": "b5941363179df53d8eaab79839fdfbc81a15aa290eab5dfeaa78e42f2af95357"
     },
     {
       "path": "CHANGELOG.md",
-      "size": 9122,
-      "sha256": "e934a15fac1107a4eb8f29e8a54593dd6d629279856df394bf9c1be98cbc5949"
+      "size": 10855,
+      "sha256": "9f633f7aa65790d7c9a6859cab15c32113fcbec9229ac0963404b5e78205dd93"
     },
     {
       "path": "README.md",
-      "size": 9309,
-      "sha256": "1e1acfbf8b4ad2ed8159ec03aa178044cc73713346fb9fd025a124e17a184d6c"
+      "size": 12255,
+      "sha256": "119fe25af704b48739df293f0c83337ff847cccc57bc382c2a6d84b157d8da68"
     },
     {
       "path": "VALIDATION_REPORT.md",
-      "size": 14638,
-      "sha256": "4acb275747b4cac323e7c9dfbed783a96bf8d618ca5a34446b4cdf9aeb1171de"
+      "size": 3680,
+      "sha256": "d7b6910dc535bb188cd538e3927851796ad86e85c8b2dd5f664aeced57e7ac27"
     },
     {
       "path": "apps/admin/README.md",
-      "size": 268,
-      "sha256": "897f7cb85bec9e9b11ef996ab6dccca222208745c9d220b0c7eef656d9143b00"
+      "size": 1561,
+      "sha256": "051fbae7e87531b3859e6b5ce39c6ac6db6bbc45e6c139630fd3be01edc310ed"
     },
     {
       "path": "apps/admin/app/layout.tsx",
@@ -65,8 +110,8 @@
     },
     {
       "path": "apps/api/README.md",
-      "size": 1224,
-      "sha256": "ae197f98f2ab25af80d5622a32027fa6ab13ac27eafd1b3dceb2edc42b1f5ff5"
+      "size": 1532,
+      "sha256": "40a2c92c3566eae3f73a06972c68c51686053f0cac33ae252635abd5404a2722"
     },
     {
       "path": "apps/api/api/README.md",
@@ -350,8 +395,8 @@
     },
     {
       "path": "apps/charging/README.md",
-      "size": 902,
-      "sha256": "fbba73d30d449a18833271565448080e895c3205300da284e975e450779de0ba"
+      "size": 1597,
+      "sha256": "700dca0bfc4db9624f4fb7c89e146978104b6063154d6888d47860d4ea7b0349"
     },
     {
       "path": "apps/charging/app/layout.tsx",
@@ -380,8 +425,8 @@
     },
     {
       "path": "apps/companies/README.md",
-      "size": 905,
-      "sha256": "b0458e6964c243e7f39df374b19259a87afe8f9c50e821173285ca782433461b"
+      "size": 1602,
+      "sha256": "0228e8bafa54741c19bdc1c26d4e686cddc04f1bfbd3b50de15006ae5d826adf"
     },
     {
       "path": "apps/companies/app/layout.tsx",
@@ -410,8 +455,8 @@
     },
     {
       "path": "apps/docs/README.md",
-      "size": 932,
-      "sha256": "40fe84d61590df34fefbd97ccfa4f1a65ad9470241cbca137a01f63c3f998a1e"
+      "size": 1554,
+      "sha256": "1de0d3a9d524f2026d455bd9e0c403f805c73bf4a97f074864571762da2beb87"
     },
     {
       "path": "apps/docs/app/[slug]/page.tsx",
@@ -450,8 +495,8 @@
     },
     {
       "path": "apps/energy/README.md",
-      "size": 986,
-      "sha256": "b80812dea65cda5664e957d3e63e2ed94f42192447f27c0ca2051e000ea0b30d"
+      "size": 1660,
+      "sha256": "37ea9a6d48c10bb57612f22a0395fd7c75b00f226b6e6ca556bd24af178eb636"
     },
     {
       "path": "apps/energy/app/assets/page.tsx",
@@ -515,8 +560,8 @@
     },
     {
       "path": "apps/grid/README.md",
-      "size": 911,
-      "sha256": "1903b3a8478b58fd05537835d2ecc06f84993c603cb1849fa9b8cc003e5d6a2d"
+      "size": 1571,
+      "sha256": "4b2e54a24b0c45a054324fb91899aa6a93f96cae174d1421c32b3ebe5ba873d1"
     },
     {
       "path": "apps/grid/app/layout.tsx",
@@ -545,8 +590,8 @@
     },
     {
       "path": "apps/mapper/README.md",
-      "size": 249,
-      "sha256": "dfccce7ef00105ef870f7cd515b0b578cd5c84a05dcad4b8e8b8cdcac3f06e2a"
+      "size": 1556,
+      "sha256": "aa7ca4db59912e2c51fe83f6a1387dd90d7b8c45ba5ee8384605d1a7a2180cb7"
     },
     {
       "path": "apps/mapper/app/layout.tsx",
@@ -575,8 +620,8 @@
     },
     {
       "path": "apps/plants/README.md",
-      "size": 921,
-      "sha256": "f6e0e1e42f25a581c9188948349d4290b35854d25055d79e96d474e289b00254"
+      "size": 1564,
+      "sha256": "31bcc9ba2d1a28b5259ed404f6c69e65101168d36d75df4a23158ea56b7d836a"
     },
     {
       "path": "apps/plants/app/layout.tsx",
@@ -605,8 +650,8 @@
     },
     {
       "path": "apps/platform/README.md",
-      "size": 946,
-      "sha256": "551ab36c6fdf32e1a164b0976d89e3716b0af897cefa986774a2a7cbbc248945"
+      "size": 1622,
+      "sha256": "f7c60e8cdf550e9a707c25fbabe30d04cf18fbb14bfc870c87a6295d33b4371c"
     },
     {
       "path": "apps/platform/app/globals.css",
@@ -640,8 +685,8 @@
     },
     {
       "path": "apps/supply-chain/README.md",
-      "size": 962,
-      "sha256": "a69f36c7e46e5ac89e1554732a50de75e5bfc1d15a17dcb5486138de37b04f59"
+      "size": 1549,
+      "sha256": "dd050f8ee2abbb921c1cc38968c61cde9918689b80426d7cf3131b7ce792a28e"
     },
     {
       "path": "apps/supply-chain/app/layout.tsx",
@@ -670,8 +715,8 @@
     },
     {
       "path": "apps/wind/README.md",
-      "size": 916,
-      "sha256": "832eb93595a319849f88f46d6f4bb681835ae62b6ad830a6e4abf7650db9c5f8"
+      "size": 1564,
+      "sha256": "e7ba0da704589342e8f2fe5dc231a299b558a73321c24b4bd7e62d1546a09f15"
     },
     {
       "path": "apps/wind/app/layout.tsx",
@@ -700,8 +745,8 @@
     },
     {
       "path": "apps/worker/README.md",
-      "size": 957,
-      "sha256": "e72e492497e7051a92346d82df9948bd93dfb80d79aba8f66c9e9bddc687a2e1"
+      "size": 1589,
+      "sha256": "70bef40f7a5e7aa9b2011f5d6292961a1e060332f63ea724db5794b932b297e5"
     },
     {
       "path": "apps/worker/package.json",
@@ -774,9 +819,19 @@
       "sha256": "99bc138e3bbf2bcc8786fdebfdee5a635a8677842a9e5f41bffe9959007ecd94"
     },
     {
+      "path": "docs/CONTRACTS.md",
+      "size": 1117,
+      "sha256": "d1c3c6d9f46f36ca60b341566d089b5a025ca65f2c25d8db5796e4215a4fb6e6"
+    },
+    {
       "path": "docs/DATA-PLANE.md",
       "size": 709,
       "sha256": "bd0524e63019a6f1cc1b20c362d39e715951e3181c3a656d22786541cd4bfe24"
+    },
+    {
+      "path": "docs/DATABASE.md",
+      "size": 3618,
+      "sha256": "fc3a5fad3a0acc18d7b921999890c8f0386134703e65b897cf95bcbcb0861683"
     },
     {
       "path": "docs/DESIGN-SYSTEM.md",
@@ -792,6 +847,11 @@
       "path": "docs/FULLSTACK.md",
       "size": 1641,
       "sha256": "089a67ee934f6148dad6154526e6a366165355c000fa0f0081de2c6ad30438e7"
+    },
+    {
+      "path": "docs/PROGRAMS.md",
+      "size": 1384,
+      "sha256": "7cc85ce84c60ce1d48599338dc35f45ae42b864b8f893829b16bb3e0e73ef2e0"
     },
     {
       "path": "docs/PROTOCOLS.md",
@@ -845,8 +905,8 @@
     },
     {
       "path": "package.json",
-      "size": 1853,
-      "sha256": "41ab77741de4d6dd03a3976fa665cd6fa5582727be6bfe593e91880c4a8a0e15"
+      "size": 3011,
+      "sha256": "75e6590ed0b9b5824f3d99079a0e42982c1d02e208f108650f6b0453376ad62f"
     },
     {
       "path": "packages/api-client/package.json",
@@ -855,8 +915,8 @@
     },
     {
       "path": "packages/api-client/src/index.ts",
-      "size": 2408,
-      "sha256": "c8b8825f8ff4b8566db88ba09c875828493920d02b015086dc29e51450eab839"
+      "size": 3010,
+      "sha256": "17871fa0934a390b93267102294012e8314e5fe7dbdb2452bdb1a9941c1b3d98"
     },
     {
       "path": "packages/api-client/tsconfig.json",
@@ -924,14 +984,39 @@
       "sha256": "20604a7c457a3b94737ec4524f9c8183667625dad959b3a0aaa237e228a3d767"
     },
     {
+      "path": "packages/contracts/README.md",
+      "size": 1928,
+      "sha256": "a0aa250bd66428a5391215eab218c5a253de41678d2242a90be8e308e8f0db26"
+    },
+    {
       "path": "packages/contracts/package.json",
       "size": 260,
       "sha256": "c0dd9eafa5ffe0b338aee0ae140b73409531d568dd9ddaace832c85a096a6f5e"
     },
     {
+      "path": "packages/contracts/src/api.ts",
+      "size": 537,
+      "sha256": "683ebf57300bed6cabcdd6fee198bde42fe819c498d19404f24f3947a05cbd33"
+    },
+    {
+      "path": "packages/contracts/src/bridge.ts",
+      "size": 207,
+      "sha256": "17679104d1a8b9e93f57517ee2243c9499c303040ec9f0574075d16d7a9f206c"
+    },
+    {
+      "path": "packages/contracts/src/context.ts",
+      "size": 302,
+      "sha256": "0abaeeda27b90020c156cd613d13b7b12c791f7a893628c68024c214c8086ff8"
+    },
+    {
+      "path": "packages/contracts/src/energy.ts",
+      "size": 538,
+      "sha256": "a431f6843016bab9c67e99c2df8653fc26a34e7d1a16fc51b919c61980f03547"
+    },
+    {
       "path": "packages/contracts/src/index.ts",
-      "size": 1026,
-      "sha256": "2ac97b0abd8f07d337b9cc60110ea1d0a1a99344421effcf930dd2cef4581f85"
+      "size": 102,
+      "sha256": "489ffb8e099ecd200fc29531a63ce89b0f9de1f2e6a1d21805c08f5467f7539b"
     },
     {
       "path": "packages/contracts/tsconfig.json",
@@ -1359,19 +1444,29 @@
       "sha256": "fe40e84ff2a648455dcc06c2f126ec4a1eebe21994ab7931860cfdf3cdb9418b"
     },
     {
+      "path": "prisma/migrations/.gitkeep",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "prisma/migrations/README.md",
+      "size": 1639,
+      "sha256": "153bc2cc03c192e306b00d0be7404a9c0dc99f1845b571b1153edd85dae92e7f"
+    },
+    {
       "path": "prisma/schema.prisma",
       "size": 18125,
       "sha256": "a21cbc54760e9059d62af3f59d12e6b94b66848c35ba4e8455b3440c61a0130e"
     },
     {
       "path": "prisma.config.ts",
-      "size": 447,
-      "sha256": "90b54607f9bc74b83c385b25a4896855936b362802b1c9795fdabf42a5bcaa48"
+      "size": 1442,
+      "sha256": "1001869fc42265540a07a5e3575b8003fbcff07ad5160a20e9628fc873665b26"
     },
     {
       "path": "programs/README.md",
-      "size": 1012,
-      "sha256": "f253231f400bca5234cf29a9866cb15aad73d8f9e3ff353c69b0a801d6f714b4"
+      "size": 1990,
+      "sha256": "8c43e4397b8427c993bc2d2a01106a8c27cdb992cad8679902c86c27c90dc8ad"
     },
     {
       "path": "programs/energy-rwa/Anchor.toml",
@@ -1385,18 +1480,28 @@
     },
     {
       "path": "programs/energy-rwa/README.md",
-      "size": 1605,
-      "sha256": "179a24790f5ea02924f344b504823a01c86d0cf8c643161743a188f402150741"
+      "size": 3848,
+      "sha256": "1a6f94e217da2a32f989c3278db52c73aee681b15d8bd0c395524ae63dba0a6d"
     },
     {
       "path": "programs/energy-rwa/src/lib.rs",
-      "size": 10092,
-      "sha256": "9978978869362197f6240b16b0229c5898026c3041d7bd298f380d59801bbb90"
+      "size": 13252,
+      "sha256": "c4ade7f7b1ebc10e8a969a89911b13a67f35ff385530e7471a8903001dc52f68"
+    },
+    {
+      "path": "scripts/env-setup.mjs",
+      "size": 832,
+      "sha256": "bdffee2d702ba499bbd23b3a76de0d1b17df9f974264a5e4fe2cde0adea00282"
     },
     {
       "path": "scripts/infra.mjs",
       "size": 2983,
       "sha256": "9049d3f8027fe42efa45f2792ca88e230b60a42c539b2eda1ee7990e2c283c1e"
+    },
+    {
+      "path": "scripts/prisma-env.mjs",
+      "size": 2259,
+      "sha256": "13abe5615050c5b3e94a81bf082f64c2646f63ecd48fc4b7222a583389bb9a8e"
     },
     {
       "path": "scripts/release-verify.mjs",
@@ -1415,8 +1520,8 @@
     },
     {
       "path": "scripts/workspace-doctor.mjs",
-      "size": 7861,
-      "sha256": "d4f4aa681fdf78dbcc810d001d8e97f3e1f5d165c43a2bf41d569768f7487f3a"
+      "size": 9010,
+      "sha256": "87fbae6ace24648152795e7de28ff44dd81f21e29adde1af622caaeaf72a5f5b"
     },
     {
       "path": "storage/README.md",
@@ -1464,6 +1569,11 @@
       "sha256": "1f0cd7ddff25c4e339aadb612c53a03846b3d4aa5015c32a0b063b60dce435cd"
     },
     {
+      "path": "supabase/README.md",
+      "size": 1516,
+      "sha256": "faf2b19f81b5ae76ad9d7bc32c2b8aaa7d4d067347100356cb8860db929754c3"
+    },
+    {
       "path": "supabase/migrations/001_energy_rls.sql",
       "size": 412,
       "sha256": "d727882e8c779487aaf3ff9c8ab0000938781c92edcc192be9c2584f1449b60b"
@@ -1480,8 +1590,9 @@
     },
     {
       "path": "turbo.json",
-      "size": 366,
-      "sha256": "47d250a02a02feb0e9ff7fbb56b40bd77a7ea78ce4de531fef0d2b6b3cda713c"
+      "size": 2304,
+      "sha256": "edbafd2e0c01325a9b518dd5fed71bce733e1ef2da54c3935a3f7ee226b236a2"
     }
-  ]
+  ],
+  "fileCount": 318
 }

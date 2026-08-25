@@ -155,32 +155,114 @@ docker compose version
 
 If `DATABASE_URL`, `DIRECT_URL`, and `REDIS_URL` point at externally managed services, do not run `pnpm infra:up`.
 
-## Prisma 7
+## Prisma 7, migrations & Supabase
 
 ```text
+.env.local / CI secrets
+  ├── DATABASE_URL      → application runtime
+  ├── DIRECT_URL        → Prisma CLI / migrations
+  └── SHADOW_DATABASE_URL → optional migrate-dev shadow DB
+          ↓
 prisma.config.ts
-  ↓
-prisma/schema.prisma
-  ↓
-pnpm prisma:generate
-  ↓
+          ↓
+prisma/schema.prisma + prisma/migrations/
+          ↓
 packages/database/src/generated/prisma
-  ↓
+          ↓
 @prisma/adapter-pg
 ```
+
+Create your local environment first. The helper accepts either tracked environment template and never overwrites an existing `.env.local`:
+
+```bash
+pnpm env:setup
+pnpm prisma:doctor
+```
+
+If your checkout predates `.env.example`, repository validation now falls back to `.env.local.example` instead of crashing with `ENOENT`.
+
+For the repository Docker PostgreSQL defaults, `prisma.config.ts` also has a development-only localhost fallback. Production never falls back to localhost.
 
 Useful commands:
 
 ```bash
 pnpm prisma:validate
 pnpm prisma:generate
-
-# Local/development schema synchronization
-pnpm prisma:push
-
-# Deployment migrations after migration files are committed
-pnpm prisma:migrate
+pnpm prisma:migrate:status
 ```
+
+For a fresh development database:
+
+```bash
+pnpm infra:up
+pnpm prisma:migrate:init
+```
+
+For later schema changes:
+
+```bash
+pnpm prisma:migrate:dev
+```
+
+If you already created the database with `prisma db push`, baseline it instead of replaying an initial migration over existing tables:
+
+```bash
+pnpm prisma:migrate:baseline:create
+pnpm prisma:migrate:baseline:resolve
+pnpm prisma:migrate:status
+```
+
+For staging/production, apply committed migrations only:
+
+```bash
+pnpm prisma:migrate:deploy
+```
+
+`pnpm prisma:push` remains available for disposable development synchronization, not production deployment. See `docs/DATABASE.md`.
+
+
+## VS Code, Windsurf & AI coding
+
+The repository includes shared editor/agent configuration:
+
+```text
+.vscode/
+  settings.json
+  extensions.json
+  tasks.json
+  launch.json
+
+.windsurf/rules/powerchain.md
+AGENTS.md
+.github/copilot-instructions.md
+```
+
+VS Code tasks cover installation, verification, infrastructure, Prisma migrations/status/studio and app development. Windsurf and Copilot instructions preserve the same canonical physical-energy, PWRC/wPWRC, Energy RWA, database and UI invariants used by the repository checks.
+
+## Troubleshooting the canonical verification gate
+
+### `Connection url is empty`
+
+Run:
+
+```bash
+pnpm env:setup
+pnpm prisma:doctor
+```
+
+`prisma.config.ts` resolves `.env.local` and `.env` from the repository root and, in non-production environments, falls back to the repository Docker PostgreSQL URL. Production never uses the localhost fallback.
+
+### `workspace-doctor` reports missing `.env.example`
+
+Current validation accepts `.env.example` **or** `.env.local.example`. Pull the latest repository files; the doctor no longer calls `readFileSync(.env.example)` unconditionally.
+
+### `@powerchain/api-client` fails on `error.details`
+
+The API client now normalizes PowerChain error envelopes and non-PowerChain HTTP fallbacks into one `ApiErrorPayload`, so `details` and optional transport request IDs are type-safe.
+
+### Turbo says `no output files found` for library builds
+
+PowerChain libraries currently use typecheck-only `build` scripts and export TypeScript source to workspace consumers. Turbo therefore treats library builds as no-output tasks, while Next.js application tasks separately cache `.next/**`. These warnings should no longer appear.
 
 ## Authentication
 

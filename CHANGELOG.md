@@ -1,3 +1,15 @@
+
+## 2026-08-25 — Verification, contracts and program hardening
+
+- Fixed `@powerchain/api-client` fallback-error typing (`details` union failure) and added non-JSON HTTP fallback handling.
+- Split `@powerchain/contracts` into API, context, energy and bridge contract modules without breaking package exports.
+- Made workspace validation tolerate either `.env.example` or `.env.local.example` instead of throwing `ENOENT`.
+- Made Prisma config/environment discovery repository-root-relative and trimmed blank connection variables.
+- Added `pnpm env:setup` for deterministic `.env.local` initialization.
+- Updated Turbo so typecheck-only library builds declare no outputs while Next application builds cache `.next/**`.
+- Expanded all application READMEs and added dedicated contracts/program documentation.
+- Added Energy RWA program events and verification-authority energy invalidation that cannot undercollateralize issued positions.
+
 # Changelog
 
 ## 2026-08-25 — Local infrastructure + Prisma schema recovery
@@ -128,3 +140,14 @@
 - Reworked the Local Energy Command Center around the canonical verified → positioned → reserved → retired Energy RWA lifecycle.
 - Added explicit operational priority actions and runtime boundary presentation without fabricated telemetry or wallet balances.
 - Refined typography, spacing, status colors, responsive behavior, focus states and surface hierarchy across the shared application shell.
+
+## 2026-08-25 — Prisma migration/environment + editor workspace hardening
+
+- Fixed Prisma 7 empty datasource handling by loading `.env.local` and `.env` explicitly.
+- Added development-only local PostgreSQL fallback; production requires an explicit datasource URL.
+- Added `DIRECT_URL` migration preference and optional `SHADOW_DATABASE_URL` support for managed/Supabase development workflows.
+- Added Prisma environment doctor and migration scripts for init, development, deploy, status, reset and baseline workflows.
+- Added `prisma/migrations/` documentation and `docs/DATABASE.md`.
+- Added `.env.local.example`.
+- Added professional `.vscode/` settings, extensions, tasks and launch profiles.
+- Added root `AGENTS.md`, Windsurf always-on rules and GitHub Copilot repository instructions.
