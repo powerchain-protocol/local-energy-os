@@ -1,0 +1,1 @@
+import { ok } from "../../../../../lib/http"; import {KWH,MWH,GWH} from "@powerchain/energy-core"; export async function GET(req:Request){return ok(req,{baseUnit:"Wh",KWH:KWH.toString(),MWH:MWH.toString(),GWH:GWH.toString()})}

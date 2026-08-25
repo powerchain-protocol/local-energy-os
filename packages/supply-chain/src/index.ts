@@ -1,0 +1,1 @@
+export type PassportState="MANUFACTURED"|"IN_TRANSIT"|"INSTALLED"|"ACTIVE"|"MAINTENANCE"|"RETIRED"|"RECYCLED"; export interface EnergyAssetPassport {id:string;manufacturerId:string;productId:string;serialNumber:string;assetType:string;currentSiteId?:string;externalIdentifiers:readonly string[];status:PassportState}

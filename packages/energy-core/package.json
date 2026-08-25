@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Canonical physical-energy accounting and lifecycle primitives",
   "exports": {
     ".": "./src/index.ts"
   },
-  "dependencies": {}
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "tsc -p tsconfig.json --noEmit"
+  }
 }

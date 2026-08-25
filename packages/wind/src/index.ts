@@ -1,0 +1,1 @@
+export interface WindTurbineState {turbineId:string;windSpeedMs:number;activePowerKw:number;availability:number;status:"RUNNING"|"STARTING"|"CURTAILED"|"FAULT"|"MAINTENANCE"|"OFFLINE"}

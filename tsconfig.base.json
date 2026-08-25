@@ -1,14 +1,118 @@
 {
   "compilerOptions": {
-    "target": "ES2024",
-    "lib": ["ES2024"],
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
+    "target": "ES2022",
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "strict": true,
     "noEmit": true,
-    "isolatedModules": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "@powerchain/system-management": [
+        "packages/system-management/src/index.ts"
+      ],
+      "@powerchain/charging": [
+        "packages/charging/src/index.ts"
+      ],
+      "@powerchain/grid": [
+        "packages/grid/src/index.ts"
+      ],
+      "@powerchain/database": [
+        "packages/database/src/index.ts"
+      ],
+      "@powerchain/wind": [
+        "packages/wind/src/index.ts"
+      ],
+      "@powerchain/energy-rwa": [
+        "packages/energy-rwa/src/index.ts"
+      ],
+      "@powerchain/auth": [
+        "packages/auth/src/index.ts"
+      ],
+      "@powerchain/supply-chain": [
+        "packages/supply-chain/src/index.ts"
+      ],
+      "@powerchain/plants": [
+        "packages/plants/src/index.ts"
+      ],
+      "@powerchain/geospatial": [
+        "packages/geospatial/src/index.ts"
+      ],
+      "@powerchain/pwrc": [
+        "packages/pwrc/src/index.ts"
+      ],
+      "@powerchain/energy-core": [
+        "packages/energy-core/src/index.ts"
+      ],
+      "@powerchain/contracts": [
+        "packages/contracts/src/index.ts"
+      ],
+      "@powerchain/x402": [
+        "packages/x402/src/index.ts"
+      ],
+      "@powerchain/oracles": [
+        "packages/oracles/src/index.ts"
+      ],
+      "@powerchain/config": [
+        "packages/config/src/index.ts"
+      ],
+      "@powerchain/api-client": [
+        "packages/api-client/src/index.ts"
+      ],
+      "@powerchain/cross-chain": [
+        "packages/cross-chain/src/index.ts"
+      ],
+      "@powerchain/saas": [
+        "packages/saas/src/index.ts"
+      ],
+      "@powerchain/protocols": [
+        "packages/protocols/src/index.ts"
+      ],
+      "@powerchain/shared": [
+        "packages/shared/src/index.ts"
+      ],
+      "@powerchain/storage": [
+        "storage/src/index.ts"
+      ],
+      "@powerchain/store": [
+        "store/src/index.ts"
+      ],
+      "@powerchain/validation": [
+        "packages/validation/src/index.ts"
+      ],
+      "@powerchain/policy": [
+        "packages/policy/src/index.ts"
+      ],
+      "@powerchain/events": [
+        "packages/events/src/index.ts"
+      ],
+      "@powerchain/audit": [
+        "packages/audit/src/index.ts"
+      ],
+      "@powerchain/metering": [
+        "packages/metering/src/index.ts"
+      ],
+      "@powerchain/telemetry": [
+        "packages/telemetry/src/index.ts"
+      ],
+      "@powerchain/settlement": [
+        "packages/settlement/src/index.ts"
+      ],
+      "@powerchain/ledger": [
+        "packages/ledger/src/index.ts"
+      ],
+      "@powerchain/rewards": [
+        "packages/rewards/src/index.ts"
+      ]
+    }
   }
 }

@@ -1,9 +1,0 @@
-{
-  "name": "@powerchain/data",
-  "version": "1.0.0",
-  "private": true,
-  "type": "module",
-  "exports": "./src/index.ts",
-  "dependencies": { "@powerchain/shared": "workspace:*", "@powerchain/types": "workspace:*" },
-  "peerDependencies": { "react": "^19.2.8" }
-}

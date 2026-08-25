@@ -1,8 +1,22 @@
 {
-  "name":"@powerchain/docs",
-  "version":"1.0.0",
-  "private":true,
-  "scripts":{"dev":"next dev -p 3001","build":"next build","start":"next start -p 3001","typecheck":"tsc --noEmit"},
-  "dependencies":{"next":"16.2.12","react":"^19.2.8","react-dom":"^19.2.8","@powerchain/shared":"workspace:*"},
-  "devDependencies":{"@types/node":"26.2.0","@types/react":"^19.2.18","@types/react-dom":"^19.2.4","typescript":"^5.9.3"}
+  "name": "@powerchain/app-docs",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3009",
+    "build": "next build",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "16.3.2",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "@powerchain/shared": "workspace:*",
+    "@powerchain/ui": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "@types/react": "^19.2.0",
+    "@types/node": "^24.10.0"
+  }
 }

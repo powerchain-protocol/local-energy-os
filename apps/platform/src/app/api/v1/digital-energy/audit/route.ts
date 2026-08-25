@@ -1,2 +1,0 @@
-import { digitalEnergyError, digitalEnergyResponse, enforceDigitalEnergyRateLimit, getDigitalEnergyContext, listDigitalEnergyAudit } from "@/lib/digital-energy/server";
-export async function GET(request:Request){const context=await getDigitalEnergyContext(request);try{enforceDigitalEnergyRateLimit(request,context);return digitalEnergyResponse(await listDigitalEnergyAudit(context,100),context)}catch(error){return digitalEnergyError(error,context)}}

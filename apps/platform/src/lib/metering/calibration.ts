@@ -1,1 +1,0 @@
-export type Calibration={meterId:string;factor:number;validUntil:string};export function applyCalibration(value:number,c:Calibration){if(Date.parse(c.validUntil)<Date.now())throw new Error("Meter calibration expired");return Math.round(value*c.factor)}

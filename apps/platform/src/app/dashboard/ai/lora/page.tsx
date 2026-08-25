@@ -1,1 +1,0 @@
-import{AiWorkspacePage}from"@/components/ai/workspace-page";export default function Page(){return <AiWorkspacePage title="LoRA adapters" description="Validate, version and publish renewable-energy model adapters."/>}

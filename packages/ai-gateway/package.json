@@ -1,1 +1,0 @@
-{"name":"@powerchain/ai-gateway","version":"1.0.0","private":true,"type":"module","dependencies":{"@powerchain/ai-core":"workspace:*","@powerchain/credits":"workspace:*"},"exports":{".":"./src/index.ts"}}

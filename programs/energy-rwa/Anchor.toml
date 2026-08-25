@@ -1,0 +1,5 @@
+[programs.localnet]
+powerchain_energy_rwa = "11111111111111111111111111111111"
+[provider]
+cluster = "Localnet"
+wallet = "~/.config/solana/id.json"

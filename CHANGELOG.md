@@ -1,171 +1,112 @@
 # Changelog
 
-All notable changes to PowerChain are documented here. The project follows
-[Semantic Versioning](https://semver.org/).
+## 1.0.0 — UI/UX operational refinement
 
-## 1.0.0 — 2026-08-21
+- Added real Local Energy workspace routes for `/energy`, `/assets`, and `/devices` instead of leaving core navigation disabled.
+- Upgraded mobile navigation to the canonical five-part `Home · Energy · PowerChain · Assets · More` dock.
+- Fixed route highlighting so Overview is not permanently active on deeper routes.
+- Added keyboard selection and Enter-to-open behavior to the PowerChain command palette.
+- Added reusable operational `DataTable`, `TableToolbar`, `DataValue`, and `FilterPill` primitives.
+- Added Energy Proof / Energy Batch evidence views and Energy RWA Position / Reservation / Retirement inventory views backed by canonical APIs.
+- Added an explicit unconfigured Device Inventory UX rather than inventing connected hardware data.
+- Replaced `Number(bigint)` energy display conversion with deterministic bigint division/remainder formatting for large Wh portfolios.
+- Extended workspace-doctor checks for five-part mobile navigation and bigint-safe energy presentation.
 
-### Architecture
+## 1.0.0 — Unified brand and application shell
 
-- Moved the production Next.js application and API routes into `apps/platform`.
-- Consolidated configuration, shared contexts, constants, helpers, errors,
-  schemas, data, stores, storage, actions, database clients, integrations,
-  engineering assets, contracts, infrastructure, programs, scripts, and tests
-  under canonical workspace packages.
-- Centralized routes and redirects in the platform routing layer.
-- Replaced nine placeholder application shells with independently startable web,
-  API, checkout, marketplace, AI, integration, explorer, realtime, and worker
-  runtimes built on one shared application contract.
-- Reduced the repository root to release documents and required toolchain
-  configuration; duplicate canonical owners are rejected during validation.
-
-### Platform
-
-- Added the reusable PowerChain UI package and accessible shadcn-style toast
-  provider.
-- Added GRIDLLM, Proof of Energy, digital-twin, PPA, certification, settlement,
-  energy exchange, metering, DePIN, carbon, and marketplace foundations.
-- Added role-aware dashboards, project discovery, wallet adapters, AI provider
-  configuration, fixed-point PWRC pricing, and signature-gated transactions.
-- Added safe legacy redirects, API CORS handling, and an interaction audit that
-  rejects placeholder links, nested controls, and buttons without actions.
-- Added a responsive public product entry point with a single Command Center
-  conversion path, architecture link, readiness panel, and accessible layout.
-
-### Data and integrations
-
-- Moved Prisma and four canonical migrations to `packages/database/prisma`.
-- Added PostgreSQL pooling plus Neon and Supabase server/browser/SSR clients.
-- Updated Supabase configuration to publishable and secret keys with SSR cookie
-  `getAll`/`setAll` adapters.
-- Added isolated adapters for Solana, Sui, Cetus, Helius, Pyth, Jupiter, Circle,
-  SAP, SCADA, OPC UA, MQTT, LoRaWAN, and related providers.
-- Replaced removed Helius and Sui SDK compatibility exports with canonical
-  PowerChain integration adapters.
-
-### Toolchain and delivery
-
-- Released all JavaScript workspaces and Rust crates at version `1.0.0`.
-- Updated Node typings to 26.2.0, PostgreSQL `pg` to 8.23.0, WebSocket `ws` to
-  8.21.3, Rust to 1.98.0, and Anchor crates to 1.1.2.
-- Upgraded TypeScript paths, app-owned Tailwind 4/PostCSS configuration, pnpm
-  scripts, frozen-lockfile support, Playwright configuration, and smoke tests.
-- Rebuilt container assets around Node 24, PostgreSQL 18, Redis 8, and standalone
-  Next.js output; upgraded Kubernetes security, probes, rollout, secrets, and TLS.
-- Added canonical OpenAPI, PTSP, program security, deployment, architecture,
-  integration, and contributor documentation.
-
-## Prerelease history
-
-- `1.0.0-beta.20`: AI package boundaries, engineering framework, PPA catalog,
-  certification shell, project discovery, and protocol foundations.
-- `1.0.0-beta.19`: PTSP 5.0, Proof of Energy, digital twins, GRIDLLM, carbon
-  exchange, ecosystem operations, and program invariants.
-- `1.0.0-beta.18`: Tailwind 4 stabilization, environment/network isolation,
-  frozen installs, Playwright hardening, and responsive shell updates.
-- `1.0.0-beta.17`: domain libraries, provider settings, network status, Anchor
-  configuration, and contract validation.
-- `1.0.0-beta.16` and earlier: authentication, wallets, energy exchange,
-  smart-grid maps, metering, DePIN, payments, legal pages, and initial migrations.
-
-### Digital Energy OS integration — 2026-08-23
-
-- Integrated canonical `@powerchain/energy-core`, `@powerchain/energy-rwa`, `@powerchain/asset-graph`, `@powerchain/digital-energy`, `@powerchain/energy-operations`, and `@powerchain/energy-controls` workspaces directly into the production monorepo.
-- Rebuilt the primary dashboard around the Digital Energy Command Center and added `/digital-energy`, `/energy-rwa`, `/asset-graph`, `/digital-energy/twin`, `/energy-operations`, and `/digital-energy/controls`.
-- Added canonical integer-Wh Energy Ledger semantics, PET-20 Energy RWA, bounded Solana/Sui representation, reservation-backed delivery, meter evidence, reconciliation, financial settlement and retirement.
-- Added PostgreSQL persistence for proofs, batches, positions, reservations, representations, retirements, Digital Twin assets, deliveries, reconciliations, settlements, approvals, idempotency, audit and transactional outbox events.
-- Added explicit LIVE/DEMO/DEGRADED semantics. Configured database write failures never fall back to DEMO writes.
-- LIVE tenant access requires a normal PowerChain session or a timestamped HMAC-SHA256 trusted-service context.
-- Added Pyth, Birdeye, CoinMarketCap, ECB/Frankfurter FX, Solscan and Suiscan presentation boundaries without treating market/oracle data as physical-energy authority.
-
-### Canonical institutional controls and reliability
-
-- Settlement proposals are bound to deterministic `POWERCHAIN_SETTLEMENT_REVIEW_V1` SHA-256 review hashes.
-- Maker-checker policy defaults to two distinct checker approvals and prevents a settlement maker from approving their own proposal.
-- Any rejection blocks financial submission; `READY → SUBMITTED` requires an approved control state.
-- Checker decisions are persisted and bound to the exact reviewed hash.
-- Settlement preparation, approval and transition write downstream events through a PostgreSQL transactional outbox.
-- Outbox publication uses `FOR UPDATE SKIP LOCKED`, processing leases, stale-claim recovery, bounded concurrency, exponential retry backoff, maximum attempts and HTTP timeouts.
-- Event delivery is at-least-once; downstream consumers use the PowerChain event ID as an idempotency key.
-- Optional event-sink bearer authentication and HMAC-SHA256 request signing are supported.
-- Production non-local event sinks require HTTPS.
-- The Institutional Controls dashboard reports actual worker publisher state instead of assuming capability health.
-- Financial preparation, control visibility, checker decisions and settlement transitions use narrower institutional authorization boundaries.
-- `pnpm digital-energy:validate` is the canonical Digital Energy validation workflow.
-
-### Canonical safety invariants
-
-- Physical energy remains authoritative.
-- Electricity, Energy RWA, delivery, money, PWRC and wPWRC remain distinct domains.
-- Financial approval does not create energy or prove physical delivery.
-- Blockchain confirmation does not prove physical delivery.
-- Active Solana + Sui represented Wh cannot exceed canonical Energy Position backing.
-- PWRC remains native to Solana; wPWRC remains the 1:1 bridge-backed Sui representation.
+- Added `@powerchain/ui` as the canonical shared application-shell and UI primitive package.
+- Integrated the restrained white/light-gray/forest-green PowerChain brand system across Energy, Platform, Companies, PowerGrid, Plants, Wind, Charging, Supply Chain, Admin, Mapper and API surfaces.
+- Replaced fragmented one-off page chrome with a persistent full-height `100dvh` desktop sidebar and mobile drawer.
+- Removed the documentation sidebar footer and enforced a no-application-footer policy.
+- Added the shared PowerChain logo lockup and non-emoji SVG icon system.
+- Refactored core pages to use shared page headers, stat cards, panels, status badges and explicit empty/error states.
+- Preserved physical-infrastructure-first hierarchy: Energy RWA, token/network and settlement details remain secondary to operational state.
+- Added `docs/DESIGN-SYSTEM.md` and `packages/ui/README.md`; workspace doctor now validates the UI shell and footer invariants.
 
 
-### PowerChain Copilot
+## 1.0.0 — Repository hardening update
 
-- Added canonical `@powerchain/copilot` v1.0.0 workspace.
-- Replaced scattered operator AI entry points with a unified global PowerChain Copilot.
-- Added Ask, Analyze, Research and Act modes.
-- Added route-aware context resolution and structured `@Asset`, `@Portfolio`, `@Treasury` and `@Documents` context.
-- Added RWA Orchestrator planning and visible specialist-agent activity.
-- Added Asset Researcher, Asset Analyst, Risk, Capital, Operator, Verification, Document Intelligence, Reporting, Impact and Launch agents.
-- Added reusable asset-analysis, forecast-analysis, anomaly-detection, market-research, document-analysis, RWA-verification, treasury-analysis, funding-analysis, report-generation, workflow-planning and impact-calculation skills.
-- Added canonical prompt library and context-specific suggestions.
-- Added `/copilot/action-center` for explicit review of AI-prepared work.
-- Added organization-isolated PostgreSQL persistence for Copilot action drafts in LIVE mode.
-- Added human approval and external wallet-signature state boundaries; Copilot cannot sign transactions.
-- Added `/copilot/agents`, `/copilot/skills`, `/copilot/prompts` and `/copilot/settings`.
-- Added canonical Copilot registry, plan, run and Action Center APIs.
-- Converted legacy `/ai`, `/chat`, and old dashboard AI operator entry points into Copilot redirects/compatibility surfaces.
-- Added PowerChain Copilot to the main Digital Energy dashboard.
+### Tooling
 
-### PowerChain Products
+- Persisted pnpm 11 build-script review with `allowBuilds` for `@prisma/engines`, `esbuild`, and `prisma`.
+- Explicitly denied `@scarf/scarf` install execution and disabled Scarf analytics.
+- Added the canonical `pnpm local-energy:verify` workflow.
+- Added `api:docs:verify`, `build:apps`, and Prisma 7-aware root scripts.
 
-- Added canonical `/products` portfolio.
-- Added Digital Energy OS, PowerChain Copilot, Energy RWA, Local P2P Energy, Infrastructure and Energy Devices as explicit product surfaces.
-- Reorganized primary navigation into Operations, Copilot, Products, Commerce, Assets & Edge, Business, References and Administration.
+### Prisma 7
 
+- Migrated from the legacy `prisma-client-js` generator to `prisma-client` with explicit generated output.
+- Added root `prisma.config.ts` and removed datasource URLs/directUrl from `schema.prisma`.
+- Added `@prisma/adapter-pg` + `pg` runtime connection architecture.
+- Converted `@powerchain/database` to the generated Prisma 7 client path with lazy client construction.
 
-### Copilot architecture presentation improvements
+### API developer experience
 
-- Added the canonical Copilot architecture diagram to `apps/platform/public/images/architectures/`.
-- Added a dedicated `/copilot/architecture` workspace using the same immutable public architecture asset.
-- Added responsive architecture presentation for desktop, tablet and mobile.
-- Added explicit interface, orchestration, workforce/skills, context, authority and source-of-truth layers.
-- Added architecture navigation under the Copilot product group.
-- Added architecture links from the Copilot product page and Products overview.
-- Updated root README and Copilot/Products documentation to reference the canonical architecture asset and route.
+- Added API developer portal.
+- Added Swagger UI and canonical OpenAPI 3.1 contract.
+- Added Postman collection and local environment.
+- Added automated implemented-route/OpenAPI coverage verification.
 
+### Documentation
 
-### Local Energy OS
+- Rebuilt the root README as the canonical monorepo/operator guide.
+- Added README files to every application workspace.
+- Added root Programs documentation and Energy RWA program documentation.
+- Expanded API documentation and local port map.
 
-- Added canonical `@powerchain/local-energy` v1.0.0 domain package.
-- Promoted Local Energy OS to a first-class PowerChain product.
-- Added `/local-energy` command center.
-- Added `/local-energy/marketplace` with existing grid-aware P2P marketplace functionality.
-- Added `/local-energy/grid` for feeder constraints and flexibility state.
-- Added `/local-energy/devices` for meters, DER, storage, EV charging and edge infrastructure.
-- Added `/local-energy/settlement` with meter-evidence-first delivery/settlement boundaries.
-- Added `/api/v1/local-energy/overview`.
-- Kept `/p2p-energy` as a compatibility redirect to the Local Energy marketplace.
-- Added Local Energy as a first-class PowerChain Copilot context.
-- Updated Products, navigation, README and canonical product documentation.
+## 1.0.0
+- Canonical Local Energy OS full-stack scaffold.
+- SaaS control plane and entitlement package.
+- Wh/kWh/MWh/GWh energy accounting.
+- Energy Proof/Batch/Position/Reservation/Retirement persistence model.
+- Solana-native PWRC and Sui wPWRC bridge invariants.
+- Energy RWA anti-overissuance logic.
+- Anchor Energy RWA program scaffold and Sui Move lifecycle.
+- Context-aware API headers and `/api/v1` resource surface.
+- Protocol registry, cross-chain, oracle, x402 and degraded-service abstractions.
+- Runtime safety guards and workspace doctor.
 
+### Documentation & shared infrastructure
+- Added `apps/docs` canonical documentation application.
+- Added reusable root `components/docs` system.
+- Added `@powerchain/shared` for stable cross-application primitives and docs metadata.
+- Added provider-neutral `/storage` contracts and `/api/v1/system/storage` capability endpoint.
+- Added framework-neutral `/store`; Local Energy OS operating context now uses its external store.
+- Added DOCS-APP, SHARED, STORAGE and STATE-MANAGEMENT documentation.
 
-### Local Energy persistence and lifecycle hardening
+## 1.0.0 — Full-stack hardening pass
 
-- Added canonical integer-Wh `local_energy_*` PostgreSQL models.
-- Added tenant-scoped listings, orders, flexibility signals, audit events and durable idempotency records.
-- Added advisory transaction locks plus `SELECT ... FOR UPDATE` to prevent listing oversubscription.
-- Added idempotent order creation and idempotent order transitions.
-- Added evidence-gated order states from `REVIEW_REQUIRED` through `SETTLED`.
-- Added meter evidence and reconciliation requirements before financial settlement.
-- Added explicit cancellation/dispute paths and early-cancellation capacity release.
-- Added persistent grid flexibility requests bounded by available physical capacity.
-- Added signed HMAC service context for Local Energy LIVE access.
-- Added fail-closed database error semantics.
-- Rewired the P2P compatibility APIs to the canonical Local Energy runtime.
-- Rewired the marketplace UI to tenant-scoped API data rather than imported demo constants.
-- Added fully wired Grid/Flexibility and Settlement operator workspaces.
+- Replaced empty Energy Ledger API stubs with organization-scoped Prisma reads and transactional mutations.
+- Added canonical validation, policy, audit and domain-event packages.
+- Added mutation idempotency records with 24-hour replay handling and payload fingerprint protection.
+- Added audit and domain-event outbox persistence in economic transaction boundaries.
+- Added persisted Solana wallet challenges, Ed25519 verification, atomic nonce consumption, linked wallets, opaque hashed sessions and HttpOnly cookies.
+- Added organization memberships and Supabase/PostgreSQL tenant RLS defense-in-depth policies.
+- Added EnergySite, Meter, PowerPlant, WindFarm, ChargingStation, ChargingSession and AssetPassport persistence models.
+- Added metering, telemetry, settlement, ledger and reward domain packages.
+- Added Admin and Mapper applications.
+- Upgraded Energy Command Center from fixed demonstration balances to live database aggregation and explicit unavailable wallet data.
+- Upgraded SaaS tenant API from fixed ENTERPRISE payloads to persisted tenant/subscription state.
+- Upgraded worker runtime with durable outbox processing, idempotency cleanup, job supervision and graceful shutdown.
+- Upgraded OpenAPI/Postman documentation with method-level route verification and Energy Ledger mutation examples.
+- Added Docker Compose PostgreSQL/Redis development infrastructure and Node 24 CI/release gates.
+- Fixed `/store` and `/storage` as actual pnpm workspace packages.
+- Hardened Solana Energy RWA program with config/verification authority, batch finalization, position nonces, unit alignment and batch retirement accounting.
+- Hardened Sui Energy Position module with verifier capability, finalized batches, kWh/MWh alignment and mirrored retirement accounting.
+
+### Full-stack correctness follow-up — 2026-08-24
+
+- Moved all JSON body parsing and `Idempotency-Key` validation inside the canonical API execution/error boundary so malformed economic/auth/SaaS/PWRC requests return normalized API failures instead of escaping as framework errors.
+- Revalidated method-level OpenAPI coverage for all implemented `/api/v1` route modules.
+- Revalidated all TypeScript/TSX source syntax and framework-independent domain package typechecks.
+- Confirmed 46 package manifests, 30 `/api/v1` route modules, real API-backed secondary application workspaces, and hardened Energy RWA authentication/idempotency/RLS/program boundaries.
+
+## UI/UX hardening — 2026-08-25
+
+- Added interactive PowerChain command palette with keyboard shortcuts.
+- Added automatic route-aware navigation state and top-bar breadcrumbs.
+- Added compact mobile PowerChain navigation dock; no application footer introduced.
+- Expanded `@powerchain/ui` with shared loading, notice, lifecycle, progress and action components.
+- Reworked the Local Energy Command Center around the canonical verified → positioned → reserved → retired Energy RWA lifecycle.
+- Added explicit operational priority actions and runtime boundary presentation without fabricated telemetry or wallet balances.
+- Refined typography, spacing, status colors, responsive behavior, focus states and surface hierarchy across the shared application shell.

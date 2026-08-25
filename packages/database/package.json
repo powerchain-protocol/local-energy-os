@@ -4,41 +4,19 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
-    "./clients/supabase": "./src/clients/supabase/index.ts",
-    "./clients/*": "./src/clients/*.ts",
-    "./energy-outbox-worker": "./src/repositories/energy-outbox-worker.ts",
-    "./copilot": "./src/repositories/copilot.ts",
-    "./local-energy": "./src/repositories/local-energy.ts"
+    ".": "./src/index.ts"
   },
   "scripts": {
-    "db:generate": "prisma generate --schema prisma/schema.prisma",
-    "db:push": "prisma db push --schema prisma/schema.prisma",
-    "db:migrate": "prisma migrate deploy --schema prisma/schema.prisma",
-    "db:studio": "prisma studio --schema prisma/schema.prisma"
+    "generate": "pnpm --workspace-root prisma:generate",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@neondatabase/serverless": "^1.1.0",
-    "@powerchain/configuration": "workspace:*",
-    "@powerchain/shared": "workspace:*",
-    "@prisma/client": "6.19.3",
-    "@supabase/ssr": "^0.8.0",
-    "@supabase/supabase-js": "^2.112.3",
-    "pg": "8.23.0",
-    "@powerchain/energy-core": "workspace:*",
-    "@powerchain/energy-rwa": "workspace:*",
-    "@powerchain/asset-graph": "workspace:*",
-    "@powerchain/digital-energy": "workspace:*",
-    "@powerchain/energy-operations": "workspace:*",
-    "@powerchain/energy-controls": "workspace:*",
-    "@powerchain/copilot": "workspace:*",
-    "@powerchain/local-energy": "workspace:*"
+    "@prisma/adapter-pg": "7.9.1",
+    "@prisma/client": "7.9.1",
+    "pg": "8.23.0"
   },
   "devDependencies": {
-    "@types/pg": "8.23.1",
-    "prisma": "6.19.3"
-  },
-  "peerDependencies": {
-    "next": "^16.2.12"
+    "@types/pg": "8.21.0"
   }
 }

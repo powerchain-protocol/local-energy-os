@@ -1,9 +1,18 @@
-export type ContractDomain = "proof-of-energy" | "digital-twin" | "gridllm" | "pwrc-solana";
-export interface ContractDefinition { id: string; domain: ContractDomain; version: string; normativePath: string; implementationPath?: string; }
-export const contractRegistry: ContractDefinition[] = [
-  { id: "PCC-PoE-001", domain: "proof-of-energy", version: "1.0.0", normativePath: "docs/contracts/m/proof-of-energy/README.md", implementationPath: "programs/src/proof_of_energy.rs" },
-  { id: "PCC-DT-001", domain: "digital-twin", version: "1.0.0", normativePath: "docs/contracts/m/digital-twin/README.md", implementationPath: "programs/src/digital_twin.rs" },
-  { id: "PCC-AI-001", domain: "gridllm", version: "1.0.0", normativePath: "docs/contracts/m/gridllm/README.md", implementationPath: "programs/src/gridllm.rs" },
-  { id: "PCC-BRIDGE-001", domain: "pwrc-solana", version: "1.0.0", normativePath: "docs/contracts/m/pwrc-solana/README.md", implementationPath: "programs/pwrc-bridge" }
-];
-export function requireContract(id: string): ContractDefinition { const contract = contractRegistry.find(item => item.id === id); if (!contract) throw new Error(`Unknown PowerChain contract: ${id}`); return contract; }
+export type ParticipantType = "PROSUMER" | "CONSUMER" | "CLIENT" | "GRID_OPERATOR";
+export type EnergyContextType = "HOUSEHOLD" | "COMMUNITY" | "COMPANY" | "CLIENT" | "GRID_OPERATOR";
+export type EnergySource = "SOLAR" | "WIND" | "HYDRO" | "GEOTHERMAL" | "BIOMASS" | "GRID" | "STORAGE_DISCHARGE";
+export type EnergyRwaUnit = "KWH" | "MWH";
+export type PositionState = "AVAILABLE" | "RESERVED" | "COMMITTED" | "DELIVERING" | "DELIVERED" | "SETTLING" | "RETIRED" | "DISPUTED";
+export type BridgeState = "CREATED" | "SOURCE_LOCKED" | "ATTESTED" | "DESTINATION_MINTED" | "RETURN_BURNED" | "SOURCE_RELEASED" | "FAILED";
+
+export interface RequestContext {
+  requestId: string;
+  correlationId: string;
+  organizationId?: string;
+  tenantId?: string;
+  workspaceId?: string;
+  contextType?: EnergyContextType;
+}
+
+export interface ApiSuccess<T> { data: T; meta: { requestId: string; generatedAt: string } }
+export interface ApiFailure { error: { code: string; message: string; requestId: string; details?: Record<string, unknown> } }

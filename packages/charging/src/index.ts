@@ -1,0 +1,1 @@
+export type ChargingState="AUTHORIZED"|"STARTING"|"CHARGING"|"DISCHARGING"|"PAUSED"|"STOPPING"|"COMPLETED"|"SETTLING"|"SETTLED"|"FAILED"; export interface ChargingSession {id:string;stationId:string;evseId:string;connectorId:string;importedWh:bigint;exportedWh:bigint;state:ChargingState}

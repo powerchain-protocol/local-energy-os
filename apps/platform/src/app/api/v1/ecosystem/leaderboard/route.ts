@@ -1,1 +1,0 @@
-import{NextResponse}from"next/server";import{leaderboard}from"@/data/ecosystem";import{rankParticipants,totalScore}from"@/lib/ecosystem";export async function GET(){return NextResponse.json({data:rankParticipants(leaderboard).map(x=>({...x,totalScore:totalScore(x)}))})}

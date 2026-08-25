@@ -1,18 +1,36 @@
 {
-  "name": "@powerchain/api",
+  "name": "@powerchain/app-api",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
   "scripts": {
-    "build": "tsc -p tsconfig.json --noEmit",
-    "dev": "node --import tsx src/server.ts",
-    "start": "node --import tsx src/server.ts",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "dev": "next dev -p 3002",
+    "build": "next build",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@powerchain/application-runtime": "workspace:*"
+    "next": "16.3.2",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "@powerchain/config": "workspace:*",
+    "@powerchain/contracts": "workspace:*",
+    "@powerchain/api-client": "workspace:*",
+    "@powerchain/saas": "workspace:*",
+    "@powerchain/energy-rwa": "workspace:*",
+    "@powerchain/pwrc": "workspace:*",
+    "@powerchain/database": "workspace:*",
+    "@powerchain/auth": "workspace:*",
+    "swagger-ui-react": "5.32.14",
+    "@powerchain/validation": "workspace:*",
+    "@powerchain/policy": "workspace:*",
+    "@powerchain/events": "workspace:*",
+    "@powerchain/audit": "workspace:*",
+    "@powerchain/storage": "workspace:*",
+    "@powerchain/ui": "workspace:*"
   },
   "devDependencies": {
-    "tsx": "4.23.12"
+    "typescript": "^5.9.3",
+    "@types/react": "^19.2.0",
+    "@types/node": "^24.10.0",
+    "@types/swagger-ui-react": "5.18.0"
   }
 }

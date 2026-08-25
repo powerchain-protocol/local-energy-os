@@ -1,2 +1,0 @@
-import { digitalEnergyError, digitalEnergyResponse, enforceDigitalEnergyRateLimit, getDigitalEnergyContext, getDigitalEnergyPositionBacking } from "@/lib/digital-energy/server";
-export async function GET(request:Request,{params}:{params:Promise<{id:string}>}){const context=await getDigitalEnergyContext(request);try{enforceDigitalEnergyRateLimit(request,context);const{id}=await params;return digitalEnergyResponse(await getDigitalEnergyPositionBacking(context,id),context)}catch(error){return digitalEnergyError(error,context)}}

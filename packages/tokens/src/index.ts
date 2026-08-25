@@ -1,9 +1,0 @@
-export * as pwrc from "./pwrc/index";
-export * as rwa from "./rwa/index";
-export * as nft from "./nft/index";
-export * as staking from "./staking/index";
-export * as rewards from "./rewards/index";
-export * as governance from "./governance/index";
-export * as vesting from "./vesting/index";
-export * as treasury from "./treasury/index";
-export * as pricing from "./pricing/index";

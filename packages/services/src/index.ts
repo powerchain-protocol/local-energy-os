@@ -1,9 +1,0 @@
-export * as ai from "./ai/index";
-export * as blockchain from "./blockchain/index";
-export * as marketplace from "./marketplace/index";
-export * as payments from "./payments/index";
-export * as integrations from "./integrations/index";
-export * as analytics from "./analytics/index";
-export * as notifications from "./notifications/index";
-export * as storage from "./storage/index";
-export * as authentication from "./authentication/index";

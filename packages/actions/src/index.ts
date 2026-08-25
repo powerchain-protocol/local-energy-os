@@ -1,9 +1,0 @@
-export * as ai from "./ai/index";
-export * as wallet from "./wallet/index";
-export * as payments from "./payments/index";
-export * as marketplace from "./marketplace/index";
-export * as integration from "./integration/index";
-export * as governance from "./governance/index";
-export * as deployment from "./deployment/index";
-export * as admin from "./admin/index";
-export * as application from "./application/index";

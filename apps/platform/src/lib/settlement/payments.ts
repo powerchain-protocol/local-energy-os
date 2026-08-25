@@ -1,1 +1,0 @@
-export type PaymentAsset="FIAT"|"USDC"|"PWRC"|"WPWRC"|"CREDIT";export function paymentFee(amount:number,asset:PaymentAsset){const bps=asset==="FIAT"?65:asset==="CREDIT"?45:25;return Math.round(amount*bps)/10000}

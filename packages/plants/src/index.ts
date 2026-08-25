@@ -1,0 +1,1 @@
+export type PlantStatus="PLANNED"|"COMMISSIONING"|"ONLINE"|"CURTAILED"|"MAINTENANCE"|"OFFLINE"|"DECOMMISSIONED"; export interface PowerPlant {id:string;operatorId:string;type:string;installedCapacityKw:bigint;exportCapacityKw:bigint;gridConnectionPointId:string;status:PlantStatus}

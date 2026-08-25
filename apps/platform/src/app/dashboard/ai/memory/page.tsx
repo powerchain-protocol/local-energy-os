@@ -1,1 +1,0 @@
-import{AiWorkspacePage}from"@/components/ai/workspace-page";export default function Page(){return <AiWorkspacePage title="Memory" description="Control conversation, user, agent and workspace memory with consent and retention."/>}

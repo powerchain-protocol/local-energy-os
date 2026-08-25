@@ -1,0 +1,477 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../packages/database/src/generated/prisma"
+  runtime  = "nodejs"
+  moduleFormat = "esm"
+}
+datasource db {
+  provider = "postgresql"
+}
+
+enum ParticipantType { PROSUMER CONSUMER CLIENT GRID_OPERATOR }
+enum EnergySource { SOLAR WIND HYDRO GEOTHERMAL BIOMASS GRID STORAGE_DISCHARGE }
+enum EnergyRwaUnit { KWH MWH }
+enum PositionState { AVAILABLE RESERVED COMMITTED DELIVERING DELIVERED SETTLING RETIRED DISPUTED }
+enum TenantStatus { TRIAL ACTIVE SUSPENDED CANCELLED }
+enum BridgeState { CREATED SOURCE_LOCKED ATTESTED DESTINATION_MINTED RETURN_BURNED SOURCE_RELEASED FAILED }
+
+model Organization {
+  id String @id @default(cuid())
+  name String
+  tenant SaaSTenant?
+  participants Participant[]
+  memberships OrganizationMembership[]
+  energyBatches EnergyBatch[]
+  energySites EnergySite[]
+  powerPlants PowerPlant[]
+  windFarms WindFarm[]
+  chargingStations ChargingStation[]
+  assetPassports AssetPassport[]
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  @@map("organizations")
+}
+model Participant {
+  id String @id @default(cuid())
+  organizationId String @map("organization_id")
+  userId String? @map("user_id")
+  type ParticipantType
+  displayName String @map("display_name")
+  organization Organization @relation(fields:[organizationId],references:[id],onDelete:Cascade)
+  user User? @relation(fields:[userId],references:[id],onDelete:SetNull)
+  createdAt DateTime @default(now()) @map("created_at")
+  @@index([organizationId,type])
+  @@map("participants")
+}
+model SaaSTenant {
+  id String @id @default(cuid())
+  organizationId String @unique @map("organization_id")
+  status TenantStatus @default(TRIAL)
+  plan String
+  organization Organization @relation(fields:[organizationId],references:[id],onDelete:Cascade)
+  subscriptions SaaSSubscription[]
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  @@map("saas_tenants")
+}
+model SaaSSubscription {
+  id String @id @default(cuid())
+  tenantId String @map("tenant_id")
+  appId String @map("app_id")
+  enabled Boolean @default(true)
+  tenant SaaSTenant @relation(fields:[tenantId],references:[id],onDelete:Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+  @@unique([tenantId,appId])
+  @@map("saas_subscriptions")
+}
+model GridArea {
+  id String @id @default(cuid())
+  code String @unique
+  name String
+  substations Substation[]
+  @@map("grid_areas")
+}
+model Substation {
+  id String @id @default(cuid())
+  gridAreaId String @map("grid_area_id")
+  name String
+  gridArea GridArea @relation(fields:[gridAreaId],references:[id],onDelete:Cascade)
+  transformers Transformer[]
+  @@map("substations")
+}
+model Transformer {
+  id String @id @default(cuid())
+  substationId String @map("substation_id")
+  name String
+  capacityKw Decimal? @map("capacity_kw")
+  substation Substation @relation(fields:[substationId],references:[id],onDelete:Cascade)
+  feeders Feeder[]
+  @@map("transformers")
+}
+model Feeder {
+  id String @id @default(cuid())
+  transformerId String @map("transformer_id")
+  name String
+  transformer Transformer @relation(fields:[transformerId],references:[id],onDelete:Cascade)
+  @@map("feeders")
+}
+model EnergyProof {
+  id String @id @default(cuid())
+  organizationId String @map("organization_id")
+  siteId String @map("site_id")
+  meterId String @map("meter_id")
+  source EnergySource
+  measuredWh BigInt @map("measured_wh")
+  verifiedWh BigInt @map("verified_wh")
+  qualityScore Decimal @map("quality_score")
+  intervalStart DateTime @map("interval_start")
+  intervalEnd DateTime @map("interval_end")
+  evidenceRoot String @map("evidence_root")
+  batch EnergyBatch?
+  createdAt DateTime @default(now()) @map("created_at")
+  @@index([organizationId,siteId,intervalStart])
+  @@map("energy_proofs")
+}
+model EnergyBatch {
+  id String @id @default(cuid())
+  organizationId String @map("organization_id")
+  proofId String @unique @map("proof_id")
+  verifiedWh BigInt @map("verified_wh")
+  invalidatedWh BigInt @default(0) @map("invalidated_wh")
+  positionedWh BigInt @default(0) @map("positioned_wh")
+  retiredWh BigInt @default(0) @map("retired_wh")
+  source EnergySource
+  evidenceRoot String @map("evidence_root")
+  organization Organization @relation(fields:[organizationId],references:[id],onDelete:Cascade)
+  proof EnergyProof @relation(fields:[proofId],references:[id],onDelete:Restrict)
+  positions EnergyPosition[]
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  @@index([organizationId,createdAt])
+  @@map("energy_batches")
+}
+model EnergyPosition {
+  id String @id @default(cuid())
+  batchId String @map("batch_id")
+  unit EnergyRwaUnit
+  amountWh BigInt @map("amount_wh")
+  reservedWh BigInt @default(0) @map("reserved_wh")
+  retiredWh BigInt @default(0) @map("retired_wh")
+  state PositionState @default(AVAILABLE)
+  canonicalChain String? @map("canonical_chain")
+  batch EnergyBatch @relation(fields:[batchId],references:[id],onDelete:Restrict)
+  reservations EnergyReservation[]
+  retirements EnergyRetirement[]
+  representations EnergyChainRepresentation[]
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  @@index([batchId,state])
+  @@map("energy_positions")
+}
+model EnergyReservation {
+  id String @id @default(cuid())
+  positionId String @map("position_id")
+  amountWh BigInt @map("amount_wh")
+  orderId String? @map("order_id")
+  expiresAt DateTime? @map("expires_at")
+  releasedAt DateTime? @map("released_at")
+  position EnergyPosition @relation(fields:[positionId],references:[id],onDelete:Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+  @@map("energy_reservations")
+}
+model EnergyRetirement {
+  id String @id @default(cuid())
+  positionId String @map("position_id")
+  amountWh BigInt @map("amount_wh")
+  reason String
+  settlementId String? @map("settlement_id")
+  evidenceRoot String? @map("evidence_root")
+  position EnergyPosition @relation(fields:[positionId],references:[id],onDelete:Restrict)
+  retiredAt DateTime @default(now()) @map("retired_at")
+  @@map("energy_retirements")
+}
+model EnergyChainRepresentation {
+  id String @id @default(cuid())
+  positionId String @map("position_id")
+  chain String
+  reference String
+  amountWh BigInt @map("amount_wh")
+  state String
+  position EnergyPosition @relation(fields:[positionId],references:[id],onDelete:Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+  @@index([positionId,chain,state])
+  @@map("energy_chain_representations")
+}
+model PwrcBridgeTransfer {
+  id String @id @default(cuid())
+  sourceChain String @map("source_chain")
+  destinationChain String @map("destination_chain")
+  amountBaseUnits BigInt @map("amount_base_units")
+  sourceReference String? @map("source_reference")
+  destinationReference String? @map("destination_reference")
+  state BridgeState @default(CREATED)
+  idempotencyKey String @unique @map("idempotency_key")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  @@map("pwrc_bridge_transfers")
+}
+model IntegrationOutbox {
+  id String @id @default(cuid())
+  topic String
+  aggregateId String @map("aggregate_id")
+  payload Json
+  attempts Int @default(0)
+  processedAt DateTime? @map("processed_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  @@index([processedAt,createdAt])
+  @@map("integration_outbox")
+}
+
+model IdempotencyRecord {
+  id             String   @id @default(cuid())
+  organizationId String   @map("organization_id")
+  key            String
+  method         String
+  path           String
+  requestHash    String   @map("request_hash")
+  state          String   @default("IN_PROGRESS")
+  responseStatus Int?     @map("response_status")
+  responseBody   Json?    @map("response_body")
+  expiresAt      DateTime @map("expires_at")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  @@unique([organizationId, key, method, path])
+  @@index([expiresAt])
+  @@map("idempotency_records")
+}
+
+model AuditLog {
+  id             String   @id @default(cuid())
+  organizationId String?  @map("organization_id")
+  actorId        String?  @map("actor_id")
+  actorRole      String?  @map("actor_role")
+  action         String
+  resourceType   String   @map("resource_type")
+  resourceId     String   @map("resource_id")
+  requestId      String   @map("request_id")
+  correlationId  String   @map("correlation_id")
+  outcome        String
+  metadata       Json?
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  @@index([organizationId, createdAt])
+  @@index([resourceType, resourceId])
+  @@map("audit_logs")
+}
+
+model DomainEventOutbox {
+  id             String   @id
+  type           String
+  version        Int
+  occurredAt     DateTime @map("occurred_at")
+  organizationId String?  @map("organization_id")
+  aggregateType  String   @map("aggregate_type")
+  aggregateId    String   @map("aggregate_id")
+  requestId      String?  @map("request_id")
+  correlationId  String?  @map("correlation_id")
+  causationId    String?  @map("causation_id")
+  payload        Json
+  attempts       Int      @default(0)
+  processedAt    DateTime? @map("processed_at")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  @@index([processedAt, createdAt])
+  @@index([aggregateType, aggregateId])
+  @@map("domain_event_outbox")
+}
+
+enum OperationalAssetStatus { PLANNED COMMISSIONING ONLINE CURTAILED MAINTENANCE OFFLINE DECOMMISSIONED }
+enum MeterStatus { REGISTERED CLAIMED PROVISIONING ACTIVE DEGRADED OFFLINE SUSPENDED RETIRED }
+enum ChargingSessionState { AUTHORIZED STARTING CHARGING DISCHARGING PAUSED STOPPING COMPLETED SETTLING SETTLED FAILED }
+
+model EnergySite {
+  id             String   @id @default(cuid())
+  organizationId String   @map("organization_id")
+  name           String
+  siteType       String   @map("site_type")
+  gridAreaId     String?  @map("grid_area_id")
+  latitude       Decimal?
+  longitude      Decimal?
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  meters         Meter[]
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@index([organizationId, siteType])
+  @@index([gridAreaId])
+  @@map("energy_sites")
+}
+
+model Meter {
+  id             String      @id @default(cuid())
+  siteId         String      @map("site_id")
+  serialNumber   String      @map("serial_number")
+  manufacturer   String?
+  model          String?
+  status         MeterStatus @default(REGISTERED)
+  lastSeenAt     DateTime?   @map("last_seen_at")
+  site           EnergySite  @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  createdAt      DateTime    @default(now()) @map("created_at")
+  updatedAt      DateTime    @updatedAt @map("updated_at")
+
+  @@unique([siteId, serialNumber])
+  @@index([status, lastSeenAt])
+  @@map("meters")
+}
+
+model PowerPlant {
+  id                  String                 @id @default(cuid())
+  organizationId      String                 @map("organization_id")
+  siteId              String?                @map("site_id")
+  name                String
+  technology          String
+  installedCapacityKw BigInt                 @map("installed_capacity_kw")
+  exportCapacityKw    BigInt?                @map("export_capacity_kw")
+  gridAreaId          String?                @map("grid_area_id")
+  status              OperationalAssetStatus @default(PLANNED)
+  organization        Organization           @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  createdAt           DateTime               @default(now()) @map("created_at")
+  updatedAt           DateTime               @updatedAt @map("updated_at")
+
+  @@index([organizationId, status])
+  @@index([gridAreaId])
+  @@map("power_plants")
+}
+
+model WindFarm {
+  id                  String                 @id @default(cuid())
+  organizationId      String                 @map("organization_id")
+  siteId              String?                @map("site_id")
+  name                String
+  turbineCount        Int                    @map("turbine_count")
+  installedCapacityKw BigInt                 @map("installed_capacity_kw")
+  gridAreaId          String?                @map("grid_area_id")
+  status              OperationalAssetStatus @default(PLANNED)
+  organization        Organization           @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  createdAt           DateTime               @default(now()) @map("created_at")
+  updatedAt           DateTime               @updatedAt @map("updated_at")
+
+  @@index([organizationId, status])
+  @@index([gridAreaId])
+  @@map("wind_farms")
+}
+
+model ChargingStation {
+  id             String   @id @default(cuid())
+  organizationId String   @map("organization_id")
+  siteId         String?  @map("site_id")
+  name           String
+  ocppIdentity   String?  @unique @map("ocpp_identity")
+  protocol       String   @default("OCPP_2_1")
+  status         String   @default("AVAILABLE")
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  sessions       ChargingSession[]
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@index([organizationId, status])
+  @@map("charging_stations")
+}
+
+model ChargingSession {
+  id             String               @id @default(cuid())
+  stationId      String               @map("station_id")
+  connectorId    String               @map("connector_id")
+  externalId     String?              @unique @map("external_id")
+  importedWh     BigInt               @default(0) @map("imported_wh")
+  exportedWh     BigInt               @default(0) @map("exported_wh")
+  state          ChargingSessionState @default(AUTHORIZED)
+  startedAt      DateTime             @default(now()) @map("started_at")
+  endedAt        DateTime?            @map("ended_at")
+  station        ChargingStation      @relation(fields: [stationId], references: [id], onDelete: Restrict)
+  createdAt      DateTime             @default(now()) @map("created_at")
+  updatedAt      DateTime             @updatedAt @map("updated_at")
+
+  @@index([stationId, startedAt])
+  @@index([state, startedAt])
+  @@map("charging_sessions")
+}
+
+model AssetPassport {
+  id             String   @id @default(cuid())
+  organizationId String   @map("organization_id")
+  assetType      String   @map("asset_type")
+  manufacturer   String?
+  productId      String?  @map("product_id")
+  serialNumber   String   @map("serial_number")
+  status         String
+  currentSiteId  String?  @map("current_site_id")
+  evidenceRoot   String?  @map("evidence_root")
+  metadata       Json?
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@unique([organizationId, serialNumber])
+  @@index([organizationId, assetType, status])
+  @@map("asset_passports")
+}
+
+enum OrganizationRole { SUPERADMIN PLATFORM_ADMIN COMPANY_OWNER COMPANY_ADMIN GRID_OPERATOR ENERGY_TRADER METER_OPERATOR FIELD_TECHNICIAN HOMEOWNER PROSUMER CONSUMER AUDITOR VIEWER }
+
+model User {
+  id            String   @id @default(cuid())
+  email         String?  @unique
+  supabaseUserId String? @unique @map("supabase_user_id")
+  displayName   String?  @map("display_name")
+  disabledAt    DateTime? @map("disabled_at")
+  memberships   OrganizationMembership[]
+  sessions      Session[]
+  wallets       LinkedWallet[]
+  participants  Participant[]
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model OrganizationMembership {
+  id             String           @id @default(cuid())
+  organizationId String           @map("organization_id")
+  userId         String           @map("user_id")
+  role           OrganizationRole
+  organization   Organization     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt      DateTime         @default(now()) @map("created_at")
+  updatedAt      DateTime         @updatedAt @map("updated_at")
+
+  @@unique([organizationId, userId])
+  @@index([userId, role])
+  @@map("organization_memberships")
+}
+
+model Session {
+  id         String   @id @default(cuid())
+  userId     String   @map("user_id")
+  tokenHash  String   @unique @map("token_hash")
+  expiresAt  DateTime @map("expires_at")
+  revokedAt  DateTime? @map("revoked_at")
+  userAgent  String?  @map("user_agent")
+  ipHash     String?  @map("ip_hash")
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@index([userId, expiresAt])
+  @@map("sessions")
+}
+
+model LinkedWallet {
+  id           String   @id @default(cuid())
+  userId       String   @map("user_id")
+  network      String
+  address      String
+  label        String?
+  isPrimary    Boolean  @default(false) @map("is_primary")
+  verifiedAt   DateTime @default(now()) @map("verified_at")
+  lastUsedAt   DateTime? @map("last_used_at")
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([network, address])
+  @@index([userId, isPrimary])
+  @@map("linked_wallets")
+}
+
+model WalletAuthChallenge {
+  id            String   @id @default(cuid())
+  walletAddress String   @map("wallet_address")
+  nonce         String   @unique
+  origin        String
+  cluster       String
+  message       String
+  expiresAt     DateTime @map("expires_at")
+  consumedAt    DateTime? @map("consumed_at")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@index([walletAddress, expiresAt])
+  @@map("wallet_auth_challenges")
+}

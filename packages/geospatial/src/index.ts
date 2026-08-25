@@ -1,0 +1,1 @@
+export interface GeoReference {latitude:number;longitude:number;altitudeM?:number;gridAreaId?:string;feederId?:string;geofenceId?:string} export interface EnergyRoute {sourceSiteId:string;destinationSiteId:string;geographicDistanceM?:number;estimatedLossWh:bigint;gridCapacityAvailable:boolean;routeStatus:"AVAILABLE"|"CONSTRAINED"|"UNAVAILABLE"}

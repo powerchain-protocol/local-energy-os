@@ -1,1 +1,0 @@
-import{NextRequest,NextResponse}from"next/server";import{searchDocumentation}from"@/services/docs/search";export async function GET(req:NextRequest){return NextResponse.json({data:searchDocumentation(req.nextUrl.searchParams.get("q")??"")})}

@@ -1,1 +1,0 @@
-import{AiWorkspacePage}from"@/components/ai/workspace-page";export default function Page(){return <AiWorkspacePage title="Language models" description="Manage GridLLM and compatible hosted or private language models."/>}

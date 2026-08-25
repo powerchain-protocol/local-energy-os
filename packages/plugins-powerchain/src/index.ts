@@ -1,9 +1,0 @@
-export * as sdk from "./sdk/index";
-export * as registry from "./registry/index";
-export * as lifecycle from "./lifecycle/index";
-export * as permissions from "./permissions/index";
-export * as ui from "./ui/index";
-export * as hooks from "./hooks/index";
-export * as actions from "./actions/index";
-export * as events from "./events/index";
-export * as templates from "./templates/index";

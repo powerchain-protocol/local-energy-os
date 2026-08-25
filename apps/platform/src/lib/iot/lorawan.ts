@@ -1,1 +1,0 @@
-export function normalizeLoRaWanUplink(input:{deviceId:string;fCnt:number;payload:Record<string,unknown>}){return{deviceId:input.deviceId,sequence:input.fCnt,payload:input.payload,transport:"lorawan"as const}}

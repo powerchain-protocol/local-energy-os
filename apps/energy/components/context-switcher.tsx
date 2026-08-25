@@ -1,0 +1,3 @@
+"use client"; import {useEnergyContext} from "./context-provider"; import type {EnergyContextType} from "@powerchain/contracts";
+const options:[EnergyContextType,string][]=[["HOUSEHOLD","My Household"],["COMMUNITY","Helsinki North"],["COMPANY","Energy Company"],["CLIENT","Client Portfolio"],["GRID_OPERATOR","Grid Operator"]];
+export function ContextSwitcher(){const {context,setContext}=useEnergyContext();return <select aria-label="Operating context" value={context.type} onChange={e=>{const o=options.find(x=>x[0]===e.target.value)!;setContext({type:o[0],label:o[1]})}}>{options.map(([v,l])=><option value={v} key={v}>{l}</option>)}</select>}

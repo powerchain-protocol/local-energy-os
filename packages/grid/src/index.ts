@@ -1,0 +1,2 @@
+export interface GridAreaState {id:string; name:string; importKw:number; exportKw:number; mode:"NORMAL"|"CONSTRAINED"|"EMERGENCY"|"ISLANDED"|"RECOVERY"}
+export function assertExportCapacity(requestedKw:number,availableKw:number){if(requestedKw>availableKw)throw new Error("GRID_EXPORT_CAPACITY_EXCEEDED");}

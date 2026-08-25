@@ -1,5 +1,0 @@
-import { z } from "zod";
-import { fundingProjects } from "@/data/projects";
-const contribution=z.object({projectId:z.string().min(1),amount:z.number().positive().max(100000),currency:z.enum(["EUR","USD","PWRC"]),actorId:z.string().min(1)});
-export async function GET(){return Response.json({data:fundingProjects.map((project)=>({...project,fundedPercent:Math.min(100,Math.round(project.raised/project.goal*100))})),meta:{mvp:true}})}
-export async function POST(request:Request){const parsed=contribution.safeParse(await request.json());if(!parsed.success)return Response.json({error:parsed.error.issues[0]?.message??"Invalid contribution"},{status:400});const project=fundingProjects.find((item)=>item.id===parsed.data.projectId||item.slug===parsed.data.projectId);if(!project)return Response.json({error:"Project not found"},{status:404});return Response.json({data:{...parsed.data,contributionId:`ctr_${crypto.randomUUID()}`,projectId:project.id,status:"requires_payment_authorization",createdAt:new Date().toISOString()}},{status:201})}

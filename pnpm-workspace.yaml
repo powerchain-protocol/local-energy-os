@@ -1,31 +1,13 @@
 packages:
-  - "."
-  - "apps/*"
-  - "packages/*"
+  - apps/*
+  - packages/*
+  - store
+  - storage
 
-minimumReleaseAge: 0
-pmOnFail: ignore
-engineStrict: true
-verifyDepsBeforeRun: error
-trustLockfile: true
-blockExoticSubdeps: true
-strictDepBuilds: true
-strictPeerDependencies: false
-autoInstallPeers: true
-dedupePeers: true
-
+# pnpm 11 build-script allowlist. This is the persisted result of reviewing
+# `pnpm approve-builds` for the current dependency graph.
 allowBuilds:
-  "@prisma/client": true
-  "@prisma/engines": true
-  prisma: true
-  bufferutil: true
-  utf-8-validate: true
-  protobufjs: true
-  tiny-secp256k1: true
-  blake-hash: true
-  bigint-buffer: true
+  '@prisma/engines': true
   esbuild: true
-  sharp: true
-  "@stellar/stellar-sdk": false
-  core-js-pure: false
-  usb: false
+  prisma: true
+  '@scarf/scarf': false

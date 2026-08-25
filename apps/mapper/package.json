@@ -1,0 +1,23 @@
+{
+  "name": "@powerchain/app-mapper",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3011",
+    "build": "next build",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "16.3.2",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "@powerchain/api-client": "workspace:*",
+    "@powerchain/geospatial": "workspace:*",
+    "@powerchain/ui": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "@types/react": "^19.2.0",
+    "@types/node": "^24.10.0"
+  }
+}
