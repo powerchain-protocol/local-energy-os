@@ -3,7 +3,7 @@ import { degradedPolicy } from "@powerchain/system-management";
 import { jobs } from "./jobs";
 
 let stopping = false;
-const timers: NodeJS.Timeout[] = [];
+const timers: Array<ReturnType<typeof setInterval>> = [];
 
 async function execute(job: (typeof jobs)[number]) {
   if (stopping) return;

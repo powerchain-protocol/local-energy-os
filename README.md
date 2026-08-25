@@ -67,13 +67,15 @@ programs/       Solana programs
 move/           Sui Move package
 prisma/         Canonical schema
 supabase/       RLS/migration bridge
+tools/          Repository verification, infra, Prisma and release tooling
+docs/           Canonical project documentation
 ```
 
 ## Brand & application shell
 
 All operational web applications share `@powerchain/ui`. The canonical shell uses a fixed **100dvh** desktop sidebar, independently scrolling grouped navigation, a sticky top bar, responsive drawer behavior, restrained forest-green design tokens, and **no application footer**. Physical infrastructure and operational state are shown before token/network details.
 
-See `docs/DESIGN-SYSTEM.md`.
+See `docs/DESIGN-SYSTEM.md`. Package versions and upgrade policy are tracked in `docs/PACKAGES.md`.
 
 ## Docs UI workspace boundary
 
@@ -89,8 +91,8 @@ Commit the resulting `pnpm-lock.yaml`, then use `pnpm install --frozen-lockfile`
 
 ## Requirements
 
-- Node.js **24.x**
-- pnpm **11.22.0** through Corepack
+- Node.js **24.19.0 LTS** (pinned by `.nvmrc` and `.node-version`)
+- pnpm **11.23.0** through Corepack
 - PostgreSQL or Supabase PostgreSQL
 - Docker optional for local PostgreSQL/Redis
 - Anchor/Solana and Sui CLI only when validating blockchain programs
@@ -98,8 +100,9 @@ Commit the resulting `pnpm-lock.yaml`, then use `pnpm install --frozen-lockfile`
 ## Install
 
 ```bash
+nvm use
 corepack enable
-corepack use pnpm@11.22.0
+corepack use pnpm@11.23.0
 pnpm install --no-frozen-lockfile
 ```
 
@@ -128,6 +131,33 @@ pnpm install --frozen-lockfile
 pnpm local-energy:verify
 pnpm typecheck
 ```
+
+
+### TypeScript runtime profiles
+
+PowerChain separates browser/shared and Node runtime types. `tsconfig.base.json` provides ES2024 + DOM libraries, while `tsconfig.node.json` provides ES2024 plus explicit Node ambient types. Server-only packages such as the worker, auth, database and events layers extend the Node profile.
+
+```json
+{
+  "compilerOptions": {
+    "lib": ["ES2024"],
+    "types": ["node"]
+  }
+}
+```
+
+This prevents browser packages from accidentally depending on Node globals while guaranteeing `process`, `Buffer`, Node built-ins and timers are typed in server packages.
+
+### Build cache
+
+Turbo local cache is stored under `cache/turbo` rather than scattered through package directories.
+
+```bash
+pnpm cache:status
+pnpm cache:clean
+```
+
+The cache directory is ignored by Git except for `cache/.gitkeep` and is restored in GitHub Actions.
 
 ## Local infrastructure
 
@@ -245,7 +275,7 @@ The repository includes shared editor/agent configuration:
   launch.json
 
 .windsurf/rules/powerchain.md
-AGENTS.md
+docs/ai/AGENTS.md
 .github/copilot-instructions.md
 ```
 
@@ -347,7 +377,7 @@ It requires Node 24 and a committed lockfile, then runs structural validation, m
 
 ## Documentation
 
-Start with `docs/ARCHITECTURE.md`, `docs/DESIGN-SYSTEM.md`, `docs/FULLSTACK.md`, `docs/AUTHENTICATION.md`, `docs/SECURITY.md`, `docs/ASSETS.md`, `docs/API.md`, `docs/SAAS.md`, and `docs/RELEASE.md`.
+Start with `docs/README.md`, then `docs/ARCHITECTURE.md`, `docs/DESIGN-SYSTEM.md`, `docs/FULLSTACK.md`, `docs/AUTHENTICATION.md`, `docs/SECURITY.md`, `docs/ASSETS.md`, `docs/API.md`, `docs/SAAS.md`, and `docs/RELEASE.md`.
 
 ## Status
 
@@ -356,7 +386,7 @@ The repository is a canonical implementation scaffold with real transactional En
 
 ## UI/UX System
 
-PowerChain applications use the shared `@powerchain/ui` shell with a fixed full-height desktop sidebar, no application footer, restrained forest-green visual language, command search (`⌘/Ctrl+K`), route-aware navigation, responsive mobile action dock, canonical loading/error/empty patterns, and operational lifecycle components. See `docs/DESIGN-SYSTEM.md`.
+PowerChain applications use the shared `@powerchain/ui` shell with a fixed full-height desktop sidebar, no application footer, restrained forest-green visual language, command search (`⌘/Ctrl+K`), route-aware navigation, responsive mobile action dock, canonical loading/error/empty patterns, and operational lifecycle components. See `docs/DESIGN-SYSTEM.md`. Package versions and upgrade policy are tracked in `docs/PACKAGES.md`.
 ## Local Energy workspace UX
 
 The Local Energy application now exposes real workspace destinations rather than disabled shell entries:

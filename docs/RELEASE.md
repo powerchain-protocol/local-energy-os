@@ -1,10 +1,10 @@
 # Release Engineering
 
-Production release verification requires Node 24.x, pnpm 11.22.0 and a committed `pnpm-lock.yaml`.
+Production release verification requires Node 24.x, pnpm 11.23.0 and a committed `pnpm-lock.yaml`.
 
 ```bash
 corepack enable
-corepack use pnpm@11.22.0
+corepack use pnpm@11.23.0
 pnpm install --no-frozen-lockfile
 # commit pnpm-lock.yaml after the first canonical install
 pnpm release:verify

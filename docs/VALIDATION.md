@@ -4,7 +4,7 @@ The included repository-level doctor validates canonical versions, package-name 
 
 Full production release gates still require the target toolchain and services:
 
-1. Node 24 + pnpm 11.22
+1. Node 24 + pnpm 11.23.0
 2. `pnpm install`
 3. `pnpm prisma:generate && pnpm prisma:validate`
 4. `pnpm typecheck && pnpm build`
