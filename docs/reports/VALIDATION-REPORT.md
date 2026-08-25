@@ -1,61 +1,72 @@
 # PowerChain Local Energy OS v1.0.0 — Validation Report
 
-**Release date:** 2026-08-25  
-**Workspace projects:** 48  
-**API route modules:** 31  
-**Manifest-tracked files:** 376
+## System-management / database hardening pass
 
-## Passed in packaging environment
+Validated in the packaging environment:
 
-- Repository workspace doctor: **PASS**
-- Aggregate repository validation: **PASS**
-- OpenAPI 3.1 route/method coverage: **PASS**
-- Workspace package-name uniqueness: **PASS**
-- Workspace import declarations: **PASS**
-- Prisma 7 schema contract / multiline enum checks: **PASS**
-- Energy accounting / Energy RWA invariant checks: **PASS**
-- API economic mutation/idempotency/audit/outbox structural checks: **PASS**
-- Auth/session/RLS structural checks: **PASS**
-- Solana/Sui RWA hardening structural checks: **PASS**
-- Full-height UI shell / no-footer / mobile-nav checks: **PASS**
-- Next application loading/error/not-found boundary checks: **PASS**
-- Production Next `start` script checks: **PASS**
-- Worker emitted-build/start contract: **PASS**
-- API client/contracts direct TypeScript typecheck with available compiler: **PASS**
-- TypeScript/TSX syntax parse: **PASS — 165 files**
-- JSON manifest/editor configuration parse: **PASS**
-- Database preflight behavior with unreachable localhost: **PASS**
+- Workspace doctor: PASS
+- Workspace projects: 53
+- OpenAPI 3.1 method coverage: PASS
+- Repository aggregate validation: PASS
+- `@powerchain/system-management` TypeScript compile: PASS
+- TypeScript/TSX parser: PASS, 190 files, 0 parse errors
+- Prisma schema structural contract: PASS through repository validation
+- API route manifest coverage: PASS
+- Root Markdown policy: PASS (`README.md`, `CONTRIBUTING.md` only)
+- Development DB fallback resolution: PASS (`127.0.0.1:5432/powerchain`)
+- Database offline classification: PASS (`unreachable`, not `unconfigured`)
+- ZIP integrity: generated after this report
 
-## Database behavior corrected
+## New canonical system surfaces
 
-`prisma validate` and `prisma generate` are intentionally offline-capable. Commands that require database state now use `pnpm db:doctor` first. `pnpm db:setup` can start/wait for local Compose PostgreSQL or validate a managed PostgreSQL target before migration work begins.
+```text
+GET /api/v1/system/status
+GET /api/v1/system/status?probe=deep
+GET /api/v1/system/config
+GET /api/v1/system/management
+GET /api/v1/system/health
+```
 
-`prisma:migrate:baseline:create` remains offline. `prisma:migrate:baseline:resolve` remains online by design because it writes migration history to an existing database.
+The canonical status contract lives at:
 
-## Dependency graph improvement
+```text
+packages/system-management/src/types/status.ts
+```
 
-The API documentation UI now uses `swagger-ui-dist` instead of `swagger-ui-react`. This keeps Swagger/OpenAPI while removing the React wrapper and previous Tree-sitter parser build-script approvals from the workspace policy.
+## Database semantics
 
-## Required Node 24 release gates
+Prisma schema validation and client generation do not require a live PostgreSQL server. Migration status, migration resolution, `db push`, and migration deployment do.
 
-The packaging environment is Node 22 and does not contain the installed pnpm workspace dependency graph. Run these on the canonical Node 24.19.0 / pnpm 11.23.0 machine after refreshing the lockfile:
+Datasource resolution:
+
+```text
+DIRECT_URL
+→ DATABASE_URL
+→ PG* variables
+→ development-only 127.0.0.1 fallback
+```
+
+A derived/configured datasource that cannot be reached is reported as `UNAVAILABLE`. Production has no localhost fallback.
+
+## Target-machine release gates
+
+Run on Node 24.19.0 + pnpm 11.23.0 with installed workspace dependencies:
 
 ```bash
-pnpm install --no-frozen-lockfile
+pnpm install --frozen-lockfile
 pnpm peers:check
 pnpm local-energy:verify
 pnpm typecheck
 pnpm build:apps
-pnpm build:worker
 ```
 
-For live database validation:
+For migration integration tests, PostgreSQL must also be reachable:
 
 ```bash
 pnpm db:status
 pnpm db:up
-pnpm db:setup
+pnpm db:doctor
 pnpm prisma:migrate:status
 ```
 
-After a successful dependency refresh, commit `pnpm-lock.yaml` and return CI/release installs to `pnpm install --frozen-lockfile`.
+Anchor/Rust and Sui Move tests remain target-toolchain gates.

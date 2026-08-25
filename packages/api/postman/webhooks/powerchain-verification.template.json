@@ -1,0 +1,5 @@
+{
+  "title": "PowerChain API Verification",
+  "workspace": "${POSTMAN_WORKSPACE_ID}",
+  "provisioner": "postman webhook create"
+}

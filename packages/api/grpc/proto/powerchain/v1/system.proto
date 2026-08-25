@@ -1,0 +1,14 @@
+syntax = "proto3";
+package powerchain.api.v1;
+
+service SystemService {
+  rpc Check(HealthRequest) returns (HealthResponse);
+}
+
+message HealthRequest {}
+message HealthResponse {
+  string service = 1;
+  string version = 2;
+  string status = 3;
+  string generated_at = 4;
+}

@@ -1,0 +1,13 @@
+{
+  "source": [
+    "monitor-runs",
+    "mock-server-calls"
+  ],
+  "metrics": [
+    "availability",
+    "response-time",
+    "test-failures",
+    "mock-call-volume"
+  ],
+  "note": "Postman Insights is populated by service activity; this file documents the expected observability surface."
+}

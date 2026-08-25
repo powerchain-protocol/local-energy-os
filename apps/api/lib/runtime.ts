@@ -1,3 +1,5 @@
+import { loadPowerChainRootEnv } from "@powerchain/config/node-env";
+loadPowerChainRootEnv();
 import { assertSafeRuntime, CANONICAL_VERSION, type DataMode, type Environment, type OperatingMode, type PowerChainNetwork, type RuntimeConfig, type WriteMode } from "@powerchain/config";
 
 function oneOf<T extends string>(value: string | undefined, allowed: readonly T[], fallback: T, name: string): T {

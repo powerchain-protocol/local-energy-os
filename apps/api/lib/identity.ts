@@ -19,14 +19,18 @@ function cookie(req: Request, name: string): string | undefined {
 export async function resolveActor(req: Request, runtime: RuntimeConfig, organizationId?: string): Promise<RequestActor> {
   const token = cookie(req, "powerchain_session");
   if (token) {
-    const session = await getPrismaClient().session.findUnique({
-      where: { tokenHash: hashSessionToken(token) },
-      include: { user: { include: { memberships: organizationId ? { where: { organizationId }, take: 1 } : { take: 1 } } } },
-    }).catch(() => null);
-    if (session && !session.revokedAt && session.expiresAt > new Date() && !session.user.disabledAt) {
-      const membership = session.user.memberships[0];
-      const role = membership?.role as PowerChainRole | undefined;
-      return { id: session.userId, role: role && ROLES.has(role) ? role : undefined, source: "SESSION" };
+    try {
+      const session = await getPrismaClient().session.findUnique({
+        where: { tokenHash: hashSessionToken(token) },
+        include: { user: { include: { memberships: organizationId ? { where: { organizationId }, take: 1 } : { take: 1 } } } },
+      });
+      if (session && !session.revokedAt && session.expiresAt > new Date() && !session.user.disabledAt) {
+        const membership = session.user.memberships[0];
+        const role = membership?.role as PowerChainRole | undefined;
+        return { id: session.userId, role: role && ROLES.has(role) ? role : undefined, source: "SESSION" };
+      }
+    } catch {
+      // A stale cookie must not make health/config routes unavailable when the DB is offline.
     }
   }
   const allowDevHeaders = runtime.environment !== "production" && process.env.POWERCHAIN_TRUST_DEV_HEADERS === "true";

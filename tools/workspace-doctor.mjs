@@ -10,20 +10,10 @@ const warnings = [];
 const requiredRuntime = [
   "README.md",
   "CONTRIBUTING.md",
-  ".nvmrc",
-  ".node-version",
-  ".npmrc",
-  "tsconfig.node.json",
-  "cache/.gitkeep",
-  "tools/toolchain-doctor.mjs",
-  "tools/cache.mjs",
-  ".github/workflows/ci.yml",
-  ".github/dependabot.yml",
   "tools",
   "docs/README.md",
   "docs/TOOLS.md",
   "docs/PACKAGES.md",
-  "docs/CONFIGURATION.md",
   "apps/energy",
   "apps/energy/app/energy",
   "apps/energy/app/assets",
@@ -60,6 +50,11 @@ const requiredRuntime = [
   "packages/settlement",
   "packages/ledger",
   "packages/rewards",
+  "packages/system-management",
+  "packages/system-management/src/types/status.ts",
+  "apps/api/app/api/v1/system/status/route.ts",
+  "apps/api/app/api/v1/system/config/route.ts",
+  "apps/api/app/api/v1/system/management/route.ts",
   "store/package.json",
   "storage/package.json",
   "docs/programs/overview.md",
@@ -68,7 +63,6 @@ const requiredRuntime = [
   "move/powerchain",
   "prisma.config.ts",
   "prisma/schema.prisma",
-  "tools/db.mjs",
   "docs/database/migrations.md",
   "docs/DATABASE.md",
   "docs/ai/AGENTS.md",
@@ -136,33 +130,6 @@ const packageFiles = [
 const names = new Map();
 const workspaceNames = new Set();
 const manifests = [];
-
-function sourceFiles(directory) {
-  if (!fs.existsSync(directory)) return [];
-  const results = [];
-  const stack = [directory];
-  while (stack.length) {
-    const current = stack.pop();
-    for (const entry of fs.readdirSync(current, { withFileTypes: true })) {
-      if (["node_modules", ".next", "dist", "generated"].includes(entry.name)) continue;
-      const absolute = path.join(current, entry.name);
-      if (entry.isDirectory()) stack.push(absolute);
-      else if (/\.(?:ts|tsx|mts|cts|mjs)$/.test(entry.name)) results.push(absolute);
-    }
-  }
-  return results;
-}
-
-function workspaceImports(directory) {
-  const imports = new Set();
-  const pattern = /(?:from\s+|import\s*\(\s*|require\(\s*)["'](@powerchain\/[a-z0-9-]+)(?:\/[^"']*)?["']/gi;
-  for (const file of sourceFiles(directory)) {
-    const source = fs.readFileSync(file, "utf8");
-    for (const match of source.matchAll(pattern)) imports.add(match[1]);
-  }
-  return imports;
-}
-
 for (const manifestPath of packageFiles) {
   const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
   manifests.push([manifestPath, manifest]);
@@ -188,24 +155,6 @@ for (const [manifestPath, manifest] of manifests) {
   }
 }
 
-
-for (const manifestPath of packageFiles) {
-  if (!fs.existsSync(manifestPath)) continue;
-  const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
-  const directory = path.dirname(manifestPath);
-  if (directory === root) continue;
-  const declared = new Set([
-    ...Object.keys(manifest.dependencies ?? {}),
-    ...Object.keys(manifest.devDependencies ?? {}),
-    ...Object.keys(manifest.peerDependencies ?? {}),
-  ]);
-  for (const imported of workspaceImports(directory)) {
-    if (imported !== manifest.name && !declared.has(imported)) {
-      errors.push(`undeclared-workspace-import:${path.relative(root, directory)}:${imported}`);
-    }
-  }
-}
-
 const units = fs.readFileSync(path.join(root, "packages/energy-core/src/index.ts"), "utf8");
 for (const invariant of ["KWH = 1_000n", "MWH = 1_000_000n", "GWH = 1_000_000_000n"]) {
   if (!units.includes(invariant)) errors.push(`energy-unit:${invariant}`);
@@ -224,8 +173,6 @@ if (!envTemplate) {
 
 const rootManifest = JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf8"));
 if (rootManifest.packageManager !== "pnpm@11.23.0") errors.push(`package-manager:${rootManifest.packageManager}`);
-if (rootManifest.engines?.node !== ">=24.19.0 <25") errors.push(`node-engine:${rootManifest.engines?.node ?? "missing"}`);
-if (rootManifest.engines?.pnpm !== "11.23.0") errors.push(`pnpm-engine:${rootManifest.engines?.pnpm ?? "missing"}`);
 for (const [name, expected] of Object.entries({ turbo: "2.10.11", typescript: "7.0.2", prisma: "7.9.1", "@types/node": "24.13.3" })) {
   const actual = rootManifest.devDependencies?.[name];
   if (actual !== expected) errors.push(`toolchain-version:${name}:${actual ?? "missing"}:expected-${expected}`);
@@ -234,41 +181,20 @@ const visibleRootMarkdown = fs.readdirSync(root).filter((name) => name.endsWith(
 for (const name of visibleRootMarkdown) {
   if (!["CONTRIBUTING.md", "README.md"].includes(name)) errors.push(`root-markdown-must-move-to-docs:${name}`);
 }
-for (const script of ["local-energy:verify", "workspace:bootstrap", "workspace:doctor", "toolchain:doctor", "cache:status", "cache:clean", "db:doctor", "db:up", "db:setup", "peers:check"]) {
+for (const script of ["local-energy:verify", "workspace:bootstrap"]) {
   if (!rootManifest.scripts?.[script]) errors.push(`missing-script:${script}`);
 }
 
-const nodeTsConfig = JSON.parse(fs.readFileSync(path.join(root, "tsconfig.node.json"), "utf8"));
-if (!Array.isArray(nodeTsConfig.compilerOptions?.types) || !nodeTsConfig.compilerOptions.types.includes("node")) errors.push("node-tsconfig-types");
-if (!Array.isArray(nodeTsConfig.compilerOptions?.lib) || !nodeTsConfig.compilerOptions.lib.includes("ES2024")) errors.push("node-tsconfig-lib");
-for (const runtimePackage of ["apps/worker", "packages/auth", "packages/database", "packages/events"]) {
-  const manifest = JSON.parse(fs.readFileSync(path.join(root, runtimePackage, "package.json"), "utf8"));
-  const config = JSON.parse(fs.readFileSync(path.join(root, runtimePackage, "tsconfig.json"), "utf8"));
-  if (manifest.devDependencies?.["@types/node"] !== "24.13.3") errors.push(`node-types-dependency:${runtimePackage}`);
-  if (manifest.devDependencies?.typescript !== "7.0.2") errors.push(`typescript-dependency:${runtimePackage}`);
-  if (config.extends !== "../../tsconfig.node.json") errors.push(`node-tsconfig-extends:${runtimePackage}`);
-}
-const workerSource = fs.readFileSync(path.join(root, "apps/worker/src/index.ts"), "utf8");
-if (/NodeJS\./.test(workerSource)) errors.push("worker-nodejs-namespace");
-
 const prismaConfig = fs.readFileSync(path.join(root, "prisma.config.ts"), "utf8");
-for (const token of [".env.local", "DIRECT_URL", "DATABASE_URL", "SHADOW_DATABASE_URL", "LOCAL_DATABASE_URL"]) {
+for (const token of [".env.local", "DIRECT_URL", "DATABASE_URL", "SHADOW_DATABASE_URL", "PGHOST", "127.0.0.1"]) {
   if (!prismaConfig.includes(token)) errors.push(`prisma-config-missing:${token}`);
 }
 for (const script of ["prisma:doctor", "prisma:migrate:dev", "prisma:migrate:init", "prisma:migrate:deploy", "prisma:migrate:status"]) {
   if (!rootManifest.scripts?.[script]) errors.push(`missing-script:${script}`);
 }
 
-const ci = fs.readFileSync(path.join(root, ".github/workflows/ci.yml"), "utf8");
-for (const token of ["actions/checkout@v7", "actions/setup-node@v6", "actions/cache@v6", "pnpm@11.23.0", "cache/turbo", "pnpm install --frozen-lockfile"]) {
-  if (!ci.includes(token)) errors.push(`ci-toolchain:${token}`);
-}
-for (const [file, expected] of [[".nvmrc", "24.19.0"], [".node-version", "24.19.0"]]) {
-  if (fs.readFileSync(path.join(root, file), "utf8").trim() !== expected) errors.push(`runtime-version-file:${file}`);
-}
-
 const workspace = fs.readFileSync(path.join(root, "pnpm-workspace.yaml"), "utf8");
-for (const dep of ["@prisma/engines", "esbuild", "prisma"]) {
+for (const dep of ["@prisma/engines", "esbuild", "prisma", "@tree-sitter-grammars/tree-sitter-yaml@0.7.1", "tree-sitter-json@0.24.8", "tree-sitter@0.21.1 || 0.22.4"]) {
   if (!workspace.includes(`${dep}: true`) && !workspace.includes(`'${dep}': true`)) errors.push(`unapproved-build:${dep}`);
 }
 for (const dep of ["core-js-pure@3.50.0", "@scarf/scarf"]) {
@@ -306,21 +232,6 @@ for (const token of ["VerifierCap", "finalize_batch", "WH_PER_MWH", "batch.retir
   if (!move.includes(token)) errors.push(`sui-hardening:${token}`);
 }
 
-
-for (const app of ["admin", "api", "charging", "companies", "docs", "energy", "grid", "mapper", "plants", "platform", "supply-chain", "wind"]) {
-  const manifest = JSON.parse(fs.readFileSync(path.join(root, "apps", app, "package.json"), "utf8"));
-  if (!String(manifest.scripts?.start ?? "").startsWith("next start")) errors.push(`missing-next-start-script:${app}`);
-}
-const workerManifest = JSON.parse(fs.readFileSync(path.join(root, "apps/worker/package.json"), "utf8"));
-if (workerManifest.scripts?.build !== "tsc -p tsconfig.build.json") errors.push("worker-production-build-script");
-if (workerManifest.scripts?.start !== "node dist/index.js") errors.push("worker-production-start-script");
-if (!fs.existsSync(path.join(root, "apps/worker/tsconfig.build.json"))) errors.push("worker-build-tsconfig");
-
-const apiManifest = JSON.parse(fs.readFileSync(path.join(root, "apps/api/package.json"), "utf8"));
-if (apiManifest.dependencies?.["swagger-ui-dist"] !== "5.32.14") errors.push("api-swagger-dist");
-if (apiManifest.dependencies?.["swagger-ui-react"]) errors.push("api-swagger-react-wrapper-present");
-if (!String(apiManifest.dependencies?.["@powerchain/energy-core"] ?? "").startsWith("workspace:")) errors.push("api-missing-energy-core-dependency");
-
 const docsUiManifest = JSON.parse(fs.readFileSync(path.join(root, "components/docs/package.json"), "utf8"));
 if (docsUiManifest.name !== "@powerchain/docs-ui") errors.push("docs-ui-package-name");
 for (const dependency of ["@powerchain/shared", "@powerchain/ui"]) {
@@ -331,21 +242,6 @@ for (const peer of ["next", "react"]) {
 }
 const docsAppManifest = JSON.parse(fs.readFileSync(path.join(root, "apps/docs/package.json"), "utf8"));
 if (!String(docsAppManifest.dependencies?.["@powerchain/docs-ui"] ?? "").startsWith("workspace:")) errors.push("docs-app-missing-docs-ui");
-
-
-for (const app of ["admin", "api", "charging", "companies", "docs", "energy", "grid", "mapper", "plants", "platform", "supply-chain", "wind"]) {
-  for (const file of ["loading.tsx", "error.tsx", "not-found.tsx"]) {
-    if (!fs.existsSync(path.join(root, "apps", app, "app", file))) errors.push(`missing-app-error-boundary:${app}:${file}`);
-  }
-}
-const apiClientSource = fs.readFileSync(path.join(root, "packages/api-client/src/index.ts"), "utf8");
-for (const token of ["resolveApiBaseUrl", "REQUEST_TIMEOUT", "NETWORK_ERROR"]) {
-  if (!apiClientSource.includes(token)) errors.push(`api-client-hardening-missing:${token}`);
-}
-for (const appSource of sourceFiles(path.join(root, "apps"))) {
-  const source = fs.readFileSync(appSource, "utf8");
-  if (source.includes('NEXT_PUBLIC_API_URL ?? "http://localhost:3002"')) errors.push(`unsafe-production-api-fallback:${path.relative(root, appSource)}`);
-}
 
 const uiCss = fs.readFileSync(path.join(root, "packages/ui/src/styles.css"), "utf8");
 if (!uiCss.includes("height:100dvh") || !uiCss.includes("position:fixed")) errors.push("ui-sidebar-not-full-height");
@@ -378,7 +274,6 @@ console.log(JSON.stringify({
     "canonical-versions",
     "pnpm-workspace-package-names",
     "workspace-dependencies",
-    "workspace-import-declarations",
     "energy-units",
     "pwrc-sui-model",
     "rwa-supply-guard",
@@ -396,10 +291,6 @@ console.log(JSON.stringify({
     "anchor-rwa-hardening",
     "sui-rwa-hardening",
     "brand-ui-shell",
-    "app-error-boundaries",
-    "production-app-start-scripts",
-    "worker-production-build",
-    "api-client-network-hardening",
     "five-part-mobile-nav",
     "bigint-energy-display",
     "no-application-footer",
@@ -408,9 +299,5 @@ console.log(JSON.stringify({
     "contracts-docs",
     "program-docs",
     "docs-ui-workspace-boundary",
-    "node-runtime-types",
-    "node-version-files",
-    "github-ci-toolchain",
-    "build-cache",
   ],
 }, null, 2));

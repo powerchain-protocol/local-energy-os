@@ -375,6 +375,8 @@ http://localhost:3002/api/v1        Canonical namespace
 | Docs | 3009 |
 | Admin | 3010 |
 | Mapper | 3011 |
+| Realtime WebSocket | 3012 |
+| gRPC | 50051 |
 
 ## Verification
 
@@ -442,3 +444,53 @@ pnpm build:apps
 ```
 
 `pnpm local-energy:verify` validates the runtime workspace and reports missing editor metadata as warnings. `pnpm release:verify` uses `pnpm doctor:strict` and requires the complete release metadata contract.
+
+
+## API transports
+
+PowerChain uses `packages/api` as the canonical protocol-contract package. `apps/api` serves REST/OpenAPI on port 3002, `apps/realtime` serves authenticated WebSocket events on port 3012, and `apps/grpc` serves internal gRPC on port 50051. Transactional domain events are published from the worker outbox through Redis. See `docs/API-PLATFORM.md`, `docs/REALTIME.md`, `docs/GRPC.md`, and `docs/POSTMAN.md`.
+
+
+## Environment and network configuration
+
+PowerChain ships `.env.example`, `.env.local.example`, a safe local `.env.local` for the packaged development scaffold, and environment-specific templates under `env/`. `.env.local` is git-ignored and must never contain production secrets in source control.
+
+Local PostgreSQL uses the standard libpq variables `PGHOST=127.0.0.1`, `PGPORT=5432`, `PGUSER=postgres`, `PGPASSWORD=postgres`, and `PGDATABASE=powerchain`. Canonical Prisma URLs are PostgreSQL URIs such as `postgresql://postgres:postgres@127.0.0.1:5432/powerchain?schema=public`; bare IP addresses and `http://localhost` are not valid Prisma PostgreSQL URLs.
+
+```bash
+pnpm env:setup
+pnpm db:up
+pnpm db:doctor
+pnpm prisma:validate
+pnpm prisma:generate
+```
+
+### Solana / Helius
+
+Development defaults to Solana Devnet. Use `HELIUS_ENABLED=true` plus a server-side `HELIUS_API_KEY` to use Helius RPC; production mainnet must use a dedicated/custom RPC or Helius rather than the public Solana endpoint. PowerChain-owned Energy RWA program IDs are cluster-specific environment values and must be populated after `anchor keys sync` / deployment.
+
+```bash
+pnpm solana:doctor
+pnpm solana:programs
+pnpm solana:devnet
+pnpm solana:mainnet
+```
+
+The sanitized runtime surface is available from `GET /api/v1/system/solana`. It never returns the Helius API key.
+
+### API transports
+
+Protocol contracts live under `packages/api`: REST/OpenAPI/Swagger, Postman assets, AsyncAPI/WebSocket contracts, and protobuf/gRPC definitions. Deployable gateways remain separate: `apps/api`, `apps/realtime`, and `apps/grpc`.
+
+## System management
+
+The platform exposes canonical system-management surfaces:
+
+```text
+GET /api/v1/system/status
+GET /api/v1/system/status?probe=deep
+GET /api/v1/system/config
+GET /api/v1/system/management
+```
+
+The Administration app exposes matching System Status, Runtime Config, and Management Policy views. Status never returns database passwords, Helius API keys, private RPC credentials, session secrets, or service-role keys. See `docs/SYSTEM-MANAGEMENT.md`.

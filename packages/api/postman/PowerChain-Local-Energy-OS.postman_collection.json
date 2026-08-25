@@ -1,0 +1,1503 @@
+{
+  "info": {
+    "_postman_id": "5a1f8bf3-3f66-4a72-9b44-powerchain100",
+    "name": "PowerChain Local Energy OS API v1",
+    "description": "Canonical Postman collection for PowerChain Local Energy OS v1.0.0. Physical energy, Energy RWA, PWRC/wPWRC, SaaS, grid, charging and cross-chain resources.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{accessToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "System",
+      "item": [
+        {
+          "name": "Health",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "health"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Healthy",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "X-PowerChain-Organization-Id",
+                    "value": "{{organizationId}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "X-Correlation-Id",
+                    "value": "{{$guid}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/v1/health",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v1",
+                    "health"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"data\": {\n    \"service\": \"powerchain-api\",\n    \"status\": \"OPERATIONAL\",\n    \"version\": \"1.0.0\"\n  },\n  \"meta\": {\n    \"requestId\": \"mock-request\",\n    \"generatedAt\": \"2026-08-25T12:00:00.000Z\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "System Health",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/system/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "system",
+                "health"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Storage Capabilities",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/system/storage",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "system",
+                "storage"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Solana Runtime",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/system/solana",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "system",
+                "solana"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "System Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/system/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "system",
+                "status"
+              ]
+            },
+            "description": "Canonical platform service status snapshot."
+          },
+          "response": []
+        },
+        {
+          "name": "System Status \u2014 Deep Probe",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/system/status?probe=deep",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "system",
+                "status?probe=deep"
+              ]
+            },
+            "description": "Status with Redis and Solana connectivity probes."
+          },
+          "response": []
+        },
+        {
+          "name": "System Config",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/system/config",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "system",
+                "config"
+              ]
+            },
+            "description": "Sanitized runtime/provider configuration. Secrets are never returned."
+          },
+          "response": []
+        },
+        {
+          "name": "System Management",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/system/management",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "system",
+                "management"
+              ]
+            },
+            "description": "Degraded-mode policies and execution gates."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Participants",
+      "item": [
+        {
+          "name": "Participant Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/participants/summary",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "participants",
+                "summary"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Prosumers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/prosumers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "prosumers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Consumers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/consumers",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "consumers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Clients",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/clients",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "clients"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Grid Operators",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/grid-operators",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "grid-operators"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Energy",
+      "item": [
+        {
+          "name": "Command Center",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/energy/command-center",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "energy",
+                "command-center"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Energy Proofs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/energy-proofs",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "energy-proofs"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Energy Batches",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/energy-batches",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "energy-batches"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Energy Positions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/energy-positions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "energy-positions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Energy Reservations",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/energy-reservations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "energy-reservations"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Energy Retirements",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/energy-retirements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "energy-retirements"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Energy Units",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/energy-rwa/units",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "energy-rwa",
+                "units"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Energy Proof",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/energy-proofs",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "energy-proofs"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"siteId\": \"site_demo\",\n  \"meterId\": \"meter_demo\",\n  \"source\": \"SOLAR\",\n  \"measuredWh\": \"25000\",\n  \"verifiedWh\": \"24800\",\n  \"qualityScore\": \"0.99\",\n  \"intervalStart\": \"2026-08-25T10:00:00.000Z\",\n  \"intervalEnd\": \"2026-08-25T10:15:00.000Z\",\n  \"evidenceRoot\": \"sha256:replace-with-real-evidence-root\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Energy Batch",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/energy-batches",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "energy-batches"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"proofId\": \"proof_id\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Issue Energy Position",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/energy-positions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "energy-positions"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"batchId\": \"batch_id\",\n  \"amountWh\": \"1000000\",\n  \"unit\": \"MWH\",\n  \"canonicalChain\": \"SOLANA\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reserve Energy Position",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/energy-reservations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "energy-reservations"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"positionId\": \"position_id\",\n  \"amountWh\": \"1000\",\n  \"orderId\": \"order_optional\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Retire Energy Position",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/energy-retirements",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "energy-retirements"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"positionId\": \"position_id\",\n  \"amountWh\": \"1000\",\n  \"reason\": \"DELIVERED\",\n  \"settlementId\": \"settlement_optional\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Infrastructure",
+      "item": [
+        {
+          "name": "Grid Areas",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/grid/areas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "grid",
+                "areas"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Charging Stations",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/charging/stations",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "charging",
+                "stations"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Charging Sessions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/charging/sessions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "charging",
+                "sessions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Power Plants",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/plants",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "plants"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Wind Farms",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/wind-farms",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "wind-farms"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "PWRC",
+      "item": [
+        {
+          "name": "Bridge Quote",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/pwrc/bridge/quote",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pwrc",
+                "bridge",
+                "quote"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amountBaseUnits\": \"1000000000\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Cross-chain",
+      "item": [
+        {
+          "name": "Cross-chain Routes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/cross-chain/routes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "cross-chain",
+                "routes"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Oracles",
+      "item": [
+        {
+          "name": "Oracle Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/oracles/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "oracles",
+                "status"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Supply Chain",
+      "item": [
+        {
+          "name": "Asset Passports",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/supply-chain/passports",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "supply-chain",
+                "passports"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "SaaS",
+      "item": [
+        {
+          "name": "Application Catalog",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/saas/apps",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "saas",
+                "apps"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Tenant",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/saas/tenant/{{organizationId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "saas",
+                "tenant",
+                "{{organizationId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Resolve Entitlement",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/saas/entitlements/resolve",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "saas",
+                "entitlements",
+                "resolve"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"plan\": \"ENTERPRISE\",\n  \"app\": \"ENERGY\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Solana Challenge",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/auth/solana/challenge",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "solana",
+                "challenge"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"wallet\": \"{{solanaWallet}}\",\n  \"origin\": \"{{appOrigin}}\",\n  \"cluster\": \"solana:devnet\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verify Solana Challenge",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/auth/solana/verify",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "solana",
+                "verify"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"wallet\": \"wallet_address\",\n  \"nonce\": \"challenge_nonce\",\n  \"signature\": \"base58_signature\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Current Session",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/auth/session",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "session"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Sign Out",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/auth/session",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "session"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Realtime",
+      "item": [
+        {
+          "name": "Issue WebSocket Ticket",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"topics\": [\n    \"energy\",\n    \"settlement\",\n    \"devices\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/realtime/tickets",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "realtime",
+                "tickets"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3002"
+    },
+    {
+      "key": "organizationId",
+      "value": "org_demo"
+    },
+    {
+      "key": "appOrigin",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "solanaWallet",
+      "value": "7Xa3ExampleWallet11111111111111111111111111"
+    },
+    {
+      "key": "accessToken",
+      "value": ""
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "monitor": {
+    "name": "PowerChain API Health",
+    "collection": "${POSTMAN_COLLECTION_UID}",
+    "environment": "${POSTMAN_ENVIRONMENT_UID}",
+    "schedule": {
+      "cron": "*/30 * * * *",
+      "timezone": "Europe/Helsinki"
+    }
+  }
+}

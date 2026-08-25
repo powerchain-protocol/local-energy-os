@@ -46,10 +46,10 @@ DELETE /api/v1/auth/session
 
 Participant, SaaS tenant, grid-area, charging, plants, wind farms, supply-chain passports, oracle and cross-chain routes remain under the same canonical namespace.
 
-OpenAPI 3.1 and Postman artifacts live in `apps/api/api/`. `pnpm api:docs:verify` checks both path and HTTP-method coverage against implemented Next.js route handlers.
+OpenAPI 3.1 and Postman artifacts live in `packages/api/`. `pnpm api:docs:verify` checks both path and HTTP-method coverage against implemented Next.js route handlers.
 
 ## Contract coverage gate
 
-The API documentation verifier scans every implemented `apps/api/app/api/v1/**/route.ts` module and requires every exported HTTP method to exist in `apps/api/api/openapi.yaml`. This includes authentication session routes and all idempotent Energy Ledger POST mutations.
+The API documentation verifier scans every implemented `apps/api/app/api/v1/**/route.ts` module and requires every exported HTTP method to exist in `packages/api/openapi.yaml`. This includes authentication session routes and all idempotent Energy Ledger POST mutations.
 
 Economic mutation documentation must expose `Idempotency-Key`, JSON request bodies, bigint quantities as decimal strings, and normalized error responses. The Postman collection mirrors these operations for local integration testing.

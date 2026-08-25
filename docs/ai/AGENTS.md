@@ -5,7 +5,7 @@ These instructions apply to AI coding agents operating anywhere in this reposito
 ## Canonical platform rules
 
 - Product version is `1.0.0`.
-- Node is `24.x`; package manager is `pnpm@11.23.0` through Corepack.
+- Node is `24.x`; package manager is `pnpm@11.22.0` through Corepack.
 - Canonical API namespace is `/api/v1`.
 - Physical energy is authoritative. Blockchain state never overrides metering or delivery evidence.
 - Internal energy accounting uses integer `Wh` (`bigint`). Never use floating point or coerce canonical Wh through JavaScript `Number`.

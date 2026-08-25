@@ -1,0 +1,7 @@
+{
+  "flowId": "${POSTMAN_FLOW_ID}",
+  "path": "${POSTMAN_FLOW_PATH}",
+  "trigger": "request",
+  "purpose": "Run PowerChain health checks and return a summarized API status response.",
+  "provisioner": "postman flows deploy"
+}

@@ -1,3 +1,5 @@
+import { classifyRealtimeTopic, type RealtimeEventEnvelope } from "@powerchain/api/realtime";
+import { publishRealtimeEvent } from "@powerchain/realtime";
 import { getPrismaClient } from "@powerchain/database";
 
 export interface JobResult { processed: number; skipped?: number; details?: Record<string, unknown> }
@@ -12,6 +14,22 @@ async function domainEventOutbox(): Promise<JobResult> {
   for (const event of events) {
     try {
       if (transport === "log") console.log(JSON.stringify({ type: "domain-event", event: { id: event.id, type: event.type, aggregateType: event.aggregateType, aggregateId: event.aggregateId } }));
+      if (transport === "redis") {
+        if (!event.organizationId) throw new Error("Realtime domain events require organizationId");
+        const realtimeEvent: RealtimeEventEnvelope = {
+          id: event.id,
+          version: event.version,
+          topic: classifyRealtimeTopic(event.type),
+          type: event.type,
+          occurredAt: event.occurredAt.toISOString(),
+          organizationId: event.organizationId,
+          aggregateType: event.aggregateType,
+          aggregateId: event.aggregateId,
+          correlationId: event.correlationId ?? undefined,
+          payload: event.payload,
+        };
+        await publishRealtimeEvent(realtimeEvent);
+      }
       await prisma.domainEventOutbox.update({ where: { id: event.id }, data: { processedAt: new Date(), attempts: { increment: 1 } } });
       processed += 1;
     } catch {

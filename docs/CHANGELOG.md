@@ -1,43 +1,4 @@
-# Changelog
 
-## 2026-08-25 — Full-stack database and application hardening
-
-- Added `tools/db.mjs` and canonical `db:status`, `db:doctor`, `db:up`, `db:wait`, `db:setup`, and `db:down` workflows.
-- Separated offline Prisma validation/generation from online migration/database reachability checks; P1001 conditions are detected before Prisma migration commands run.
-- Clarified fresh-database initialization versus existing-schema baselining; `baseline:resolve` is explicitly online and must never be used to create an empty database.
-- Added `@powerchain/energy-core` to the API workspace dependencies after detecting an undeclared workspace import.
-- Extended workspace validation to reject undeclared `@powerchain/*` imports automatically.
-- Hardened `@powerchain/api-client` with request timeouts, normalized network failures, and production-safe API base URL resolution.
-- Removed silent production fallback to `http://localhost:3002` from operational applications.
-- Added loading, error, and not-found boundaries to every Next.js application workspace.
-- Added production `next start` scripts to all Next.js apps.
-- Upgraded the worker from a typecheck-only build to an emitted `dist/` production artifact with `start` support.
-- Added peer-dependency diagnostics via `pnpm peers:check`; peer warnings are not suppressed without identifying the concrete incompatible relationship.
-- Replaced `swagger-ui-react` with `swagger-ui-dist` to preserve Swagger/OpenAPI while removing the extra React peer and Tree-sitter parser install dependency surface.
-- Added VS Code database setup/status and peer-check tasks.
-
-## 2026-08-25 — Node type and toolchain hardening
-
-- Added `.nvmrc` and `.node-version` pinned to Node 24.19.0 LTS.
-- Added `.npmrc` and package-manager engine enforcement for pnpm 11.23.0.
-- Added `tsconfig.node.json` with ES2024 and explicit Node types.
-- Moved worker/auth/database/events onto the Node TypeScript profile and direct Node type dependencies.
-- Removed `NodeJS.Timeout` from the worker in favor of `ReturnType<typeof setInterval>`.
-- Added repository-local `cache/turbo` plus cache status/clean tooling.
-- Upgraded GitHub CI to checkout/setup-node v6 and explicit pnpm/Turbo caching.
-- Added Dependabot coverage for npm/pnpm workspace dependencies and GitHub Actions.
-
-# Changelog
-
-## 2026-08-25 — Toolchain and repository layout normalization
-
-- Upgraded the canonical package manager to pnpm 11.23.0.
-- Updated stale stable toolchain packages: TypeScript 7.0.2, Turborepo 2.10.11, tsx 4.23.12, Node 24 types 24.13.3, and @types/pg 8.23.1.
-- Kept already-current Next.js 16.3.2, React 19.2.8, Prisma 7.9.1, Better Auth 1.6.29, pg 8.23.0, Swagger UI React 5.32.14, and dotenv 17.4.2.
-- Moved repository automation from `/scripts` to `/tools` and rewired all package commands.
-- Consolidated visible Markdown documentation under `/docs`; repository root now keeps only `README.md` and `CONTRIBUTING.md`.
-- Moved application, package, program, Prisma migration, Supabase, AI-agent, changelog, and validation documentation into structured `/docs` subdirectories.
-- Removed developer-machine path assumptions from documentation and tooling.
 
 ## 1.0.0 — workspace validation hardening
 
@@ -57,12 +18,13 @@
 - Expanded all application READMEs and added dedicated contracts/program documentation.
 - Added Energy RWA program events and verification-authority energy invalidation that cannot undercollateralize issued positions.
 
+# Changelog
 
 ## 2026-08-25 — Local infrastructure + Prisma schema recovery
 
 - Fixed Prisma 7 schema parsing by converting all compact one-line enum declarations to canonical multiline enum blocks.
 - Added a workspace-doctor regression check that rejects compact inline Prisma enums before `prisma validate` runs.
-- Replaced raw Docker shell scripts with `tools/infra.mjs` infrastructure preflight and lifecycle commands.
+- Replaced raw Docker shell scripts with `scripts/infra.mjs` infrastructure preflight and lifecycle commands.
 - Added `pnpm infra:doctor`, `infra:status`, and `infra:logs`; `infra:up/down/reset` now report missing Docker CLI, missing Compose v2, and unreachable daemon states clearly.
 - Updated macOS local-infrastructure documentation and documented external PostgreSQL/Redis mode where Docker is intentionally not used.
 - Removed copy/paste-sensitive inline shell comments from Prisma and infrastructure command examples so zsh does not pass `# ...` text through as CLI arguments.
@@ -97,7 +59,7 @@
 - Added the shared PowerChain logo lockup and non-emoji SVG icon system.
 - Refactored core pages to use shared page headers, stat cards, panels, status badges and explicit empty/error states.
 - Preserved physical-infrastructure-first hierarchy: Energy RWA, token/network and settlement details remain secondary to operational state.
-- Added `docs/DESIGN-SYSTEM.md` and `docs/packages/ui.md`; workspace doctor now validates the UI shell and footer invariants.
+- Added `docs/DESIGN-SYSTEM.md` and `packages/ui/README.md`; workspace doctor now validates the UI shell and footer invariants.
 
 
 ## 1.0.0 — Repository hardening update
@@ -206,3 +168,17 @@
 - Added `components/*` to the pnpm workspace and Turbo graph.
 - Added validator checks preventing regression to implicit app-local dependency borrowing.
 - Documented the one-time `pnpm install --no-frozen-lockfile` lockfile refresh required by the new workspace importer.
+
+## System management and database status hardening
+
+- Added canonical `packages/system-management/src/types/status.ts` status contracts.
+- Split system-management policy into `status.ts`, `management.ts`, `config.ts`, and explicit exports.
+- Added `/api/v1/system/status`, `/api/v1/system/config`, and `/api/v1/system/management`.
+- Rewired `/api/v1/system/health` as a compatibility projection of canonical status.
+- Added bounded deep Redis/Solana probes and a bounded database health probe.
+- Added Administration System Status, Runtime Config, and Management Policy screens.
+- Root API runtime now loads repository `.env.local`/`.env` before request execution.
+- Stale session cookies no longer prevent health/config diagnostics when PostgreSQL is unavailable.
+- Database runtime, Prisma config, and CLI tooling now share `PG*` variables plus a development-only `127.0.0.1` fallback.
+- Added `db:doctor`, `db:status`, `db:up`, `db:wait`, `db:setup`, and `db:down` scripts.
+- Updated OpenAPI, Postman, route manifests, database documentation, and environment templates.

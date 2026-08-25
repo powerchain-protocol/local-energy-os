@@ -1,7 +1,6 @@
 packages:
   - apps/*
   - packages/*
-  - components/*
   - store
   - storage
 
@@ -11,8 +10,8 @@ allowBuilds:
   '@prisma/engines': true
   esbuild: true
   prisma: true
+  '@tree-sitter-grammars/tree-sitter-yaml@0.7.1': true
+  'tree-sitter-json@0.24.8': true
+  'tree-sitter@0.21.1 || 0.22.4': true
   'core-js-pure@3.50.0': false
   '@scarf/scarf': false
-  '@tree-sitter-grammars/tree-sitter-yaml': set this to true or false
-  tree-sitter: set this to true or false
-  tree-sitter-json: set this to true or false

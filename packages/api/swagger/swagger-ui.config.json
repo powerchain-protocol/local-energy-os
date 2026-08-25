@@ -1,0 +1,8 @@
+{
+  "url": "/openapi.yaml",
+  "deepLinking": true,
+  "displayRequestDuration": true,
+  "persistAuthorization": false,
+  "tryItOutEnabled": true,
+  "docExpansion": "list"
+}

@@ -1,3 +1,5 @@
+import { loadPowerChainRootEnv } from "@powerchain/config/node-env";
+loadPowerChainRootEnv();
 import { CANONICAL_VERSION } from "@powerchain/config";
 import { degradedPolicy } from "@powerchain/system-management";
 import { jobs } from "./jobs";

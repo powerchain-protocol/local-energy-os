@@ -1,0 +1,22 @@
+syntax = "proto3";
+package powerchain.api.v1;
+
+service EventStreamService {
+  rpc Subscribe(EventSubscriptionRequest) returns (stream EventEnvelope);
+}
+
+message EventSubscriptionRequest {
+  repeated string topics = 1;
+}
+message EventEnvelope {
+  string id = 1;
+  uint32 version = 2;
+  string topic = 3;
+  string type = 4;
+  string occurred_at = 5;
+  string organization_id = 6;
+  string aggregate_type = 7;
+  string aggregate_id = 8;
+  string correlation_id = 9;
+  string payload_json = 10;
+}

@@ -1,0 +1,25 @@
+{
+  "workspaceId": "${POSTMAN_WORKSPACE_ID}",
+  "collectionUid": "${POSTMAN_COLLECTION_UID}",
+  "environmentUid": "${POSTMAN_ENVIRONMENT_UID}",
+  "mock": {
+    "name": "PowerChain Local Energy OS Mock",
+    "private": true
+  },
+  "monitor": {
+    "name": "PowerChain API Health",
+    "cron": "*/30 * * * *",
+    "timezone": "Europe/Helsinki"
+  },
+  "webhook": {
+    "title": "PowerChain API Verification"
+  },
+  "flow": {
+    "id": "${POSTMAN_FLOW_ID}",
+    "path": "powerchain-api-health"
+  },
+  "insights": {
+    "source": "Postman monitor and mock run telemetry",
+    "provisioned": false
+  }
+}

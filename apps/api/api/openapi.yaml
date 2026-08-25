@@ -96,100 +96,30 @@ paths:
       summary: List Energy Proofs
       responses:
         '200': { $ref: '#/components/responses/Success' }
-    post:
-      tags: [Energy Ledger]
-      summary: Create an Energy Proof from validated meter evidence
-      parameters:
-        - $ref: '#/components/parameters/IdempotencyKey'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema: { $ref: '#/components/schemas/CreateEnergyProofInput' }
-      responses:
-        '201': { $ref: '#/components/responses/Success' }
-        '409': { $ref: '#/components/responses/Error' }
-        '422': { $ref: '#/components/responses/Error' }
   /api/v1/energy-batches:
     get:
       tags: [Energy Ledger]
       summary: List verified Energy Batches
       responses:
         '200': { $ref: '#/components/responses/Success' }
-    post:
-      tags: [Energy Ledger]
-      summary: Create an Energy Batch from a verified Energy Proof
-      parameters:
-        - $ref: '#/components/parameters/IdempotencyKey'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema: { $ref: '#/components/schemas/CreateEnergyBatchInput' }
-      responses:
-        '201': { $ref: '#/components/responses/Success' }
-        '409': { $ref: '#/components/responses/Error' }
-        '422': { $ref: '#/components/responses/Error' }
   /api/v1/energy-positions:
     get:
       tags: [Energy RWA]
       summary: List Energy Positions
       responses:
         '200': { $ref: '#/components/responses/Success' }
-    post:
-      tags: [Energy RWA]
-      summary: Issue a kWh or MWh Energy Position against verified backing
-      parameters:
-        - $ref: '#/components/parameters/IdempotencyKey'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema: { $ref: '#/components/schemas/IssueEnergyPositionInput' }
-      responses:
-        '201': { $ref: '#/components/responses/Success' }
-        '409': { $ref: '#/components/responses/Error' }
-        '422': { $ref: '#/components/responses/Error' }
   /api/v1/energy-reservations:
     get:
       tags: [Energy RWA]
       summary: List Energy RWA reservations
       responses:
         '200': { $ref: '#/components/responses/Success' }
-    post:
-      tags: [Energy RWA]
-      summary: Reserve part of an Energy Position
-      parameters:
-        - $ref: '#/components/parameters/IdempotencyKey'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema: { $ref: '#/components/schemas/PositionAmountInput' }
-      responses:
-        '201': { $ref: '#/components/responses/Success' }
-        '409': { $ref: '#/components/responses/Error' }
-        '422': { $ref: '#/components/responses/Error' }
   /api/v1/energy-retirements:
     get:
       tags: [Energy RWA]
       summary: List Energy RWA retirements
       responses:
         '200': { $ref: '#/components/responses/Success' }
-    post:
-      tags: [Energy RWA]
-      summary: Retire delivered or settled energy from an Energy Position
-      parameters:
-        - $ref: '#/components/parameters/IdempotencyKey'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema: { $ref: '#/components/schemas/PositionAmountInput' }
-      responses:
-        '201': { $ref: '#/components/responses/Success' }
-        '409': { $ref: '#/components/responses/Error' }
-        '422': { $ref: '#/components/responses/Error' }
   /api/v1/energy-rwa/units:
     get:
       tags: [Energy RWA]
@@ -321,32 +251,6 @@ paths:
       responses:
         '200': { $ref: '#/components/responses/Success' }
         '400': { $ref: '#/components/responses/Error' }
-  /api/v1/auth/session:
-    get:
-      tags: [Authentication]
-      summary: Get the current authenticated PowerChain session
-      responses:
-        '200': { $ref: '#/components/responses/Success' }
-        '401': { $ref: '#/components/responses/Error' }
-    delete:
-      tags: [Authentication]
-      summary: Revoke the current PowerChain session
-      responses:
-        '200': { $ref: '#/components/responses/Success' }
-  /api/v1/auth/solana/verify:
-    post:
-      tags: [Authentication]
-      summary: Verify a signed Solana authentication challenge and establish a session
-      security: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema: { $ref: '#/components/schemas/VerifySolanaChallengeInput' }
-      responses:
-        '200': { $ref: '#/components/responses/Success' }
-        '401': { $ref: '#/components/responses/Error' }
-        '422': { $ref: '#/components/responses/Error' }
 components:
   securitySchemes:
     bearerAuth:
@@ -354,65 +258,12 @@ components:
       scheme: bearer
       bearerFormat: session
   parameters:
-    IdempotencyKey:
-      name: Idempotency-Key
-      in: header
-      required: true
-      description: Unique key for replay-safe economic mutations. Reusing the same key with a different request body is rejected.
-      schema:
-        type: string
-        minLength: 8
-        maxLength: 200
     OrganizationId:
       name: organizationId
       in: path
       required: true
       schema: { type: string }
   schemas:
-    CreateEnergyProofInput:
-      type: object
-      required: [siteId, meterId, source, measuredWh, verifiedWh, qualityScore, intervalStart, intervalEnd, evidenceRoot]
-      properties:
-        siteId: { type: string }
-        meterId: { type: string }
-        source:
-          type: string
-          enum: [SOLAR, WIND, HYDRO, GEOTHERMAL, BIOMASS, GRID, STORAGE_DISCHARGE]
-        measuredWh: { type: string, pattern: '^[1-9][0-9]*$' }
-        verifiedWh: { type: string, pattern: '^[1-9][0-9]*$' }
-        qualityScore: { type: string, example: '0.98' }
-        intervalStart: { type: string, format: date-time }
-        intervalEnd: { type: string, format: date-time }
-        evidenceRoot: { type: string }
-    CreateEnergyBatchInput:
-      type: object
-      required: [proofId]
-      properties:
-        proofId: { type: string }
-    IssueEnergyPositionInput:
-      type: object
-      required: [batchId, amountWh, unit]
-      properties:
-        batchId: { type: string }
-        amountWh: { type: string, pattern: '^[1-9][0-9]*$' }
-        unit: { type: string, enum: [KWH, MWH] }
-        canonicalChain: { type: string, enum: [SOLANA, SUI], default: SOLANA }
-    PositionAmountInput:
-      type: object
-      required: [positionId, amountWh]
-      properties:
-        positionId: { type: string }
-        amountWh: { type: string, pattern: '^[1-9][0-9]*$' }
-        orderId: { type: string }
-        reason: { type: string }
-        settlementId: { type: string }
-    VerifySolanaChallengeInput:
-      type: object
-      required: [wallet, nonce, signature]
-      properties:
-        wallet: { type: string }
-        nonce: { type: string }
-        signature: { type: string, description: Base58-encoded Ed25519 signature of the exact stored challenge message. }
     Meta:
       type: object
       properties:

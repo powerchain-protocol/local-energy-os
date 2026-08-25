@@ -1,4 +1,4 @@
-export type ProtocolDomain = "METERING"|"IOT"|"INDUSTRIAL"|"EV_BACKEND"|"EV_VEHICLE"|"ROAMING"|"DEMAND_RESPONSE"|"GRID_MODEL"|"SUPPLY_CHAIN"|"MACHINE_PAYMENT"|"CROSS_CHAIN"|"ORACLE"|"SVM"|"MOVE";
+export type ProtocolDomain = "METERING"|"IOT"|"INDUSTRIAL"|"EV_BACKEND"|"EV_VEHICLE"|"ROAMING"|"DEMAND_RESPONSE"|"GRID_MODEL"|"SUPPLY_CHAIN"|"MACHINE_PAYMENT"|"CROSS_CHAIN"|"ORACLE"|"SVM"|"MOVE"|"RPC";
 export interface ProtocolDefinition { id: string; domain: ProtocolDomain; version: string; enabled: boolean; capabilities: readonly string[]; adapter: string }
 export const canonicalProtocols: readonly ProtocolDefinition[] = [
   { id:"dlms",domain:"METERING",version:"IEC-62056",enabled:true,capabilities:["meter-read","load-profile"],adapter:"dlms" },
@@ -15,5 +15,6 @@ export const canonicalProtocols: readonly ProtocolDefinition[] = [
   { id:"pyth",domain:"ORACLE",version:"current",enabled:true,capabilities:["prices","confidence"],adapter:"pyth" },
   { id:"chainlink",domain:"ORACLE",version:"current",enabled:false,capabilities:["prices","ccip"],adapter:"chainlink" },
   { id:"svm",domain:"SVM",version:"current",enabled:true,capabilities:["solana","programs"],adapter:"svm" },
+  { id:"helius",domain:"RPC",version:"current",enabled:false,capabilities:["rpc","websocket","webhooks","enhanced-api"],adapter:"helius" },
   { id:"sui",domain:"MOVE",version:"current",enabled:true,capabilities:["objects","move"],adapter:"sui" }
 ];

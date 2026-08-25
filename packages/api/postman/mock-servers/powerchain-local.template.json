@@ -1,0 +1,8 @@
+{
+  "mock": {
+    "name": "PowerChain Local Energy OS Mock",
+    "collection": "${POSTMAN_COLLECTION_UID}",
+    "environment": "${POSTMAN_ENVIRONMENT_UID}",
+    "private": true
+  }
+}

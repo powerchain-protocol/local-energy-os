@@ -1,0 +1,40 @@
+asyncapi: 3.0.0
+info:
+  title: PowerChain Realtime API
+  version: 1.0.0
+  description: Organization-scoped realtime domain events for PowerChain Local Energy OS.
+servers:
+  local:
+    host: localhost:3012
+    protocol: ws
+    pathname: /v1/events
+channels:
+  organizationEvents:
+    address: /v1/events
+    messages:
+      event:
+        $ref: '#/components/messages/Event'
+operations:
+  receiveEvents:
+    action: receive
+    channel:
+      $ref: '#/channels/organizationEvents'
+    messages:
+      - $ref: '#/channels/organizationEvents/messages/event'
+components:
+  messages:
+    Event:
+      payload:
+        type: object
+        required: [id, topic, type, occurredAt, organizationId, aggregateType, aggregateId, payload]
+        properties:
+          id: { type: string }
+          version: { type: integer }
+          topic: { type: string, enum: [system, energy, market, settlement, devices, rewards, cross-chain, audit] }
+          type: { type: string }
+          occurredAt: { type: string, format: date-time }
+          organizationId: { type: string }
+          aggregateType: { type: string }
+          aggregateId: { type: string }
+          correlationId: { type: string }
+          payload: {}

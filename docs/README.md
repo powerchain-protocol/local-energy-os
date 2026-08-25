@@ -30,4 +30,4 @@ docs/
 
 Tool-specific hidden instruction files remain in `.windsurf/` and `.github/` because those editors require those locations.
 
-- [Toolchain and configuration](./CONFIGURATION.md)
+- [System management](./SYSTEM-MANAGEMENT.md) — status, sanitized configuration and degraded-mode policy.

@@ -1,6 +1,6 @@
 # Database, Prisma 7 & Supabase
 
-PowerChain Local Energy OS uses PostgreSQL as the authoritative transactional database and Prisma 7 for schema/client generation. Redis is auxiliary infrastructure; it is not the source of truth for energy, settlement, identity or audit state.
+PowerChain Local Energy OS uses PostgreSQL as the authoritative transactional database and Prisma 7 as the schema/client layer.
 
 ## Connection roles
 
@@ -18,11 +18,31 @@ Development shadow database
   → disposable development-only PostgreSQL database
 ```
 
-`prisma.config.ts` loads `.env.local` before `.env`; shell/CI environment variables retain precedence. Production never silently falls back to localhost.
+`prisma.config.ts` loads `.env.local` first, then `.env`. Shell and CI environment variables keep precedence.
 
-## Diagnostics
+## Local Docker PostgreSQL
 
-Configuration-only diagnostics:
+The repository default is:
+
+```text
+postgresql://postgres:postgres@localhost:5432/powerchain?schema=public
+```
+
+Start local infrastructure:
+
+```bash
+pnpm infra:doctor
+pnpm infra:up
+pnpm infra:status
+```
+
+Create a local environment file:
+
+```bash
+cp .env.local.example .env.local
+```
+
+Then validate and generate:
 
 ```bash
 pnpm prisma:doctor
@@ -30,116 +50,88 @@ pnpm prisma:validate
 pnpm prisma:generate
 ```
 
-Connectivity diagnostics:
+For a **fresh** local database, prefer migrations:
 
 ```bash
-pnpm db:status
-pnpm db:doctor
-```
-
-`prisma validate` and `prisma generate` do not require a live PostgreSQL server. `migrate status`, `migrate deploy`, `migrate resolve`, `migrate dev`, `db push` and application runtime queries do.
-
-## Local PostgreSQL
-
-The default development target is:
-
-```text
-postgresql://postgres:postgres@localhost:5432/powerchain?schema=public
-```
-
-Preferred bootstrap:
-
-```bash
-pnpm env:setup
-pnpm db:up
-pnpm db:setup
-```
-
-Equivalent lower-level sequence:
-
-```bash
-pnpm infra:doctor
-pnpm infra:up
-pnpm infra:status
-pnpm db:doctor
-pnpm prisma:validate
-pnpm prisma:generate
 pnpm prisma:migrate:init
 ```
 
-`db:up` waits for the configured local PostgreSQL port before returning. If Docker is unavailable, use a managed PostgreSQL connection instead.
-
-## Fresh database vs baseline
-
-### Fresh database
-
-For a new empty development database, create/apply the initial migration normally:
-
-```bash
-pnpm db:up
-pnpm prisma:migrate:init
-```
-
-### Existing schema created with `prisma db push`
-
-Generate a baseline SQL file offline:
+If this database already exists because you previously used `prisma db push`, baseline it instead of trying to apply an `init` migration over existing tables:
 
 ```bash
 pnpm prisma:migrate:baseline:create
-```
-
-Review `prisma/migrations/0_init/migration.sql`. Only when the **reachable existing database already represents that schema** should the migration be marked applied:
-
-```bash
-pnpm db:doctor
 pnpm prisma:migrate:baseline:resolve
 pnpm prisma:migrate:status
 ```
 
-`baseline:resolve` writes Prisma migration history. It cannot work against a stopped database and must never be used as a substitute for creating an empty database.
+Review `prisma/migrations/0_init/migration.sql` before resolving it as applied. `baseline:resolve` is only for a database whose existing schema already corresponds to the baseline.
 
-## Supabase / managed PostgreSQL
+`pnpm prisma:push` remains available for disposable development prototyping only; it does not create migration history.
 
-Use separate runtime and migration endpoints when the provider uses a pooler:
+## Supabase PostgreSQL
+
+Use separate runtime and migration connection strings when a pooler is used:
 
 ```dotenv
-POWERCHAIN_DATABASE_MODE=managed
 DATABASE_URL="<runtime or pooled PostgreSQL URL>"
 DIRECT_URL="<direct/session PostgreSQL URL>"
 SHADOW_DATABASE_URL="<optional development-only shadow database URL>"
 ```
 
-Then:
+Do not commit credentials. `.env` and `.env.local` are ignored.
+
+For development migrations:
 
 ```bash
-pnpm db:doctor
-pnpm prisma:validate
-pnpm prisma:generate
-pnpm prisma:migrate:status
-```
-
-For development schema changes:
-
-```bash
+pnpm prisma:doctor
 pnpm prisma:migrate:dev
 ```
 
-For staging/production:
+For staging/production deployments:
 
 ```bash
+pnpm prisma:migrate:status
 pnpm prisma:migrate:deploy
 pnpm prisma:generate
 ```
 
-Never use `prisma db push` as the production deployment mechanism.
+Production deployments must apply committed migrations. Do not use `prisma db push` as a production deployment mechanism.
 
-## P1001 troubleshooting
+## Prisma 7 behavior
 
-`P1001: Can't reach database server` is a connectivity failure, not a Prisma schema failure. Check, in order:
+Prisma 7 reads the datasource URL from `prisma.config.ts`, not the datasource block in `schema.prisma`. `migrate dev` and `db push` no longer generate Prisma Client automatically, so PowerChain migration scripts run `pnpm prisma:generate` explicitly where appropriate.
 
-1. `pnpm db:status` — confirm the effective host/port.
-2. For localhost, start Docker Desktop and run `pnpm db:up`.
-3. For managed PostgreSQL, verify `DIRECT_URL`, TLS/pooler mode, VPN/firewall and provider status.
-4. Run `pnpm db:doctor` before retrying migration commands.
+## Database diagnostics and migration status
 
-The migration scripts call `db:doctor` so this problem is reported before Prisma attempts to mutate migration history.
+Prisma schema validation and client generation do not require a reachable PostgreSQL server. Migration status, migration resolution, `db push`, and deployment do.
+
+Use the explicit diagnostics in this order:
+
+```bash
+pnpm prisma:validate
+pnpm prisma:generate
+pnpm db:status
+```
+
+`db:status` is informational and reports the resolved source and reachability without failing solely because PostgreSQL is offline.
+
+For operations that require PostgreSQL:
+
+```bash
+pnpm db:doctor
+pnpm prisma:migrate:status
+```
+
+Datasource resolution is:
+
+```text
+DIRECT_URL
+  ↓
+DATABASE_URL
+  ↓
+PGHOST / PGPORT / PGUSER / PGPASSWORD / PGDATABASE / PGSCHEMA
+  ↓
+development-only 127.0.0.1:5432 fallback
+```
+
+Production never receives the development fallback. A local fallback that cannot be reached is `UNAVAILABLE`, not `UNCONFIGURED`.

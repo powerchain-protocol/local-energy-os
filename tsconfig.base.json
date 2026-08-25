@@ -112,6 +112,18 @@
       ],
       "@powerchain/rewards": [
         "packages/rewards/src/index.ts"
+      ],
+      "@powerchain/api": [
+        "packages/api/src/index.ts"
+      ],
+      "@powerchain/api/*": [
+        "packages/api/src/*.ts"
+      ],
+      "@powerchain/realtime": [
+        "packages/realtime/src/index.ts"
+      ],
+      "@powerchain/config/*": [
+        "packages/config/src/*.ts"
       ]
     },
     "forceConsistentCasingInFileNames": true,

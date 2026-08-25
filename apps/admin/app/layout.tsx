@@ -12,7 +12,9 @@ const nav: AppNavGroup[] = [
   { label: "OPERATIONS", items: [
     { label: "Integrations", icon: "api", disabled: true },
     { label: "Audit", icon: "docs", disabled: true },
-    { label: "System Health", icon: "status", disabled: true }
+    { label: "System Status", href: "/system/status", icon: "status" },
+    { label: "Runtime Config", href: "/system/config", icon: "settings" },
+    { label: "Management", href: "/system/management", icon: "admin" }
   ]},
   { label: "SYSTEM", items: [
     { label: "Security", icon: "admin", disabled: true },
