@@ -20,18 +20,18 @@
     },
     {
       "path": "CHANGELOG.md",
-      "size": 7622,
-      "sha256": "26edf755a225845ff452d9af74fc28c58c4c54b666ba77447bdc2a861155842b"
+      "size": 9122,
+      "sha256": "e934a15fac1107a4eb8f29e8a54593dd6d629279856df394bf9c1be98cbc5949"
     },
     {
       "path": "README.md",
-      "size": 8026,
-      "sha256": "9e1739aa5e3e934e6328b26e4df2b52641ac8b12a25cfbe12c8179782623e28e"
+      "size": 9309,
+      "sha256": "1e1acfbf8b4ad2ed8159ec03aa178044cc73713346fb9fd025a124e17a184d6c"
     },
     {
       "path": "VALIDATION_REPORT.md",
-      "size": 13101,
-      "sha256": "72b4e02a0cc84d52c96a8f8274ee5397c30f59905f7ae8cf73c18e98b757c604"
+      "size": 14638,
+      "sha256": "4acb275747b4cac323e7c9dfbed783a96bf8d618ca5a34446b4cdf9aeb1171de"
     },
     {
       "path": "apps/admin/README.md",
@@ -845,8 +845,8 @@
     },
     {
       "path": "package.json",
-      "size": 1694,
-      "sha256": "76390124172b16aceb1c0c03b0cdff586ed1d66338ce34d12b7c00fd6192941f"
+      "size": 1853,
+      "sha256": "41ab77741de4d6dd03a3976fa665cd6fa5582727be6bfe593e91880c4a8a0e15"
     },
     {
       "path": "packages/api-client/package.json",
@@ -1355,13 +1355,13 @@
     },
     {
       "path": "pnpm-workspace.yaml",
-      "size": 287,
-      "sha256": "63f0006cb9e2ca24413f74d2ad374cc8dd8177e2f4f0f837a0342b5c1048716e"
+      "size": 446,
+      "sha256": "fe40e84ff2a648455dcc06c2f126ec4a1eebe21994ab7931860cfdf3cdb9418b"
     },
     {
       "path": "prisma/schema.prisma",
-      "size": 17985,
-      "sha256": "8a7992baa75b27a6b1d6c2426d5aef9ab6be49fc53bb4edeeac92381dcf44449"
+      "size": 18125,
+      "sha256": "a21cbc54760e9059d62af3f59d12e6b94b66848c35ba4e8455b3440c61a0130e"
     },
     {
       "path": "prisma.config.ts",
@@ -1394,6 +1394,11 @@
       "sha256": "9978978869362197f6240b16b0229c5898026c3041d7bd298f380d59801bbb90"
     },
     {
+      "path": "scripts/infra.mjs",
+      "size": 2983,
+      "sha256": "9049d3f8027fe42efa45f2792ca88e230b60a42c539b2eda1ee7990e2c283c1e"
+    },
+    {
       "path": "scripts/release-verify.mjs",
       "size": 1047,
       "sha256": "a648920985e5dfba24290a057efd4c13dc8202a64965600d992aa51ccf85023f"
@@ -1410,8 +1415,8 @@
     },
     {
       "path": "scripts/workspace-doctor.mjs",
-      "size": 7460,
-      "sha256": "e10ddaca3d7e82bf1710e127955af0967b3b812fdd32683db402551b40619b92"
+      "size": 7861,
+      "sha256": "d4f4aa681fdf78dbcc810d001d8e97f3e1f5d165c43a2bf41d569768f7487f3a"
     },
     {
       "path": "storage/README.md",

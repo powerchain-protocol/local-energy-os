@@ -9,6 +9,10 @@ The repository passes the framework-independent validation available in this pac
 
 The artifact is **not declared production-certified** until the final Node 24 / pnpm / Prisma / Next.js / Anchor / Sui gates described below run in the target development environment.
 
+## pnpm build-script review
+
+The pnpm 11 build-script policy is explicit and version-pinned. Current reviewed approvals are Prisma engines, esbuild, Prisma, and the exact Tree-sitter parser versions required by the Swagger/OpenAPI parser dependency graph. `core-js-pure@3.50.0` and `@scarf/scarf` are explicitly denied. Future versions remain blocked until reviewed.
+
 ## Passed structural validation
 
 ### Workspace doctor
@@ -389,3 +393,39 @@ full-height sidebar invariant    PASS
 ```
 
 A dependency-aware React/Next typecheck remains part of the canonical Node 24 + pnpm installation gate because `node_modules` is intentionally not packaged in the release archive.
+
+## 2026-08-25 — Prisma schema and local-infrastructure recovery
+
+The user-reported Prisma `P1012` cascade was traced to compact one-line enum declarations. All Prisma enums are now canonical multiline blocks, and the workspace doctor rejects future inline-enum regressions before the Prisma CLI is invoked.
+
+Local container commands now run through `scripts/infra.mjs`. The preflight distinguishes:
+
+```text
+Docker CLI missing
+Docker Compose v2 missing
+Docker daemon unavailable
+Docker ready
+```
+
+Available infrastructure commands:
+
+```text
+pnpm infra:doctor
+pnpm infra:up
+pnpm infra:status
+pnpm infra:logs
+pnpm infra:down
+pnpm infra:reset
+```
+
+Validation performed in the packaging environment:
+
+```text
+workspace doctor            PASS
+repository validation       PASS
+OpenAPI method coverage     PASS
+Prisma inline-enum scan     PASS
+infra preflight behavior    PASS (expected missing-Docker diagnostic in this container)
+```
+
+Official `prisma validate`, `prisma generate`, `prisma db push`, and database connectivity remain target-machine gates because the packaging container does not include the installed pnpm/Prisma workspace dependencies or Docker runtime.

@@ -1,5 +1,23 @@
 # Changelog
 
+## 2026-08-25 — Local infrastructure + Prisma schema recovery
+
+- Fixed Prisma 7 schema parsing by converting all compact one-line enum declarations to canonical multiline enum blocks.
+- Added a workspace-doctor regression check that rejects compact inline Prisma enums before `prisma validate` runs.
+- Replaced raw Docker shell scripts with `scripts/infra.mjs` infrastructure preflight and lifecycle commands.
+- Added `pnpm infra:doctor`, `infra:status`, and `infra:logs`; `infra:up/down/reset` now report missing Docker CLI, missing Compose v2, and unreachable daemon states clearly.
+- Updated macOS local-infrastructure documentation and documented external PostgreSQL/Redis mode where Docker is intentionally not used.
+- Removed copy/paste-sensitive inline shell comments from Prisma and infrastructure command examples so zsh does not pass `# ...` text through as CLI arguments.
+
+
+## 2026-08-25 — pnpm build-script policy hardening
+
+- Reviewed the new Swagger/OpenAPI parser build-script prompts produced by `swagger-ui-react` dependencies.
+- Approved exact Tree-sitter parser versions required by the current lockfile: `@tree-sitter-grammars/tree-sitter-yaml@0.7.1`, `tree-sitter-json@0.24.8`, and `tree-sitter@0.21.1 || 0.22.4`.
+- Explicitly denied `core-js-pure@3.50.0` postinstall execution; PowerChain does not require it for runtime correctness.
+- Kept `@scarf/scarf` denied.
+- Extended workspace doctor checks so build-script approvals/denials are treated as supply-chain invariants.
+
 ## 1.0.0 — UI/UX operational refinement
 
 - Added real Local Energy workspace routes for `/energy`, `/assets`, and `/devices` instead of leaving core navigation disabled.

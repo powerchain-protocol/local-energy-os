@@ -98,18 +98,62 @@ allowBuilds:
   '@prisma/engines': true
   esbuild: true
   prisma: true
+  '@tree-sitter-grammars/tree-sitter-yaml@0.7.1': true
+  'tree-sitter-json@0.24.8': true
+  'tree-sitter@0.21.1 || 0.22.4': true
+  'core-js-pure@3.50.0': false
   '@scarf/scarf': false
 ```
 
 After the canonical first install, commit the generated `pnpm-lock.yaml`; `pnpm release:verify` intentionally refuses production release verification without it.
 
+When `pnpm approve-builds` is shown for the Swagger/OpenAPI parser dependency tree, approve the Tree-sitter native parser packages and leave `core-js-pure` denied. The committed policy is version-pinned so a future parser version must be reviewed again before its install script can execute.
+
+Recommended verification after install:
+
+```bash
+pnpm install --frozen-lockfile
+pnpm local-energy:verify
+pnpm typecheck
+```
+
 ## Local infrastructure
+
+Local PostgreSQL and Redis are provided through `compose.yaml`. Docker is optional only when you use external services such as Supabase PostgreSQL and a managed Redis endpoint.
+
+Check the local container runtime first:
+
+```bash
+pnpm infra:doctor
+```
+
+Then start the local services:
 
 ```bash
 pnpm infra:up
+pnpm infra:status
 ```
 
-starts PostgreSQL and Redis from `compose.yaml`.
+Useful commands:
+
+```bash
+pnpm infra:logs
+pnpm infra:down
+
+# Destructive: removes local Postgres/Redis volumes
+pnpm infra:reset
+```
+
+On macOS, if `docker` is not found, install/start Docker Desktop before running `infra:up`:
+
+```bash
+brew install --cask docker
+open -a Docker
+docker version
+docker compose version
+```
+
+If `DATABASE_URL`, `DIRECT_URL`, and `REDIS_URL` point at externally managed services, do not run `pnpm infra:up`.
 
 ## Prisma 7
 
@@ -130,8 +174,12 @@ Useful commands:
 ```bash
 pnpm prisma:validate
 pnpm prisma:generate
-pnpm prisma:push        # local/dev schema synchronization
-pnpm prisma:migrate     # deployment migrations once committed
+
+# Local/development schema synchronization
+pnpm prisma:push
+
+# Deployment migrations after migration files are committed
+pnpm prisma:migrate
 ```
 
 ## Authentication

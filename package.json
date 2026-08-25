@@ -23,10 +23,13 @@
     "dev:apps": "turbo run dev --parallel --filter='./apps/*'",
     "ci:verify": "pnpm local-energy:verify && pnpm build:apps",
     "release:verify": "node scripts/release-verify.mjs",
-    "infra:up": "docker compose up -d postgres redis",
-    "infra:down": "docker compose down",
-    "infra:reset": "docker compose down -v",
-    "prisma:push": "prisma db push --config prisma.config.ts"
+    "infra:up": "node scripts/infra.mjs up",
+    "infra:down": "node scripts/infra.mjs down",
+    "infra:reset": "node scripts/infra.mjs reset",
+    "prisma:push": "prisma db push --config prisma.config.ts",
+    "infra:doctor": "node scripts/infra.mjs doctor",
+    "infra:status": "node scripts/infra.mjs status",
+    "infra:logs": "node scripts/infra.mjs logs"
   },
   "devDependencies": {
     "turbo": "^2.5.6",
