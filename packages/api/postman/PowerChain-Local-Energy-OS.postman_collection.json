@@ -171,6 +171,129 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Public Config",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/config",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "config"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "System Config",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/system/config",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "system",
+                "config"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "System Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/system/status?probe=shallow",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "system",
+                "status?probe=shallow"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "System Management",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/system/management",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "system",
+                "management"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -1421,13 +1544,7 @@
                 "api",
                 "v1",
                 "ems",
-                "overview"
-              ],
-              "query": [
-                {
-                  "key": "siteId",
-                  "value": "{{siteId}}"
-                }
+                "overview?siteId={{siteId}}"
               ]
             }
           },
@@ -1458,13 +1575,7 @@
                 "api",
                 "v1",
                 "iot",
-                "devices"
-              ],
-              "query": [
-                {
-                  "key": "siteId",
-                  "value": "{{siteId}}"
-                }
+                "devices?siteId={{siteId}}"
               ]
             }
           },
@@ -1495,13 +1606,7 @@
                 "api",
                 "v1",
                 "depin",
-                "nodes"
-              ],
-              "query": [
-                {
-                  "key": "siteId",
-                  "value": "{{siteId}}"
-                }
+                "nodes?siteId={{siteId}}"
               ]
             }
           },
@@ -1532,20 +1637,14 @@
                 "api",
                 "v1",
                 "market-data",
-                "prices"
-              ],
-              "query": [
-                {
-                  "key": "symbols",
-                  "value": "SOL,PWRC"
-                }
+                "prices?symbols=SOL,PWRC"
               ]
             }
           },
           "response": []
         },
         {
-          "name": "Prepare EMS Dispatch",
+          "name": "Prepare Safe Action",
           "request": {
             "method": "POST",
             "header": [
@@ -1563,11 +1662,6 @@
                 "key": "Content-Type",
                 "value": "application/json",
                 "type": "text"
-              },
-              {
-                "key": "Idempotency-Key",
-                "value": "{{$guid}}",
-                "type": "text"
               }
             ],
             "url": {
@@ -1584,7 +1678,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"kind\": \"ems.dispatch.prepare\",\n  \"siteId\": \"{{siteId}}\",\n  \"request\": {\n    \"assetId\": \"asset_demo\",\n    \"targetKw\": 250\n  }\n}",
+              "raw": "{\n  \"kind\": \"iot.device.refresh\",\n  \"siteId\": \"{{siteId}}\",\n  \"payload\": {}\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1620,7 +1714,8 @@
     },
     {
       "key": "siteId",
-      "value": "site_demo"
+      "value": "site_demo",
+      "type": "string"
     }
   ]
 }

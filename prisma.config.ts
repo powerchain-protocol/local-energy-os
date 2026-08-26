@@ -8,7 +8,7 @@ loadEnv({ path: ".env.local", override: false, quiet: true });
 loadEnv({ path: ".env", override: false, quiet: true });
 
 const LOCAL_DATABASE_URL =
-  "postgresql://postgres:postgres@localhost:5432/powerchain?schema=public";
+  "postgresql://postgres:postgres@127.0.0.1:5432/powerchain?schema=public";
 
 const environment =
   process.env.POWERCHAIN_ENVIRONMENT ?? process.env.NODE_ENV ?? "development";

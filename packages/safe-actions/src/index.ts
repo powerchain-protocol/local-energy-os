@@ -52,7 +52,6 @@ export function defineSafeAction<TInput, TOutput, TSimulation = never>(definitio
   };
 }
 
-
 export type PreparedActionKind =
   | "ems.dispatch.prepare"
   | "iot.device.refresh"
@@ -60,25 +59,28 @@ export type PreparedActionKind =
   | "wallet.signature.prepare"
   | "settlement.prepare";
 
-export type SafeActionDisposition = "READ_ONLY" | "REVIEW_REQUIRED" | "WALLET_SIGNATURE_REQUIRED";
-
+export type PreparedActionDisposition = "READ_ONLY" | "REVIEW_REQUIRED" | "WALLET_SIGNATURE_REQUIRED";
 export interface PreparedActionPolicy {
   kind: PreparedActionKind;
-  disposition: SafeActionDisposition;
-  physicalExecutionAllowed: false;
-  settlementExecutionAllowed: false;
+  disposition: PreparedActionDisposition;
+  executionEndpointAvailable: false;
 }
 
-export const PREPARED_ACTION_POLICIES: Readonly<Record<PreparedActionKind, PreparedActionPolicy>> = {
-  "ems.dispatch.prepare": { kind: "ems.dispatch.prepare", disposition: "REVIEW_REQUIRED", physicalExecutionAllowed: false, settlementExecutionAllowed: false },
-  "iot.device.refresh": { kind: "iot.device.refresh", disposition: "READ_ONLY", physicalExecutionAllowed: false, settlementExecutionAllowed: false },
-  "depin.node.refresh": { kind: "depin.node.refresh", disposition: "READ_ONLY", physicalExecutionAllowed: false, settlementExecutionAllowed: false },
-  "wallet.signature.prepare": { kind: "wallet.signature.prepare", disposition: "WALLET_SIGNATURE_REQUIRED", physicalExecutionAllowed: false, settlementExecutionAllowed: false },
-  "settlement.prepare": { kind: "settlement.prepare", disposition: "WALLET_SIGNATURE_REQUIRED", physicalExecutionAllowed: false, settlementExecutionAllowed: false },
+const PREPARED_ACTION_POLICIES: Record<PreparedActionKind, PreparedActionPolicy> = {
+  "ems.dispatch.prepare": { kind: "ems.dispatch.prepare", disposition: "REVIEW_REQUIRED", executionEndpointAvailable: false },
+  "iot.device.refresh": { kind: "iot.device.refresh", disposition: "READ_ONLY", executionEndpointAvailable: false },
+  "depin.node.refresh": { kind: "depin.node.refresh", disposition: "READ_ONLY", executionEndpointAvailable: false },
+  "wallet.signature.prepare": { kind: "wallet.signature.prepare", disposition: "WALLET_SIGNATURE_REQUIRED", executionEndpointAvailable: false },
+  "settlement.prepare": { kind: "settlement.prepare", disposition: "WALLET_SIGNATURE_REQUIRED", executionEndpointAvailable: false },
 };
 
-export function preparedActionPolicy(kind: string): PreparedActionPolicy {
-  const policy = PREPARED_ACTION_POLICIES[kind as PreparedActionKind];
-  if (!policy) throw Object.assign(new Error(`Unsupported prepared action: ${kind}`), { code: "UNSUPPORTED_ACTION", status: 400 });
-  return policy;
+export function isPreparedActionKind(value: string): value is PreparedActionKind {
+  return Object.prototype.hasOwnProperty.call(PREPARED_ACTION_POLICIES, value);
+}
+
+export function preparedActionPolicy(value: string): PreparedActionPolicy {
+  if (!isPreparedActionKind(value)) {
+    throw Object.assign(new Error("Unsupported safe-action kind"), { code: "ACTION_KIND_UNSUPPORTED", status: 400, details: { kind: value } });
+  }
+  return PREPARED_ACTION_POLICIES[value];
 }

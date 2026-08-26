@@ -37,6 +37,8 @@ export function ApplicationShell({
   nav,
   status = "POWERCHAIN · v1.0.0",
   topAction,
+  notificationAction,
+  accountAction,
   mobileNav
 }: {
   children: ReactNode;
@@ -44,6 +46,8 @@ export function ApplicationShell({
   nav: AppNavGroup[];
   status?: string;
   topAction?: ReactNode;
+  notificationAction?: ReactNode;
+  accountAction?: ReactNode;
   mobileNav?: MobileNavConfig;
 }) {
   const [open, setOpen] = useState(false);
@@ -133,8 +137,8 @@ export function ApplicationShell({
             <button className="pc-search-control" type="button" aria-label="Open PowerChain search" onClick={openCommand}><PowerChainIcon name="search" /><span>Search PowerChain</span><kbd>⌘K</kbd></button>
             {topAction}
             <span className="pc-network-chip"><span className="pc-live-dot" />{status}</span>
-            <button className="pc-icon-button" type="button" aria-label="Notifications"><PowerChainIcon name="bell" /></button>
-            <button className="pc-user-button" type="button" aria-label="Account menu"><span>PC</span></button>
+            {notificationAction}
+            {accountAction}
           </div>
         </header>
         <div id="pc-content" className="pc-app-content" tabIndex={-1}>{children}</div>

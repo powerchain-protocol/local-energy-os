@@ -2,7 +2,6 @@ import type { TelemetryFreshness } from "@powerchain/telemetry";
 
 export type PowerUnit = "W" | "kW" | "MW";
 export type EnergyUnit = "Wh" | "kWh" | "MWh";
-export type EmsSourceMode = "LIVE" | "SIMULATED" | "ESTIMATED" | "MANUAL" | "UNCONFIGURED";
 export type DispatchKind = "SET_ACTIVE_POWER" | "CHARGE" | "DISCHARGE" | "CURTAIL" | "RELEASE";
 
 export interface EmsSourceMeta {
@@ -10,7 +9,6 @@ export interface EmsSourceMeta {
   observedAt: string;
   receivedAt: string;
   intervalMs: number;
-  mode: EmsSourceMode;
   freshness: TelemetryFreshness;
   quality: "VALID" | "ESTIMATED" | "SUSPECT" | "MISSING";
 }

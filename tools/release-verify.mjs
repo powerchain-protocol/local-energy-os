@@ -12,6 +12,7 @@ if (major !== 24) {
 }
 const commands = [
   ["pnpm", ["doctor:strict"]],
+  ["pnpm", ["clean:verify"]],
   ["pnpm", ["validate"]],
   ["pnpm", ["operations:verify"]],
   ["pnpm", ["api:docs:verify"]],
@@ -22,6 +23,7 @@ const commands = [
   ["pnpm", ["backend:prisma:generate"]],
   ["pnpm", ["typecheck"]],
   ["pnpm", ["backend:build"]],
+  ["pnpm", ["worker:verify"]],
   ["pnpm", ["build:apps"]],
 ];
 for (const [command, args] of commands) {

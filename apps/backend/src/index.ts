@@ -1,11 +1,19 @@
 import { createBackendApp } from "./server.js";
+import { disconnectOperationsPrisma } from "./db.js";
+
 const { app, config } = createBackendApp();
 const server = app.listen(config.BACKEND_PORT, config.BACKEND_HOST, () => {
   console.log(`[PowerChain backend] http://${config.BACKEND_HOST}:${config.BACKEND_PORT}/api/v1`);
 });
-function shutdown(signal: string) {
+
+let stopping = false;
+async function shutdown(signal: string) {
+  if (stopping) return;
+  stopping = true;
   console.log(`[PowerChain backend] ${signal}; shutting down`);
-  server.close((error) => process.exit(error ? 1 : 0));
+  await new Promise<void>((resolve) => server.close(() => resolve()));
+  await disconnectOperationsPrisma();
+  process.exitCode = 0;
 }
-process.on("SIGTERM", () => shutdown("SIGTERM"));
-process.on("SIGINT", () => shutdown("SIGINT"));
+process.once("SIGTERM", () => void shutdown("SIGTERM"));
+process.once("SIGINT", () => void shutdown("SIGINT"));

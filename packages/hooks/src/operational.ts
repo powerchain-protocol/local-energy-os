@@ -41,10 +41,10 @@ export function useEmsSnapshot(service: EmsService, siteId: string) {
   return useAsyncResource((signal) => service.snapshot(siteId, signal), [service, siteId]);
 }
 
-export function useIoTDevicesFromService(service: IoTService, organizationId: string) {
+export function useIoTDevices(service: IoTService, organizationId: string) {
   return useAsyncResource((signal) => service.listDevices(organizationId, signal), [service, organizationId]);
 }
 
-export function useDePinNodesFromService(service: DePinService, organizationId: string) {
+export function useDePinNodes(service: DePinService, organizationId: string) {
   return useAsyncResource((signal) => service.listNodes(organizationId, signal), [service, organizationId]);
 }

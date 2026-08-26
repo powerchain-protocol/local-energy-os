@@ -7,15 +7,37 @@ function redisUrl(): string {
   return url;
 }
 
-export async function publishRealtimeEvent(event: RealtimeEventEnvelope): Promise<void> {
-  const client = createClient({ url: redisUrl() });
-  client.on("error", (error) => console.error(JSON.stringify({ service: "powerchain-realtime-bus", status: "redis-error", message: error.message })));
-  await client.connect();
+let publisher: RedisClientType | undefined;
+let publisherConnect: Promise<RedisClientType> | undefined;
+
+async function getPublisher(): Promise<RedisClientType> {
+  if (publisher?.isOpen) return publisher;
+  if (publisherConnect) return publisherConnect;
+  publisherConnect = (async () => {
+    const client: RedisClientType = createClient({ url: redisUrl() });
+    client.on("error", (error) => console.error(JSON.stringify({ service: "powerchain-realtime-bus", status: "redis-error", message: error.message })));
+    await client.connect();
+    publisher = client;
+    return client;
+  })();
   try {
-    await client.publish(realtimeRedisChannel(event.organizationId), JSON.stringify(event));
+    return await publisherConnect;
   } finally {
-    await client.quit();
+    publisherConnect = undefined;
   }
+}
+
+export async function publishRealtimeEvent(event: RealtimeEventEnvelope): Promise<void> {
+  const client = await getPublisher();
+  await client.publish(realtimeRedisChannel(event.organizationId), JSON.stringify(event));
+}
+
+export async function closeRealtimePublisher(): Promise<void> {
+  const pending = publisherConnect;
+  if (pending) await pending.catch(() => undefined);
+  const client = publisher;
+  publisher = undefined;
+  if (client?.isOpen) await client.quit();
 }
 
 export async function subscribeRealtimeEvents(handler: (event: RealtimeEventEnvelope) => void | Promise<void>): Promise<() => Promise<void>> {

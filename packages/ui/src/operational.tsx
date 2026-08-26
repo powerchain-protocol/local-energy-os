@@ -26,10 +26,3 @@ export function OperationalGate({ title, allowed, reason, children }: { title: s
     {reason ? <p>{reason}</p> : null}{children}
   </section>;
 }
-
-
-export function OperationalStatusCard({ icon, title, status, description, children }: { icon: PowerChainIconName; title: string; status: "success" | "warning" | "danger" | "info" | "neutral"; description?: string; children?: ReactNode }) {
-  return <section className="pc-operational-status-card" data-slot="operational-status-card"><header><span><PowerChainIcon name={icon}/><strong>{title}</strong></span><StatusBadge tone={status}>{status.toUpperCase()}</StatusBadge></header>{description ? <p>{description}</p> : null}{children}</section>;
-}
-export function SourceBadge({ source }: { source: string }) { return <StatusBadge tone="neutral">{source}</StatusBadge>; }
-export const SafeActionPanel = OperationalGate;

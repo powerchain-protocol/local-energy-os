@@ -37,7 +37,7 @@ apps/
   wind/         Wind-farm operations
   charging/     EV charging / V2G
   supply-chain/ Asset passports and provenance
-  worker/       Outbox, reconciliation and scheduled jobs
+  worker/       Durable outbox delivery + idempotency cleanup; disabled capabilities are explicit
 
 packages/
   ui/           Canonical brand, full-height app shell and UI primitives

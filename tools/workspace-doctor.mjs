@@ -30,9 +30,6 @@ const requiredRuntime = [
   "apps/wind",
   "apps/charging",
   "apps/supply-chain",
-  "apps/api/api/openapi.yaml",
-  "apps/api/api/postman/PowerChain-Local-Energy-OS.postman_collection.json",
-  "apps/api/api/postman/PowerChain-Local.postman_environment.json",
   "packages/shared",
   "packages/ui",
   "packages/energy-core",
@@ -150,6 +147,47 @@ for (const [manifestPath, manifest] of manifests) {
   }
 }
 
+
+const workspaceFile = fs.readFileSync(path.join(root, "pnpm-workspace.yaml"), "utf8");
+for (const workspaceGlob of ["apps/*", "packages/*", "components/*", "store", "storage"]) {
+  if (!workspaceFile.includes(`- ${workspaceGlob}`)) errors.push(`pnpm-workspace-missing:${workspaceGlob}`);
+}
+
+function workspaceImportRoot(specifier) {
+  const match = specifier.match(/^(@powerchain\/[^/]+)/);
+  return match?.[1];
+}
+function sourceFiles(directory) {
+  if (!fs.existsSync(directory)) return [];
+  const out = [];
+  for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+    const absolute = path.join(directory, entry.name);
+    if (entry.isDirectory()) {
+      if (!["node_modules", "dist", ".next", "generated"].includes(entry.name)) out.push(...sourceFiles(absolute));
+    } else if (/\.(?:ts|tsx|js|jsx|mjs)$/.test(entry.name)) out.push(absolute);
+  }
+  return out;
+}
+for (const [manifestPath, manifest] of manifests) {
+  if (!manifest.name || manifestPath === path.join(root, "package.json")) continue;
+  const projectRoot = path.dirname(manifestPath);
+  const declared = new Set([
+    ...Object.keys(manifest.dependencies ?? {}),
+    ...Object.keys(manifest.devDependencies ?? {}),
+    ...Object.keys(manifest.peerDependencies ?? {}),
+  ]);
+  for (const sourcePath of sourceFiles(projectRoot)) {
+    const source = fs.readFileSync(sourcePath, "utf8");
+    const importPattern = /(?:from\s+["']|import\s*\(\s*["']|require\(\s*["'])(@powerchain\/[^"']+)["']/g;
+    for (const match of source.matchAll(importPattern)) {
+      const dependency = workspaceImportRoot(match[1]);
+      if (dependency && dependency !== manifest.name && workspaceNames.has(dependency) && !declared.has(dependency)) {
+        errors.push(`undeclared-workspace-import:${path.relative(root, manifestPath)}:${dependency}:${path.relative(projectRoot, sourcePath)}`);
+      }
+    }
+  }
+}
+
 const units = fs.readFileSync(path.join(root, "packages/energy-core/src/index.ts"), "utf8");
 for (const invariant of ["KWH = 1_000n", "MWH = 1_000_000n", "GWH = 1_000_000_000n"]) {
   if (!units.includes(invariant)) errors.push(`energy-unit:${invariant}`);
@@ -251,6 +289,22 @@ const pwrc = fs.readFileSync(path.join(root, "packages/pwrc/src/index.ts"), "utf
 if (!pwrc.includes('PWRC_CHAIN = "SOLANA"') || !pwrc.includes('WPWRC_CHAIN = "SUI"')) errors.push("pwrc-chain-model");
 const rwa = fs.readFileSync(path.join(root, "packages/energy-rwa/src/index.ts"), "utf8");
 if (!rwa.includes("ENERGY_RWA_OVERISSUANCE") && !units.includes("ENERGY_RWA_OVERISSUANCE")) errors.push("rwa-overissuance-guard");
+
+
+if (fs.existsSync(path.join(root, "scripts"))) errors.push("legacy-scripts-directory-present");
+if (fs.existsSync(path.join(root, "apps/api/api"))) errors.push("duplicate-api-contract-directory:apps/api/api");
+const workerJobs = fs.readFileSync(path.join(root, "apps/worker/src/jobs.ts"), "utf8");
+if (/\bnoOp\s*\(/.test(workerJobs)) errors.push("worker-dead-noop-jobs");
+const workerManifest = JSON.parse(fs.readFileSync(path.join(root, "apps/worker/package.json"), "utf8"));
+for (const dependency of ["@powerchain/api", "@powerchain/config", "@powerchain/database", "@powerchain/realtime", "@powerchain/system-management"]) {
+  if (!String(workerManifest.dependencies?.[dependency] ?? "").startsWith("workspace:")) errors.push(`worker-missing-dependency:${dependency}`);
+}
+const turboConfig = fs.readFileSync(path.join(root, "turbo.json"), "utf8");
+if (!turboConfig.includes('"@powerchain/app-worker#build"') || !turboConfig.includes('"dist/**"')) errors.push("worker-turbo-output-missing");
+const shellSource = fs.readFileSync(path.join(root, "packages/ui/src/app-shell.tsx"), "utf8");
+for (const deadLabel of ['aria-label="Notifications"', 'aria-label="Account menu"']) {
+  if (shellSource.includes(deadLabel)) errors.push(`dead-shell-control:${deadLabel}`);
+}
 
 if (strict && warnings.length) errors.push(...warnings.map((warning) => `strict:${warning}`));
 

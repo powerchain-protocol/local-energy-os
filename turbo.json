@@ -125,13 +125,36 @@
         "!.next/cache/**"
       ]
     },
+    "@powerchain/app-worker#build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**"
+      ]
+    },
     "@powerchain/app-backend#build": {
       "dependsOn": [
         "^build"
       ],
       "outputs": [
-        "dist/**",
-        "src/generated/prisma/**"
+        "dist/**"
+      ]
+    },
+    "@powerchain/app-grpc#build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**"
+      ]
+    },
+    "@powerchain/app-realtime#build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**"
       ]
     }
   }

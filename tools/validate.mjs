@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-for (const script of ["tools/workspace-doctor.mjs", "tools/verify-api-docs.mjs"]) {
+for (const script of ["tools/workspace-doctor.mjs", "tools/verify-api-docs.mjs", "tools/verify-cleanliness.mjs"]) {
   const result = spawnSync(process.execPath, [script], { cwd: root, stdio: "inherit" });
   if (result.status !== 0) process.exit(result.status ?? 1);
 }

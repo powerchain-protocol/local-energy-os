@@ -25,7 +25,7 @@ export function SignInForm() {
     <div className="pc-auth-form-row"><label className="pc-auth-check"><input type="checkbox" name="remember"/><span>Remember this browser</span></label><Link href="/forgot-password">Forgot password?</Link></div>
     <AuthSubmitButton pending={pending}>Sign in</AuthSubmitButton>
     <div className="pc-auth-divider"><span>or</span></div>
-    <button className="pc-auth-secondary" type="button" onClick={() => setFeedback("Solana sign-in is implemented at the API boundary. Connect-wallet UI is intentionally not simulated in the Platform app until a wallet provider is installed.")}>Continue with Solana wallet</button>
+    <button className="pc-auth-secondary" type="button" disabled aria-disabled="true" title="Install and configure a wallet provider to enable this control">Solana wallet provider not configured</button>
   </form>;
 }
 

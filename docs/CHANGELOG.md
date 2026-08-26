@@ -1,3 +1,16 @@
+## 2026-08-26 — Worker and monorepo cleanup
+
+- Removed the duplicate legacy `/scripts` tree; `/tools` is the only repository automation source.
+- Removed copied API contracts under `apps/api/api`; `packages/api` is the only OpenAPI/Postman source of truth.
+- Restored `components/*` to `pnpm-workspace.yaml` and removed obsolete Tree-sitter build approvals after the Swagger UI dependency cleanup.
+- Fixed undeclared workspace dependencies in `apps/worker` and `apps/api`; the workspace doctor now scans `@powerchain/*` imports against package manifests.
+- Replaced scheduled worker no-op jobs with startup-only disabled capability reporting.
+- Added worker interval/transport validation, same-job overlap prevention, graceful Prisma/Redis shutdown, and reusable Redis publisher connections.
+- Added Turbo `dist/**` output caching for worker/backend/realtime/gRPC Node applications.
+- Removed decorative notification/account buttons from the shared shell; controls now render only when a real action is supplied.
+- Disabled the unavailable Solana-wallet UI control rather than simulating a click response.
+- Added `pnpm clean:verify` and aligned documented root scripts with the release verifier.
+
 ## 2026-08-26 — Administration control-plane UI/UX refinement
 
 - Replaced generic System Status / Runtime Config / Management JSON pages with purpose-built operational control-plane views.
@@ -34,7 +47,7 @@
 
 - Fixed Prisma 7 schema parsing by converting all compact one-line enum declarations to canonical multiline enum blocks.
 - Added a workspace-doctor regression check that rejects compact inline Prisma enums before `prisma validate` runs.
-- Replaced raw Docker shell scripts with `scripts/infra.mjs` infrastructure preflight and lifecycle commands.
+- Replaced raw Docker shell scripts with `tools/infra.mjs` infrastructure preflight and lifecycle commands.
 - Added `pnpm infra:doctor`, `infra:status`, and `infra:logs`; `infra:up/down/reset` now report missing Docker CLI, missing Compose v2, and unreachable daemon states clearly.
 - Updated macOS local-infrastructure documentation and documented external PostgreSQL/Redis mode where Docker is intentionally not used.
 - Removed copy/paste-sensitive inline shell comments from Prisma and infrastructure command examples so zsh does not pass `# ...` text through as CLI arguments.

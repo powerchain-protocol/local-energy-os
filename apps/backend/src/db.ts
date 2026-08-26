@@ -19,3 +19,9 @@ export function getOperationsPrisma(config: BackendConfig): PrismaClient {
   if (!client) client = new PrismaClient({ adapter: new PrismaPg({ connectionString: operationsUrl(config) }) });
   return client;
 }
+
+export async function disconnectOperationsPrisma(): Promise<void> {
+  const current = client;
+  client = undefined;
+  if (current) await current.$disconnect();
+}

@@ -10,9 +10,11 @@
     "start": "node dist/index.js"
   },
   "dependencies": {
-    "@powerchain/system-management": "workspace:*",
+    "@powerchain/api": "workspace:*",
     "@powerchain/config": "workspace:*",
-    "@powerchain/database": "workspace:*"
+    "@powerchain/database": "workspace:*",
+    "@powerchain/realtime": "workspace:*",
+    "@powerchain/system-management": "workspace:*"
   },
   "devDependencies": {
     "typescript": "7.0.2",

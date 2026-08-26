@@ -45,6 +45,14 @@ export function getPrismaClient(): PrismaClient {
   return globalForPrisma.prismaClient;
 }
 
+/** Disconnects and clears the process-wide Prisma client. Safe to call during shutdown. */
+export async function disconnectPrismaClient(): Promise<void> {
+  const client = globalForPrisma.prismaClient;
+  if (!client) return;
+  globalForPrisma.prismaClient = undefined;
+  await client.$disconnect();
+}
+
 export const prisma = new Proxy({} as PrismaClient, {
   get(_target, property) {
     const client = getPrismaClient();

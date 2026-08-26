@@ -1,49 +1,48 @@
 # PowerChain Worker
 
 **Package:** `@powerchain/app-worker`  
-**Version:** `1.0.0`  
-**Development port:** `n/a`
+**Version:** `1.0.0`
 
 ## Purpose
 
-Background orchestration for outbox delivery, settlement/reconciliation, reward epochs and cleanup.
+The worker is the background execution process for implemented, durable maintenance and outbox responsibilities. It does not schedule placeholder jobs and it does not execute physical energy dispatch, settlement, market matching, rewards, or cross-chain actions unless a real adapter/policy implementation is introduced first.
 
-## Product boundary
+## Scheduled jobs
 
-This application is a presentation/orchestration surface. Authoritative physical energy, permissions, financial state and Energy RWA supply are resolved through server-side APIs and domain packages. The UI must never invent telemetry, balances, settlement state or blockchain confirmation.
+- `domain-event-outbox` — enabled only when `DOMAIN_EVENT_TRANSPORT=log|redis`.
+- `integration-outbox` — enabled only when `INTEGRATION_OUTBOX_TRANSPORT=log`.
+- `idempotency-cleanup` — removes expired idempotency records.
 
-## Primary dependencies
+Unimplemented capabilities are reported once at startup as disabled capabilities; they do not create recurring no-op timers.
 
-- `DomainEventOutbox`
-- `Integration outbox`
-- `Idempotency cleanup`
+## Runtime safety
 
-## Shared architecture
+- Jobs never overlap with another execution of the same job.
+- SIGINT/SIGTERM stops scheduling, drains in-flight jobs up to `WORKER_SHUTDOWN_TIMEOUT_MS`, closes the Redis publisher, and disconnects Prisma.
+- Redis publishing reuses one process-wide publisher connection rather than connecting for every event.
+- Production defaults domain-event delivery to `disabled` unless explicitly configured.
+- Integration delivery accepts only the explicit `log` development/audit sink until a real adapter is added.
 
-- `@powerchain/ui` — canonical full-height application shell and design tokens.
-- `@powerchain/api-client` — request/correlation/workspace-aware API transport where applicable.
-- `@powerchain/contracts` — stable request/context/wire contracts.
-- PostgreSQL/Prisma and policy checks remain server-side.
+## Configuration
 
-## UX rules
-
-1. Physical/operational state appears before token/network details.
-2. Loading, empty, unconfigured, degraded and error states are explicit.
-3. Desktop sidebar is full-height; operational apps do not render a footer.
-4. Status is never conveyed by color alone.
-5. Mock/simulated data must be visibly identified and cannot authorize live writes.
+```dotenv
+WORKER_RUN_ON_START=true
+WORKER_DOMAIN_EVENT_INTERVAL_MS=5000
+WORKER_INTEGRATION_OUTBOX_INTERVAL_MS=10000
+WORKER_IDEMPOTENCY_CLEANUP_INTERVAL_MS=60000
+WORKER_SHUTDOWN_TIMEOUT_MS=10000
+DOMAIN_EVENT_TRANSPORT=disabled
+INTEGRATION_OUTBOX_TRANSPORT=disabled
+```
 
 ## Development
 
 ```bash
-pnpm --filter @powerchain/app-worker dev
-pnpm --filter @powerchain/app-worker typecheck
-pnpm --filter @powerchain/app-worker build
+pnpm worker:dev
+pnpm worker:typecheck
+pnpm worker:build
+pnpm worker:start
+pnpm worker:verify
 ```
 
-From the repository root, run the full gate with:
-
-```bash
-pnpm local-energy:verify
-pnpm build:apps
-```
+The full release gate also runs `pnpm clean:verify`, workspace dependency-boundary validation, operations verification, Prisma generation, Turbo typechecks, and app builds.

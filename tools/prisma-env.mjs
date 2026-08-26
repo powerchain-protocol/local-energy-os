@@ -1,44 +1,18 @@
 import { existsSync } from "node:fs";
 import net from "node:net";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
-import process from "node:process";
+import { resolveDatabaseEnvironment, parseDatabaseTarget, isLocalDatabaseHost } from "./database-env.mjs";
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-for (const file of [".env.local", ".env"]) {
-  const candidate = path.join(root, file);
-  if (existsSync(candidate)) process.loadEnvFile(candidate);
-}
-
-const LOCAL_DATABASE_URL = "postgresql://postgres:postgres@localhost:5432/powerchain?schema=public";
-const environment = (process.env.POWERCHAIN_ENVIRONMENT ?? process.env.NODE_ENV ?? "development").trim();
-const direct = process.env.DIRECT_URL?.trim();
-const runtime = process.env.DATABASE_URL?.trim();
-const shadow = process.env.SHADOW_DATABASE_URL?.trim();
-const effective = direct || runtime || (environment === "production" ? "" : LOCAL_DATABASE_URL);
+const { root, environment, directUrl: direct, runtimeUrl: runtime, shadowUrl: shadow, effectiveUrl: effective } = resolveDatabaseEnvironment();
 const requireReachable = process.argv.includes("--require-reachable");
 
-function parseDatabaseUrl(url) {
-  if (!url) return null;
-  try {
-    const parsed = new URL(url);
-    if (parsed.protocol !== "postgresql:" && parsed.protocol !== "postgres:") return null;
-    return {
-      parsed,
-      host: parsed.hostname,
-      port: Number(parsed.port || 5432),
-      database: parsed.pathname.replace(/^\//, "") || "postgres",
-    };
-  } catch {
-    return null;
-  }
-}
+function parseDatabaseUrl(url) { return parseDatabaseTarget(url); }
 
 function describe(url) {
   const parsed = parseDatabaseUrl(url);
   if (!url) return "not configured";
   if (!parsed) return "configured but invalid PostgreSQL URL syntax";
-  return `${parsed.parsed.protocol}//${parsed.host}:${parsed.port}/${parsed.database}`;
+  return `${parsed.url.protocol}//${parsed.host}:${parsed.port}/${parsed.database}`;
 }
 
 function canConnect(host, port, timeoutMs = 1500) {
@@ -92,7 +66,7 @@ if (requireReachable) {
   console.log(`  connectivity: ${reachable ? "reachable" : "unreachable"}`);
   if (!reachable) {
     console.error(`\nCannot reach PostgreSQL at ${target.host}:${target.port}.`);
-    if (["localhost", "127.0.0.1", "::1"].includes(target.host)) {
+    if (isLocalDatabaseHost(target.host)) {
       console.error("Start the local development database with:");
       console.error("  pnpm infra:doctor");
       console.error("  pnpm infra:up");

@@ -324,38 +324,3 @@ WebSocket/gRPC transport availability is not equivalent to physical telemetry av
 ## 19. Design rule
 
 > If PowerChain cannot establish the physical source, unit, timestamp and freshness of an EMS value, the interface must display it as unavailable rather than plausible.
-
-## Canonical operational information architecture
-
-The Energy application preserves `/` as the operational Overview entry and separates detailed work by decision purpose:
-
-```text
-/
-└── Overview
-
-/monitor
-├── /monitor/live-flow
-├── /monitor/generation
-├── /monitor/consumption
-└── /monitor/storage
-
-/operate
-├── /operate/forecast
-├── /operate/flexibility
-├── /operate/dispatch
-└── /operate/grid
-
-/context
-├── /context/markets
-└── /context/events
-```
-
-The three workspaces have intentionally different responsibilities:
-
-- **Monitor** — authoritative physical state and evidence. Values require engineering units, source identity, observation/receive timestamps, freshness and quality.
-- **Plan & Operate** — forecasts, flexibility, grid constraints and safe-action preparation. Planning is not physical execution; dispatch remains `Context → Simulate → Policy → Approve → Execute → Verify`.
-- **Context** — markets, events and external-system evidence. Context can explain, price or correlate physical state, but cannot replace telemetry or verification.
-
-Legacy `/energy/*` routes remain as compatibility redirects to the canonical URLs. This preserves existing bookmarks while preventing duplicate navigation and competing canonical paths.
-
-Each operational workspace uses a shared responsive section navigation. Desktop shows purpose-specific subnavigation in the operational context bar; tablet and mobile reflow the navigation into two-column and one-column layouts without horizontal scrolling.

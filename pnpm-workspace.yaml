@@ -5,8 +5,7 @@ packages:
   - store
   - storage
 
-# pnpm 11 build-script allowlist. This is the persisted result of reviewing
-# `pnpm approve-builds` for the current dependency graph.
+# pnpm 11 build-script policy. Keep this list minimal and reviewed.
 allowBuilds:
   '@prisma/engines': true
   esbuild: true

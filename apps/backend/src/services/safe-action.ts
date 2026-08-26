@@ -1,10 +1,10 @@
-import { preparedActionPolicy, type PreparedActionKind } from "@powerchain/safe-actions";
+import { preparedActionPolicy } from "@powerchain/safe-actions";
 import type { OperationsIdentity } from "@powerchain/adapters";
 import type { PrismaClient } from "../generated/prisma/client.js";
 import { requireSiteAccess } from "./site-access.js";
 import type { OperationsRealtimePublisher } from "./realtime.js";
 
-export async function prepareOperationalAction(input: { prisma: PrismaClient; identity: OperationsIdentity; kind: PreparedActionKind; siteId?: string; idempotencyKey: string; request: Record<string, unknown>; realtime: OperationsRealtimePublisher }) {
+export async function prepareOperationalAction(input: { prisma: PrismaClient; identity: OperationsIdentity; kind: string; siteId?: string; idempotencyKey: string; request: Record<string, unknown>; realtime: OperationsRealtimePublisher }) {
   const policy = preparedActionPolicy(input.kind);
   const siteScoped = new Set(["ems.dispatch.prepare", "iot.device.refresh", "depin.node.refresh"]);
   if (siteScoped.has(input.kind) && !input.siteId) throw Object.assign(new Error("siteId is required for this action"), { code: "SITE_ID_REQUIRED", status: 400 });
