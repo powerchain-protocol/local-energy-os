@@ -50,11 +50,6 @@ const requiredRuntime = [
   "packages/settlement",
   "packages/ledger",
   "packages/rewards",
-  "packages/system-management",
-  "packages/system-management/src/types/status.ts",
-  "apps/api/app/api/v1/system/status/route.ts",
-  "apps/api/app/api/v1/system/config/route.ts",
-  "apps/api/app/api/v1/system/management/route.ts",
   "store/package.json",
   "storage/package.json",
   "docs/programs/overview.md",
@@ -186,7 +181,7 @@ for (const script of ["local-energy:verify", "workspace:bootstrap"]) {
 }
 
 const prismaConfig = fs.readFileSync(path.join(root, "prisma.config.ts"), "utf8");
-for (const token of [".env.local", "DIRECT_URL", "DATABASE_URL", "SHADOW_DATABASE_URL", "PGHOST", "127.0.0.1"]) {
+for (const token of [".env.local", "DIRECT_URL", "DATABASE_URL", "SHADOW_DATABASE_URL", "LOCAL_DATABASE_URL"]) {
   if (!prismaConfig.includes(token)) errors.push(`prisma-config-missing:${token}`);
 }
 for (const script of ["prisma:doctor", "prisma:migrate:dev", "prisma:migrate:init", "prisma:migrate:deploy", "prisma:migrate:status"]) {
@@ -194,7 +189,7 @@ for (const script of ["prisma:doctor", "prisma:migrate:dev", "prisma:migrate:ini
 }
 
 const workspace = fs.readFileSync(path.join(root, "pnpm-workspace.yaml"), "utf8");
-for (const dep of ["@prisma/engines", "esbuild", "prisma", "@tree-sitter-grammars/tree-sitter-yaml@0.7.1", "tree-sitter-json@0.24.8", "tree-sitter@0.21.1 || 0.22.4"]) {
+for (const dep of ["@prisma/engines", "esbuild", "prisma"]) {
   if (!workspace.includes(`${dep}: true`) && !workspace.includes(`'${dep}': true`)) errors.push(`unapproved-build:${dep}`);
 }
 for (const dep of ["core-js-pure@3.50.0", "@scarf/scarf"]) {

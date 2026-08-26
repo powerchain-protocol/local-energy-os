@@ -1,14 +1,19 @@
 {
   "version": "v1",
-  "routeCount": 42,
+  "routeCount": 48,
   "routes": [
     {
-      "method": "GET",
+      "method": "POST",
+      "path": "/api/v1/actions/prepare",
+      "source": "apps/api/app/api/v1/actions/prepare/route.ts"
+    },
+    {
+      "method": "DELETE",
       "path": "/api/v1/auth/session",
       "source": "apps/api/app/api/v1/auth/session/route.ts"
     },
     {
-      "method": "DELETE",
+      "method": "GET",
       "path": "/api/v1/auth/session",
       "source": "apps/api/app/api/v1/auth/session/route.ts"
     },
@@ -39,6 +44,11 @@
     },
     {
       "method": "GET",
+      "path": "/api/v1/config",
+      "source": "apps/api/app/api/v1/config/route.ts"
+    },
+    {
+      "method": "GET",
       "path": "/api/v1/consumers",
       "source": "apps/api/app/api/v1/consumers/route.ts"
     },
@@ -49,8 +59,13 @@
     },
     {
       "method": "GET",
-      "path": "/api/v1/energy/command-center",
-      "source": "apps/api/app/api/v1/energy/command-center/route.ts"
+      "path": "/api/v1/depin/nodes",
+      "source": "apps/api/app/api/v1/depin/nodes/route.ts"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/ems/overview",
+      "source": "apps/api/app/api/v1/ems/overview/route.ts"
     },
     {
       "method": "GET",
@@ -109,8 +124,8 @@
     },
     {
       "method": "GET",
-      "path": "/api/v1/grid/areas",
-      "source": "apps/api/app/api/v1/grid/areas/route.ts"
+      "path": "/api/v1/energy/command-center",
+      "source": "apps/api/app/api/v1/energy/command-center/route.ts"
     },
     {
       "method": "GET",
@@ -119,8 +134,23 @@
     },
     {
       "method": "GET",
+      "path": "/api/v1/grid/areas",
+      "source": "apps/api/app/api/v1/grid/areas/route.ts"
+    },
+    {
+      "method": "GET",
       "path": "/api/v1/health",
       "source": "apps/api/app/api/v1/health/route.ts"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/iot/devices",
+      "source": "apps/api/app/api/v1/iot/devices/route.ts"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/market-data/prices",
+      "source": "apps/api/app/api/v1/market-data/prices/route.ts"
     },
     {
       "method": "GET",

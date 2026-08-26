@@ -124,6 +124,15 @@
         ".next/**",
         "!.next/cache/**"
       ]
+    },
+    "@powerchain/app-backend#build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**",
+        "src/generated/prisma/**"
+      ]
     }
   }
 }

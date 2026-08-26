@@ -1,3 +1,13 @@
+## 2026-08-26 — Administration control-plane UI/UX refinement
+
+- Replaced generic System Status / Runtime Config / Management JSON pages with purpose-built operational control-plane views.
+- Added shallow/deep probe controls, explicit refresh behavior, runtime mode strip, service-health matrix, critical-path notices and dense diagnostics tables.
+- Grouped sanitized configuration into PostgreSQL, Redis, Solana and feature-gate surfaces without exposing secrets or credential-bearing URLs.
+- Added fail-closed execution-gate cards for writes, settlement, market matching, bridge finalization and rewards.
+- Moved raw API payloads into collapsed advanced-diagnostics disclosures instead of making JSON the primary interface.
+- Redesigned the Administration landing page around system posture, critical service impact and direct control-plane navigation.
+- Added responsive single-column behavior for service cards, execution gates, policies and runtime controls while preserving the five-part mobile dock and no-footer shell.
+
 
 
 ## 1.0.0 — workspace validation hardening
@@ -182,3 +192,33 @@
 - Database runtime, Prisma config, and CLI tooling now share `PG*` variables plus a development-only `127.0.0.1` fallback.
 - Added `db:doctor`, `db:status`, `db:up`, `db:wait`, `db:setup`, and `db:down` scripts.
 - Updated OpenAPI, Postman, route manifests, database documentation, and environment templates.
+
+## 2026-08-26 — Energy Management System UI/UX
+
+- Added canonical EMS navigation: Overview, Live Flow, Generation, Consumption, Storage, Forecast, Flexibility, Dispatch, Grid, Markets and Events.
+- Added physical-state-first EMS presentation with explicit power/energy unit separation.
+- Added reusable EMS freshness, metric, flow, metadata, requirements, safety-rail and boundary components.
+- Added truthful UNCONFIGURED states for missing live telemetry rather than deriving power/SOC/grid state from settlement-grade energy totals.
+- Added verified-generation Energy Batch view, grid topology view, reservation-based market view and realtime transport/event contract view.
+- Added simulation → policy → approval → execute → verify dispatch safety UX.
+- Fixed nested navigation highlighting by selecting the longest matching active route.
+- Added `docs/EMS.md` and Docs application EMS reference content.
+## EMS responsive live-flow refinement
+
+- Rebuilt Live site flow as a responsive 4/2/1-column grid with no fixed connector canvas.
+- Added explicit MW, MVAr, MWh, kV, Hz, SOC %, power-factor and °C labels.
+- Added the canonical power-balance equation and common-timestamp requirement.
+- Added source, observed/received timestamps, interval, direction, freshness and quality metadata slots.
+- Added Tailwind CSS 4.3.3 + @tailwindcss/postcss 4.3.3 to the Energy app with shadcn-style semantic tokens and component `data-slot` hooks.
+- Standardized PowerChain icon defaults to 16px / 1.75 stroke geometry.
+- Reworked shared operational DataTable mobile behavior to labeled stacked records instead of horizontal scrolling.
+- Added token-driven dark mode overrides while preserving dispatch safety gates and EMS navigation.
+
+
+## Authentication UX hardening
+
+- Added standalone Platform sign-in, sign-up, forgot-password and reset-password surfaces.
+- Added explicit account state model and trust-boundary copy.
+- Added shared 12–128 character password policy with live checklist and strength display.
+- Added mobile-first auth behavior, route skeletons, pending/error/success interactions and reduced-motion support.
+- Kept password submissions fail-closed until a real credential provider is connected; no simulated credential persistence.

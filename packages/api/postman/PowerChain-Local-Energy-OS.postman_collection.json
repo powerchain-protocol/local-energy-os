@@ -171,90 +171,6 @@
             }
           },
           "response": []
-        },
-        {
-          "name": "System Status",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/v1/system/status",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "system",
-                "status"
-              ]
-            },
-            "description": "Canonical platform service status snapshot."
-          },
-          "response": []
-        },
-        {
-          "name": "System Status \u2014 Deep Probe",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/v1/system/status?probe=deep",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "system",
-                "status?probe=deep"
-              ]
-            },
-            "description": "Status with Redis and Solana connectivity probes."
-          },
-          "response": []
-        },
-        {
-          "name": "System Config",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/v1/system/config",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "system",
-                "config"
-              ]
-            },
-            "description": "Sanitized runtime/provider configuration. Secrets are never returned."
-          },
-          "response": []
-        },
-        {
-          "name": "System Management",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{baseUrl}}/api/v1/system/management",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "system",
-                "management"
-              ]
-            },
-            "description": "Degraded-mode policies and execution gates."
-          },
-          "response": []
         }
       ]
     },
@@ -1476,6 +1392,209 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Operations",
+      "item": [
+        {
+          "name": "EMS Overview",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/ems/overview?siteId={{siteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "ems",
+                "overview"
+              ],
+              "query": [
+                {
+                  "key": "siteId",
+                  "value": "{{siteId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "IoT Devices",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/iot/devices?siteId={{siteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "iot",
+                "devices"
+              ],
+              "query": [
+                {
+                  "key": "siteId",
+                  "value": "{{siteId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DePIN Nodes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/depin/nodes?siteId={{siteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "depin",
+                "nodes"
+              ],
+              "query": [
+                {
+                  "key": "siteId",
+                  "value": "{{siteId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Market Prices",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/market-data/prices?symbols=SOL,PWRC",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "market-data",
+                "prices"
+              ],
+              "query": [
+                {
+                  "key": "symbols",
+                  "value": "SOL,PWRC"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Prepare EMS Dispatch",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-PowerChain-Organization-Id",
+                "value": "{{organizationId}}",
+                "type": "text"
+              },
+              {
+                "key": "X-Correlation-Id",
+                "value": "{{$guid}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{$guid}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/actions/prepare",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "actions",
+                "prepare"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"kind\": \"ems.dispatch.prepare\",\n  \"siteId\": \"{{siteId}}\",\n  \"request\": {\n    \"assetId\": \"asset_demo\",\n    \"targetKw\": 250\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "variable": [
@@ -1498,6 +1617,10 @@
     {
       "key": "accessToken",
       "value": ""
+    },
+    {
+      "key": "siteId",
+      "value": "site_demo"
     }
   ]
 }

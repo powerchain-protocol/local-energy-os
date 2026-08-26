@@ -80,14 +80,11 @@ export function ApplicationShell({
   }, [openCommand]);
 
   const enabledItems = useMemo(() => nav.flatMap((group) => group.items).filter((item) => item.href && !item.disabled), [nav]);
-  const activeLabel = useMemo(() => {
-    for (const group of nav) {
-      for (const item of group.items) {
-        if (routeMatches(pathname, item.href) || (!item.href && item.active)) return item.label;
-      }
-    }
-    return "Overview";
-  }, [nav, pathname]);
+  const activeItem = useMemo(() => {
+    const matches = enabledItems.filter((item) => routeMatches(pathname, item.href));
+    return matches.sort((a, b) => (b.href?.length ?? 0) - (a.href?.length ?? 0))[0];
+  }, [enabledItems, pathname]);
+  const activeLabel = activeItem?.label ?? nav.flatMap((group) => group.items).find((item) => !item.href && item.active)?.label ?? "Overview";
 
   const homeItem = mobileNav?.home ?? enabledItems.find((item) => item.label.toLowerCase() === "overview") ?? firstEnabled(enabledItems);
   const energyItem = mobileNav?.energy ?? enabledItems.find((item) => item.label.toLowerCase() === "energy") ?? enabledItems[1];
@@ -97,7 +94,7 @@ export function ApplicationShell({
     if (!item?.href || item.disabled) {
       return <button type="button" className="pc-mobile-dock-item is-muted" onClick={openCommand} aria-label={`Open ${fallbackLabel} navigation`}><PowerChainIcon name={fallbackIcon}/><span>{fallbackLabel}</span></button>;
     }
-    const isActive = routeMatches(pathname, item.href);
+    const isActive = item.href === activeItem?.href;
     return <a href={item.href} className={`pc-mobile-dock-item ${isActive ? "is-active" : ""}`} aria-current={isActive ? "page" : undefined}><PowerChainIcon name={item.icon}/><span>{item.label}</span></a>;
   };
 
@@ -116,7 +113,7 @@ export function ApplicationShell({
               <h2>{group.label}</h2>
               <div className="pc-nav-list">
                 {group.items.map((item) => {
-                  const isActive = routeMatches(pathname, item.href) || (!item.href && item.active === true);
+                  const isActive = item.href ? item.href === activeItem?.href : item.active === true;
                   const content = <><PowerChainIcon name={item.icon} /><span>{item.label}</span>{item.badge ? <small>{item.badge}</small> : null}</>;
                   if (item.disabled || !item.href) return <span key={item.label} className="pc-nav-item is-disabled" aria-disabled="true">{content}</span>;
                   return <a key={item.label} className={`pc-nav-item ${isActive ? "is-active" : ""}`} aria-current={isActive ? "page" : undefined} href={item.href} onClick={() => setOpen(false)}>{content}</a>;

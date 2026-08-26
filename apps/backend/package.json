@@ -1,0 +1,44 @@
+{
+  "name": "@powerchain/app-backend",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prisma:generate": "prisma generate --config prisma.config.ts",
+    "prisma:validate": "prisma validate --config prisma.config.ts",
+    "prisma:migrate:status": "prisma migrate status --config prisma.config.ts",
+    "prisma:migrate:deploy": "prisma migrate deploy --config prisma.config.ts",
+    "dev": "pnpm prisma:generate && tsx watch src/index.ts",
+    "typecheck": "pnpm prisma:generate && tsc -p tsconfig.json --noEmit",
+    "build": "pnpm prisma:generate && esbuild src/index.ts --bundle --platform=node --format=esm --target=node24 --outfile=dist/index.js --external:express --external:cors --external:zod --external:@supabase/supabase-js --external:@prisma/* --external:pg",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@powerchain/adapters": "workspace:*",
+    "@powerchain/clients": "workspace:*",
+    "@powerchain/config": "workspace:*",
+    "@powerchain/depin": "workspace:*",
+    "@powerchain/ems": "workspace:*",
+    "@powerchain/iot": "workspace:*",
+    "@powerchain/safe-actions": "workspace:*",
+    "@powerchain/svm": "workspace:*",
+    "@supabase/supabase-js": "2.112.4",
+    "cors": "2.8.6",
+    "express": "5.2.1",
+    "zod": "4.4.3",
+    "@prisma/adapter-pg": "7.9.1",
+    "@prisma/client": "7.9.1",
+    "pg": "8.23.0"
+  },
+  "devDependencies": {
+    "@types/cors": "2.8.19",
+    "@types/express": "5.0.6",
+    "@types/node": "24.13.3",
+    "esbuild": "0.28.2",
+    "tsx": "4.23.12",
+    "typescript": "7.0.2",
+    "@types/pg": "8.23.1",
+    "prisma": "7.9.1",
+    "dotenv": "17.4.2"
+  }
+}

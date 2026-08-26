@@ -38,6 +38,7 @@ tags:
   - name: Oracles
   - name: Supply Chain
   - name: Authentication
+  - name: Operations
 paths:
   /api/v1/health:
     get:
@@ -50,29 +51,6 @@ paths:
     get:
       tags: [System]
       summary: Platform subsystem health
-      responses:
-        '200': { $ref: '#/components/responses/Success' }
-  /api/v1/system/status:
-    get:
-      tags: [System]
-      summary: Canonical platform status snapshot
-      parameters:
-        - in: query
-          name: probe
-          schema: { type: string, enum: [shallow, deep], default: shallow }
-          description: Deep probing adds Redis and Solana connectivity checks.
-      responses:
-        '200': { $ref: '#/components/responses/Success' }
-  /api/v1/system/config:
-    get:
-      tags: [System]
-      summary: Sanitized runtime and provider configuration
-      responses:
-        '200': { $ref: '#/components/responses/Success' }
-  /api/v1/system/management:
-    get:
-      tags: [System]
-      summary: Degraded-mode policies and execution gates
       responses:
         '200': { $ref: '#/components/responses/Success' }
   /api/v1/system/storage:
@@ -428,6 +406,106 @@ paths:
             application/json:
               schema:
                 type: object
+
+  /api/v1/config:
+    get:
+      tags: [System]
+      summary: Sanitized public runtime configuration
+      security: []
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+  /api/v1/system/status:
+    get:
+      tags: [System]
+      summary: Runtime and subsystem status
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+  /api/v1/system/config:
+    get:
+      tags: [System]
+      summary: Sanitized system configuration
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+  /api/v1/system/management:
+    get:
+      tags: [System]
+      summary: Fail-closed execution and management policy
+      responses:
+        '200': { $ref: '#/components/responses/Success' }
+  /api/v1/ems/overview:
+    get:
+      tags: [Operations]
+      summary: Get authorized EMS operational overview
+      parameters:
+        - in: query
+          name: siteId
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: EMS overview with source timestamps and freshness }
+        '403': { description: Site access denied }
+  /api/v1/iot/devices:
+    get:
+      tags: [Operations]
+      summary: List authorized IoT devices for a site
+      parameters:
+        - in: query
+          name: siteId
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: IoT devices }
+        '403': { description: Site access denied }
+  /api/v1/depin/nodes:
+    get:
+      tags: [Operations]
+      summary: List authorized DePIN nodes for a site
+      parameters:
+        - in: query
+          name: siteId
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: DePIN nodes }
+        '403': { description: Site access denied }
+  /api/v1/market-data/prices:
+    get:
+      tags: [Operations]
+      summary: Get provider-neutral market prices
+      parameters:
+        - in: query
+          name: symbols
+          required: true
+          schema: { type: string, example: 'SOL,PWRC' }
+      responses:
+        '200': { description: Market prices }
+        '503': { description: Market-data provider unconfigured }
+  /api/v1/actions/prepare:
+    post:
+      tags: [Operations]
+      summary: Prepare a safe operational action without executing it
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema: { type: string, maxLength: 128 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [kind]
+              properties:
+                kind:
+                  type: string
+                  enum: [ems.dispatch.prepare, iot.device.refresh, depin.node.refresh, wallet.signature.prepare, settlement.prepare]
+                siteId: { type: string }
+                request: { type: object, additionalProperties: true }
+      responses:
+        '201': { description: Prepared idempotent intent; no execution endpoint is exposed }
+        '403': { description: Site access denied }
+        '428': { description: Idempotency key required }
 
 components:
   securitySchemes:

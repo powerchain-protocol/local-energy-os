@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+  runtime  = "nodejs"
+  moduleFormat = "esm"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model SiteAccess {
+  id                String   @id @default(cuid())
+  actorId           String   @map("actor_id")
+  organizationId    String   @map("organization_id")
+  siteId            String   @map("site_id")
+  role              String   @default("VIEWER")
+  canRead           Boolean  @default(true) @map("can_read")
+  canPrepareActions Boolean  @default(false) @map("can_prepare_actions")
+  active            Boolean  @default(true)
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+
+  @@unique([actorId, organizationId, siteId])
+  @@index([organizationId, siteId, active])
+  @@map("site_access")
+}
+
+model OperationalTelemetry {
+  id             String   @id @default(cuid())
+  organizationId String   @map("organization_id")
+  siteId         String   @map("site_id")
+  sourceId       String   @map("source_id")
+  metric         String
+  value          Decimal
+  unit           String
+  mode           String   @default("LIVE")
+  quality        String   @default("VALID")
+  intervalMs     Int      @map("interval_ms")
+  observedAt     DateTime @map("observed_at")
+  receivedAt     DateTime @default(now()) @map("received_at")
+
+  @@index([organizationId, siteId, metric, observedAt(sort: Desc)])
+  @@map("operational_telemetry")
+}
+
+model OperationalDevice {
+  id              String   @id @default(cuid())
+  organizationId  String   @map("organization_id")
+  siteId          String   @map("site_id")
+  kind            String
+  vendor          String?
+  model           String?
+  serialNumber    String?  @map("serial_number")
+  connectionState String   @default("UNCONFIGURED") @map("connection_state")
+  lastSeenAt      DateTime? @map("last_seen_at")
+  metadata        Json?
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@index([organizationId, siteId, connectionState])
+  @@unique([organizationId, id])
+  @@map("operational_devices")
+}
+
+model DepinNode {
+  id             String   @id @default(cuid())
+  organizationId String   @map("organization_id")
+  siteId         String?  @map("site_id")
+  network        String
+  operatorId     String   @map("operator_id")
+  locationRef    String?  @map("location_ref")
+  capabilities   Json
+  state          String   @default("UNVERIFIED")
+  lastSeenAt     DateTime? @map("last_seen_at")
+  metadata       Json?
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@index([organizationId, siteId, state])
+  @@map("depin_nodes")
+}
+
+model DepinHeartbeat {
+  id         String   @id @default(cuid())
+  nodeId     String   @map("node_id")
+  observedAt DateTime @map("observed_at")
+  receivedAt DateTime @default(now()) @map("received_at")
+  status     String   @default("ACTIVE")
+  metadata   Json?
+
+  @@index([nodeId, observedAt(sort: Desc)])
+  @@map("depin_heartbeats")
+}
+
+model PublicWalletIdentity {
+  id             String   @id @default(cuid())
+  actorId        String   @map("actor_id")
+  organizationId String   @map("organization_id")
+  chain          String
+  address        String
+  label          String?
+  isPrimary      Boolean  @default(false) @map("is_primary")
+  verifiedAt     DateTime @default(now()) @map("verified_at")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  @@unique([chain, address])
+  @@index([actorId, organizationId, isPrimary])
+  @@map("public_wallet_identities")
+}
+
+model SafeActionIntent {
+  id                      String   @id @default(cuid())
+  organizationId          String   @map("organization_id")
+  siteId                  String?  @map("site_id")
+  actorId                 String   @map("actor_id")
+  kind                    String
+  disposition             String
+  state                   String   @default("PREPARED")
+  idempotencyKey          String   @map("idempotency_key")
+  request                 Json
+  requiresReview          Boolean  @default(false) @map("requires_review")
+  requiresWalletSignature Boolean  @default(false) @map("requires_wallet_signature")
+  expiresAt               DateTime @map("expires_at")
+  createdAt               DateTime @default(now()) @map("created_at")
+  updatedAt               DateTime @updatedAt @map("updated_at")
+
+  @@unique([organizationId, idempotencyKey])
+  @@index([organizationId, siteId, createdAt(sort: Desc)])
+  @@map("safe_action_intents")
+}

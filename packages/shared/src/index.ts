@@ -32,6 +32,7 @@ export const DOCS_NAVIGATION = [
     { slug: "security", label: "Security" }
   ]},
   { group: "Energy", items: [
+    { slug: "ems", label: "Energy Management System" },
     { slug: "energy-rwa", label: "Energy RWA" },
     { slug: "pwrc", label: "PWRC & wPWRC" },
     { slug: "protocols", label: "Protocols" },
@@ -53,6 +54,17 @@ export const DOC_PAGES: DocPage[] = [
     sections: [
       { heading: "Operating model", body: ["Physical electricity remains authoritative. PowerChain verifies measurements before energy becomes economically active.", "SaaS entitlements control product access while authorization, policy and physical-supply invariants remain authoritative on the server."], code: "Participants → Local Energy OS → API v1 → Energy Ledger → Market/Grid → Settlement → Solana/Sui" },
       { heading: "Ledger separation", body: ["Physical energy, market commitments, settlement, financial accounting, rewards and audit records are kept conceptually separate.", "A blockchain confirmation never substitutes for meter reconciliation or double-entry financial accounting."] }
+    ]
+  },
+  {
+    slug: "ems",
+    eyebrow: "Energy Operations",
+    title: "Energy Management System",
+    description: "Physical generation, demand, storage, grid exchange, forecasts, flexibility and safe dispatch with explicit units, timestamps and freshness.",
+    sections: [
+      { heading: "Operational hierarchy", body: ["The EMS presents live physical state before forecasts, flexibility, dispatch, verified energy evidence or settlement details.", "If source, unit, timestamp or freshness cannot be established, the value remains unavailable rather than inferred."], code: "Observe → Forecast → Simulate → Policy → Approve → Dispatch → Verify → Settle" },
+      { heading: "Power vs energy", body: ["Live operating state uses kW/MW. Interval and settlement-grade physical energy uses integer Wh with kWh/MWh/GWh presentation units.", "Verified Energy Batches must never be converted into synthetic live power readings."], code: "Live state: kW / MW\nPhysical energy: Wh / kWh / MWh\nStorage: SOC % + power + energy" },
+      { heading: "Dispatch safety", body: ["Physical dispatch requires current state, simulation, policy evaluation, approval, bounded execution and post-action telemetry verification."] }
     ]
   },
   {

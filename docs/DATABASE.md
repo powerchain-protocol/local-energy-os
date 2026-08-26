@@ -100,38 +100,3 @@ Production deployments must apply committed migrations. Do not use `prisma db pu
 ## Prisma 7 behavior
 
 Prisma 7 reads the datasource URL from `prisma.config.ts`, not the datasource block in `schema.prisma`. `migrate dev` and `db push` no longer generate Prisma Client automatically, so PowerChain migration scripts run `pnpm prisma:generate` explicitly where appropriate.
-
-## Database diagnostics and migration status
-
-Prisma schema validation and client generation do not require a reachable PostgreSQL server. Migration status, migration resolution, `db push`, and deployment do.
-
-Use the explicit diagnostics in this order:
-
-```bash
-pnpm prisma:validate
-pnpm prisma:generate
-pnpm db:status
-```
-
-`db:status` is informational and reports the resolved source and reachability without failing solely because PostgreSQL is offline.
-
-For operations that require PostgreSQL:
-
-```bash
-pnpm db:doctor
-pnpm prisma:migrate:status
-```
-
-Datasource resolution is:
-
-```text
-DIRECT_URL
-  ↓
-DATABASE_URL
-  ↓
-PGHOST / PGPORT / PGUSER / PGPASSWORD / PGDATABASE / PGSCHEMA
-  ↓
-development-only 127.0.0.1:5432 fallback
-```
-
-Production never receives the development fallback. A local fallback that cannot be reached is `UNAVAILABLE`, not `UNCONFIGURED`.

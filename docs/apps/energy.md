@@ -47,3 +47,23 @@ From the repository root, run the full gate with:
 pnpm local-energy:verify
 pnpm build:apps
 ```
+
+## Energy Management System navigation
+
+The Energy application now exposes the canonical EMS workspace:
+
+```text
+/energy                  Overview
+/energy/live-flow        Live Flow
+/energy/generation       Generation
+/energy/consumption      Consumption
+/energy/storage          Storage
+/energy/forecast         Forecast
+/energy/flexibility      Flexibility
+/energy/dispatch         Dispatch
+/energy/grid             Grid
+/energy/markets          Markets
+/energy/events           Events
+```
+
+The EMS is physical-state-first. Settlement-grade Energy Proof/Batch data is explicitly separated from realtime power telemetry, forecasts, flexibility and dispatch state.

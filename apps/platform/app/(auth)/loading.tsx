@@ -1,0 +1,2 @@
+import { PowerChainBrand } from "@powerchain/ui";
+export default function AuthLoading(){return <main className="pc-auth-page pc-auth-loading"><section className="pc-auth-trust"><div className="pc-auth-trust-brand"><PowerChainBrand product="Platform"/></div><div className="pc-auth-loading-lines"><span/><span/><span/></div></section><section className="pc-auth-main"><div className="pc-auth-card"><div className="pc-auth-loading-lines is-card"><span/><span/><span/><span/><span/></div></div></section></main>}

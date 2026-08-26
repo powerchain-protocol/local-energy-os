@@ -1,6 +1,8 @@
 {
-  "name": "PowerChain Local Energy OS Full-Stack Scaffold",
+  "name": "PowerChain Local Energy OS",
   "version": "1.0.0",
+  "generatedAt": "2026-08-26T09:18:56+03:00",
+  "fileCount": 573,
   "files": [
     {
       "path": ".editorconfig",
@@ -9,18 +11,18 @@
     },
     {
       "path": ".env.example",
-      "bytes": 3204,
-      "sha256": "0ccae6ce017a46081938a1ad69f02d573c37de6ca588c43f194bf91a470b6285"
+      "bytes": 2694,
+      "sha256": "ddf076608a52f2d816c5d402e70aac62cc311e7175f7c7fd5db716b704a5ef3b"
     },
     {
       "path": ".env.local",
-      "bytes": 3204,
-      "sha256": "0ccae6ce017a46081938a1ad69f02d573c37de6ca588c43f194bf91a470b6285"
+      "bytes": 4226,
+      "sha256": "07f2b69a3adafa39067bf7848d7d1b41d9f51e3d59982ab5c71f554af2737942"
     },
     {
       "path": ".env.local.example",
-      "bytes": 3204,
-      "sha256": "0ccae6ce017a46081938a1ad69f02d573c37de6ca588c43f194bf91a470b6285"
+      "bytes": 2694,
+      "sha256": "ddf076608a52f2d816c5d402e70aac62cc311e7175f7c7fd5db716b704a5ef3b"
     },
     {
       "path": ".github/copilot-instructions.md",
@@ -94,8 +96,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 18158,
-      "sha256": "f7c63e33409a06df59798b04eadf4336f9d5a33aeb2a40e7438fcbf7169ca72f"
+      "bytes": 21220,
+      "sha256": "e7b95ef4962b27ffcad2ef4fc468829283cbdf34e56a1dbefdd2471e62d0d3e6"
     },
     {
       "path": "apps/admin/app/error.tsx",
@@ -119,23 +121,28 @@
     },
     {
       "path": "apps/admin/app/page.tsx",
-      "bytes": 4756,
-      "sha256": "f954ebab8e6c614cc815982381586aa0b1b590b48c6fecd8227ac07baa0cf3bb"
+      "bytes": 6739,
+      "sha256": "67e4de001ff29652353ac8c8de570a58f86fbebeb465cff0e5db676b0e49d2c7"
     },
     {
       "path": "apps/admin/app/system/config/page.tsx",
-      "bytes": 354,
-      "sha256": "8cda41532840a71700f968a7f59ad020c826df1f8a54303da0f9cb77f81c0a61"
+      "bytes": 159,
+      "sha256": "b5f4025ceb1d0b3a5b4e5ea8ae217dcfb40e560f3f985f855624ed698f3456d5"
     },
     {
       "path": "apps/admin/app/system/management/page.tsx",
-      "bytes": 338,
-      "sha256": "3d7eb387aca704efa7e16bbbc7446769e633377ffebe51051341dc10ff6b1e9b"
+      "bytes": 163,
+      "sha256": "5c6ff6caa0c38bfb2b3efaaec9a39ca4641882b51c4ae9e8c3ab8c9a388b447d"
     },
     {
       "path": "apps/admin/app/system/status/page.tsx",
-      "bytes": 322,
-      "sha256": "ec9024e328b9ccff7a32aff0b520b98556f917d7b1080d52a304bbbf5367adcb"
+      "bytes": 159,
+      "sha256": "9d0ce848ac635dff2984f593438ff3159c60df2691942d272638183c4f9217d8"
+    },
+    {
+      "path": "apps/admin/components/system-control-plane.tsx",
+      "bytes": 17152,
+      "sha256": "ab487c989cf1ceddb25794ffa757681c8a71f220b3881d02c0f8dc3d7db97348"
     },
     {
       "path": "apps/admin/components/system-endpoint-page.tsx",
@@ -173,6 +180,11 @@
       "sha256": "d455c110ac574b05ea12c2c9cbf4364d77149a191699fb691780938d9fc53702"
     },
     {
+      "path": "apps/api/app/api/v1/actions/prepare/route.ts",
+      "bytes": 272,
+      "sha256": "630ab750d086858ea81b1cc39ea8f3006adac8ebd356c4e87fd29c12ad82b06a"
+    },
+    {
       "path": "apps/api/app/api/v1/auth/session/route.ts",
       "bytes": 1331,
       "sha256": "68324c16b0f90ff395b431b81a48f19eb4223fbd39c41bee6424d628502f66bd"
@@ -203,6 +215,11 @@
       "sha256": "7ba8dce7e5e8a17bf6f965bc57f9fd90cc33eff096299ff0bdd0dd41d3d514fb"
     },
     {
+      "path": "apps/api/app/api/v1/config/route.ts",
+      "bytes": 302,
+      "sha256": "0fd5bc7a44dc8f7625904148c0e6a53de6d51ec55afff704e9a5e84f1b8e0be9"
+    },
+    {
       "path": "apps/api/app/api/v1/consumers/route.ts",
       "bytes": 351,
       "sha256": "1474a70d93eaad4ea5768b0128a5fda0181acd361e6412db69cc76bf468eeced"
@@ -211,6 +228,16 @@
       "path": "apps/api/app/api/v1/cross-chain/routes/route.ts",
       "bytes": 714,
       "sha256": "5d83191092a0619b1ebfc297e574e890b1e402feb52899247cdb3dd3303f442e"
+    },
+    {
+      "path": "apps/api/app/api/v1/depin/nodes/route.ts",
+      "bytes": 250,
+      "sha256": "ae65ae707f7f5123006be0d7cdf37072a9e2084a4fc902e155b7d505b6136769"
+    },
+    {
+      "path": "apps/api/app/api/v1/ems/overview/route.ts",
+      "bytes": 251,
+      "sha256": "0b0aa307ed59748ef4b2f4d019269794db2abaa465f00c43b2ff32838d9c0a85"
     },
     {
       "path": "apps/api/app/api/v1/energy/command-center/route.ts",
@@ -261,6 +288,16 @@
       "path": "apps/api/app/api/v1/health/route.ts",
       "bytes": 246,
       "sha256": "d1986f98678864a147d2a68eedd16290f9a9e850fac48f2340829b041c3cdb6a"
+    },
+    {
+      "path": "apps/api/app/api/v1/iot/devices/route.ts",
+      "bytes": 250,
+      "sha256": "d09e9f1d9a79601d8addc26602af10634bfa9d9652bd8f695c63b9a759d41ced"
+    },
+    {
+      "path": "apps/api/app/api/v1/market-data/prices/route.ts",
+      "bytes": 257,
+      "sha256": "f6fc0687cc818c46f582c5911d806620d464ec800b594176ec389b099f8e469f"
     },
     {
       "path": "apps/api/app/api/v1/oracles/status/route.ts",
@@ -453,6 +490,11 @@
       "sha256": "f160c2aa6815cf8529d9200db9c19d9073714ac2a08255ae43367b8dcf10d19c"
     },
     {
+      "path": "apps/api/lib/operations-gateway.ts",
+      "bytes": 2517,
+      "sha256": "0a8d890adcc6294e9525ac997b561fce968dec376abdcbeda0f48a1e64f69c80"
+    },
+    {
       "path": "apps/api/lib/participants.ts",
       "bytes": 789,
       "sha256": "bf22f843019788c526052888b2578c56f8a43a0fb28e9795ee71c5887383e651"
@@ -474,8 +516,8 @@
     },
     {
       "path": "apps/api/package.json",
-      "bytes": 1184,
-      "sha256": "fe0633087d428c1f7b00262fb4b9469ccb9079e237044254d9d12bb202590953"
+      "bytes": 1094,
+      "sha256": "3015605ef29f10619d21b3a0c8d783eb88ca03b54ec25a0ee30a541d10671276"
     },
     {
       "path": "apps/api/tsconfig.json",
@@ -486,6 +528,156 @@
       "path": "apps/api/types/swagger-ui-dist.d.ts",
       "bytes": 394,
       "sha256": "9f7aa373411ddf8bb5e57717bc3bc148b95c1c2babea7d721b94a2bc3c3b2f05"
+    },
+    {
+      "path": "apps/backend/package.json",
+      "bytes": 1650,
+      "sha256": "851695568e2f720a7432155b11e360def53dba70f5070f3de30ff677485cac5d"
+    },
+    {
+      "path": "apps/backend/prisma/migrations/001_operations/migration.sql",
+      "bytes": 4721,
+      "sha256": "c1f9ddf6b185eecf56ab66ceab8b3420b3619ef561ec468dff67d67de4f3fe0a"
+    },
+    {
+      "path": "apps/backend/prisma/migrations/migration_lock.toml",
+      "bytes": 24,
+      "sha256": "1db17a8d051aa136110736752c5e1f8b7ed92b6ea8e803112fbbe2497047c210"
+    },
+    {
+      "path": "apps/backend/prisma/schema.prisma",
+      "bytes": 4602,
+      "sha256": "f52e160f67c665d218515b78d99c9642c35065a1740adfc9a874cb82e7dffb93"
+    },
+    {
+      "path": "apps/backend/prisma.config.ts",
+      "bytes": 1620,
+      "sha256": "bd59eee24a2cd7bed750b5459f971c57670bb5ccd73d5e3cb3b464f776b1c90c"
+    },
+    {
+      "path": "apps/backend/src/auth/operations-auth.ts",
+      "bytes": 2638,
+      "sha256": "f8774ad411f4516919bda5068b93e22c5d7e4790cc38d9f4e2644a07e13971aa"
+    },
+    {
+      "path": "apps/backend/src/config.ts",
+      "bytes": 2884,
+      "sha256": "218d58378747eb71f1f9fd84dde52a6c5e4123d3863a4543990a657de2ba8d72"
+    },
+    {
+      "path": "apps/backend/src/db.ts",
+      "bytes": 838,
+      "sha256": "e589cb1c707631363f9a55969184688ce306dd0645a1874c3a5a69b85375288d"
+    },
+    {
+      "path": "apps/backend/src/index.ts",
+      "bytes": 527,
+      "sha256": "b4f5e05c712b6d86ce516f5dd764e59d51a61ebc252407d80931c77378a458ed"
+    },
+    {
+      "path": "apps/backend/src/middleware/auth.ts",
+      "bytes": 1257,
+      "sha256": "ffd1da9819701d0a0fbd9dca54274de2e4970be35e1d8614af4680755d7c5c21"
+    },
+    {
+      "path": "apps/backend/src/routes/actions.ts",
+      "bytes": 1977,
+      "sha256": "0108bfd31c536cc7f1120e2f6eaaf4e63467e73dc7a69fe13d65a34030853001"
+    },
+    {
+      "path": "apps/backend/src/routes/config.ts",
+      "bytes": 329,
+      "sha256": "1ae60c2ba4a0d4f2003c3a60908bd9f82b54f283d3375902e20f2fab85006fb2"
+    },
+    {
+      "path": "apps/backend/src/routes/depin.ts",
+      "bytes": 943,
+      "sha256": "fb20a84f4a900b0cbc2a03cb7d1ffb91d52b5e71f52dfaa649907d852630eea6"
+    },
+    {
+      "path": "apps/backend/src/routes/ems.ts",
+      "bytes": 1052,
+      "sha256": "621ff348a308426eb98db0467e3ac2e1fc633e563082597024ef2b938f46d5a0"
+    },
+    {
+      "path": "apps/backend/src/routes/health.ts",
+      "bytes": 1650,
+      "sha256": "01bdc39a88fcb69b12c2136df65b7736cfdd70e327bbc42933d96cb6e6c018f6"
+    },
+    {
+      "path": "apps/backend/src/routes/iot.ts",
+      "bytes": 933,
+      "sha256": "f36264e89e2ffb9b0213b201d7ec7684aa0fe10126167392eadf9e7ac7fa5cbd"
+    },
+    {
+      "path": "apps/backend/src/routes/market-data.ts",
+      "bytes": 959,
+      "sha256": "fe20dc4d544ae31843e807b02142a30de89d67c3e27778adfa09b46544f7e09e"
+    },
+    {
+      "path": "apps/backend/src/routes/operational-utils.ts",
+      "bytes": 565,
+      "sha256": "d2ad90299a003cfc50d08b09c7e14314b34d334a8bbcd3fc95ec1e8f99e2a03c"
+    },
+    {
+      "path": "apps/backend/src/server.ts",
+      "bytes": 3225,
+      "sha256": "34198108857972a42a6b2d2c45e07e5ad1cf446c63f83146899194db402aea33"
+    },
+    {
+      "path": "apps/backend/src/services/chains.ts",
+      "bytes": 1191,
+      "sha256": "c7edf9c4ed55630f1e811c13619e94d5d8bcaf3ee756e676596bb7bf491ebdb7"
+    },
+    {
+      "path": "apps/backend/src/services/depin.ts",
+      "bytes": 989,
+      "sha256": "707692ce77a05ba59d151f3c008862be9f4c73fbb7982bb8bd7f86cf6ea261b4"
+    },
+    {
+      "path": "apps/backend/src/services/ems.ts",
+      "bytes": 3879,
+      "sha256": "738d3b8e14966ee0150c4ccde71daf1fc47e4a3ba455b7cd30243a8d83ea77bf"
+    },
+    {
+      "path": "apps/backend/src/services/iot.ts",
+      "bytes": 1094,
+      "sha256": "295d75ac82da689213fd77cf1b5efaa0f355c6d45ab4a9dd4fc41d888fe67157"
+    },
+    {
+      "path": "apps/backend/src/services/market-data.ts",
+      "bytes": 1488,
+      "sha256": "ec01225064f9f49af5bead2212f489298f7a31c7e6fa2c3b9cd247d6d5f3cd83"
+    },
+    {
+      "path": "apps/backend/src/services/realtime.ts",
+      "bytes": 735,
+      "sha256": "0affa69f0190e2204376fe442201c678a94e9567099103e49237f61c2cb3b251"
+    },
+    {
+      "path": "apps/backend/src/services/safe-action.ts",
+      "bytes": 2050,
+      "sha256": "32462a0a55fd7097021e5ef83bb74156add886d8e54ba9094dc60846b731f587"
+    },
+    {
+      "path": "apps/backend/src/services/site-access.ts",
+      "bytes": 725,
+      "sha256": "38ae8153d07acb74b87bf13250424b6336e8f0ca97b22c8827076c8e89ff3271"
+    },
+    {
+      "path": "apps/backend/src/services/supabase.ts",
+      "bytes": 465,
+      "sha256": "504a18539cffb1c4afdccc0e3bb3197f6006e9f825f81deb3a2dbd6caa8f76a4"
+    },
+    {
+      "path": "apps/backend/src/services/wallet-registry.ts",
+      "bytes": 1846,
+      "sha256": "84403994427121c041557c0563aad23379c5e16caf25c6a4483aaec4af8a151f"
+    },
+    {
+      "path": "apps/backend/tsconfig.json",
+      "bytes": 160,
+      "sha256": "4c3bf742af947ee95d16684f21a9fe91dc8ff8cc317d837eb456b9f1621825cb"
     },
     {
       "path": "apps/charging/app/error.tsx",
@@ -623,14 +815,84 @@
       "sha256": "ffee9ad5889521474339fe8bcc272aa73e09ee7bc23d93a6b94456187e316388"
     },
     {
+      "path": "apps/energy/app/context/events/page.tsx",
+      "bytes": 3413,
+      "sha256": "10478825e9a7c4bc08c81f9f0b90bad609df4275cab6b85d3e90664326fce5a0"
+    },
+    {
+      "path": "apps/energy/app/context/layout.tsx",
+      "bytes": 731,
+      "sha256": "2a85f1edecd47481033e39ac70515e6286dc9dfc3316e3a50b26c22304620172"
+    },
+    {
+      "path": "apps/energy/app/context/markets/page.tsx",
+      "bytes": 2359,
+      "sha256": "b972f00a156a25332903783a1814994d1e5720b86936f468115bbec9f7733ee9"
+    },
+    {
+      "path": "apps/energy/app/context/page.tsx",
+      "bytes": 2024,
+      "sha256": "c2f54d7252d54239fed3bd1f8513959038e7c1f03ca9abbe6f29a511169ebe51"
+    },
+    {
       "path": "apps/energy/app/devices/page.tsx",
       "bytes": 3370,
       "sha256": "4f1dc492418eabf0d673da38394d03549a91353a090da5ee149ba4f436959919"
     },
     {
+      "path": "apps/energy/app/energy/consumption/page.tsx",
+      "bytes": 117,
+      "sha256": "c30da27a1c022ea813268db0d442b0b964f8cfcd9f636fbb0109edd42c540249"
+    },
+    {
+      "path": "apps/energy/app/energy/dispatch/page.tsx",
+      "bytes": 114,
+      "sha256": "198b03ace02745b7331e454061448d32adad7c91c7ed2050a22cab78ef76efcf"
+    },
+    {
+      "path": "apps/energy/app/energy/events/page.tsx",
+      "bytes": 112,
+      "sha256": "db5bf0ab7ab2d8f5bcbd7922fb2cd203d32501651aa1dadc19cc001c33500b27"
+    },
+    {
+      "path": "apps/energy/app/energy/flexibility/page.tsx",
+      "bytes": 117,
+      "sha256": "122a1bdec387ef6fc55c841e746d02c996d48c7e4d05cd52f7f052b537491166"
+    },
+    {
+      "path": "apps/energy/app/energy/forecast/page.tsx",
+      "bytes": 114,
+      "sha256": "eee08a0f11e8dac319ed209e9660fcac192424cb1ff040e048a7c81b5cf03955"
+    },
+    {
+      "path": "apps/energy/app/energy/generation/page.tsx",
+      "bytes": 116,
+      "sha256": "755d4be6893d11aaeb11a103c1e4a84ae7654ba86a58b5f2b7734216f6051e78"
+    },
+    {
+      "path": "apps/energy/app/energy/grid/page.tsx",
+      "bytes": 110,
+      "sha256": "6cae4418ca260f69928d1e1c76732292bc632ce1204bbbc3ca0958bbdc362c30"
+    },
+    {
+      "path": "apps/energy/app/energy/live-flow/page.tsx",
+      "bytes": 115,
+      "sha256": "c46532869a373955b21eab1bb72ccf1aa62e623ecc5c8aed0b81ef1066b25ac1"
+    },
+    {
+      "path": "apps/energy/app/energy/markets/page.tsx",
+      "bytes": 113,
+      "sha256": "063433546a7ff8c2f9409f0cd51bdfd381ae773cf4069b03ae379ce31d0e94a6"
+    },
+    {
       "path": "apps/energy/app/energy/page.tsx",
-      "bytes": 6164,
-      "sha256": "1e5e419e41a37aaa1567da19aa6647ff42ccb08f337567594ad12c2964a36952"
+      "bytes": 107,
+      "sha256": "50209215cc314db8bed339eb69b47e5f30a761a49b6947ca6449f22083edbf8a"
+    },
+    {
+      "path": "apps/energy/app/energy/storage/page.tsx",
+      "bytes": 113,
+      "sha256": "642d43fb5579eb479fddb6adde3e4875f927b870ca4e70ca8384100297821ddb"
     },
     {
       "path": "apps/energy/app/error.tsx",
@@ -639,13 +901,13 @@
     },
     {
       "path": "apps/energy/app/globals.css",
-      "bytes": 1426,
-      "sha256": "0aee8c776bee41de745570d0a4e8ac7badb31cdb6d1414178f609d582d4fa23c"
+      "bytes": 14330,
+      "sha256": "e41441d4d0ae95dabf7763ed0278ef103a558a90a43a8dbff748549ce24581ab"
     },
     {
       "path": "apps/energy/app/layout.tsx",
-      "bytes": 1723,
-      "sha256": "71547cb3d77aaf6f52ef9c630d3c4592d68ecc0ad407881dc7a7f95a47186d34"
+      "bytes": 2587,
+      "sha256": "b30408792c0f9fbccff4262e43a926c9885f543251d74da913e8d0e1873056fa"
     },
     {
       "path": "apps/energy/app/loading.tsx",
@@ -653,14 +915,74 @@
       "sha256": "bb5e2c029e0959758ba2681f9b2d20e9e81af722f3e7116e5ac074c96ae1c651"
     },
     {
+      "path": "apps/energy/app/monitor/consumption/page.tsx",
+      "bytes": 1128,
+      "sha256": "07ef3971c2822e400c602cd9cb917b59d42b19c447dca589637765830ea402f4"
+    },
+    {
+      "path": "apps/energy/app/monitor/generation/page.tsx",
+      "bytes": 3254,
+      "sha256": "4cd75b2684eff790e85218164adfd088d0791292987f8297776e1490067cfad1"
+    },
+    {
+      "path": "apps/energy/app/monitor/layout.tsx",
+      "bytes": 978,
+      "sha256": "5f60defdbf7a3232f796cb47c4b2736f6fe8002fc19b30a6029582de2bbbe3a4"
+    },
+    {
+      "path": "apps/energy/app/monitor/live-flow/page.tsx",
+      "bytes": 2617,
+      "sha256": "cff8a006e1cfab8f26ccd38c43321b6af5cbc0564e6b6983f0ecdd547bf1fbdf"
+    },
+    {
+      "path": "apps/energy/app/monitor/page.tsx",
+      "bytes": 2560,
+      "sha256": "55525833c42e512e482280bbd5e6e43436a3692a7b078046a11a428ca2f66c0c"
+    },
+    {
+      "path": "apps/energy/app/monitor/storage/page.tsx",
+      "bytes": 1174,
+      "sha256": "e579ed8040648967afb4472124eb0001664a24960347983bdb22f74aa5e39578"
+    },
+    {
       "path": "apps/energy/app/not-found.tsx",
       "bytes": 476,
       "sha256": "5a23e611e29309763640723073e1583823c3fcebf995336be901c62daff1ad01"
     },
     {
+      "path": "apps/energy/app/operate/dispatch/page.tsx",
+      "bytes": 1946,
+      "sha256": "032bb11474db55b797abb6a5e1f771482d6ec7f011a6727e9b6af3172f52d0e2"
+    },
+    {
+      "path": "apps/energy/app/operate/flexibility/page.tsx",
+      "bytes": 1214,
+      "sha256": "60eab7a345e9df1f0dd6934e6b0241be64fecf710ca1b5ee806f5ed5de853edd"
+    },
+    {
+      "path": "apps/energy/app/operate/forecast/page.tsx",
+      "bytes": 1190,
+      "sha256": "0fd6c1a97f728a7e088c60398e424b49873db36871d06692b65fc598ba857194"
+    },
+    {
+      "path": "apps/energy/app/operate/grid/page.tsx",
+      "bytes": 2321,
+      "sha256": "ab92d78e2eddc572d78e08899684687b9de52d5a31e085a31542a554bf42b979"
+    },
+    {
+      "path": "apps/energy/app/operate/layout.tsx",
+      "bytes": 998,
+      "sha256": "44fe09fff9dfc3c92b978967066e2e5ab50bd16a99baed20e1f63d0f2cfe95ed"
+    },
+    {
+      "path": "apps/energy/app/operate/page.tsx",
+      "bytes": 2041,
+      "sha256": "12c38fe2be25a245f46165d3aa2ec9dfea1ccba0737cd95d5f1986050f2bfbe3"
+    },
+    {
       "path": "apps/energy/app/page.tsx",
-      "bytes": 10274,
-      "sha256": "106ccab46a92d5ff5a46b65cad5eff02e571fb29b957f0c907fc7cd30b6964ba"
+      "bytes": 11307,
+      "sha256": "c85bbe635c353e8ecbe7c99824f14940c8bbf7ba3362bbb8c82856a3ab53c819"
     },
     {
       "path": "apps/energy/components/context-provider.tsx",
@@ -673,9 +995,29 @@
       "sha256": "667234a9a7c9469257c7a22d20d58d2bfcda18ef88ace1ddf6527b2dd1fbbdda"
     },
     {
+      "path": "apps/energy/components/ems-boundary-page.tsx",
+      "bytes": 2942,
+      "sha256": "fc1317670d0468139192973a9b32e04d7091dde0fb873eb091d4a0523d517cf5"
+    },
+    {
+      "path": "apps/energy/components/ems-ui.tsx",
+      "bytes": 5480,
+      "sha256": "bc31f61b1ac6fe5d5b88cf246c487cf1dc27fcdb2ebbfd577ab572f80bb54f7d"
+    },
+    {
+      "path": "apps/energy/components/operational-section-layout.tsx",
+      "bytes": 1442,
+      "sha256": "7759cc077108402a754828b896279c2ca62c4bf1ee3490803e920315cd5a7d1d"
+    },
+    {
       "path": "apps/energy/components/use-energy-resource.ts",
       "bytes": 1699,
       "sha256": "15dca5cbd95cb7693e08980561662853128eea0a68a82d6c763668c7ad26eac5"
+    },
+    {
+      "path": "apps/energy/components.json",
+      "bytes": 425,
+      "sha256": "16448a794b2536af08c17eb2c9c96b00951b98a128d1bdda7a4a7c6c32c92e35"
     },
     {
       "path": "apps/energy/next.config.mjs",
@@ -684,8 +1026,13 @@
     },
     {
       "path": "apps/energy/package.json",
-      "bytes": 773,
-      "sha256": "c0b02edb5a1787df512ebc36649a7fcd5d8624f4981b0cc075cc2a7d048cec14"
+      "bytes": 1126,
+      "sha256": "4d10089a5e1bf2ed2ebc1534a56247188ee2b84e7a052be5d658918346c078ea"
+    },
+    {
+      "path": "apps/energy/postcss.config.mjs",
+      "bytes": 70,
+      "sha256": "5b0bc4c78be977cd81f947fb5563aaa7cc6d451e6f1c53a3260b7656a7144d20"
     },
     {
       "path": "apps/energy/tsconfig.json",
@@ -833,19 +1180,59 @@
       "sha256": "110b9fd3de4de353c3db603108eed96f4d5ba9c852452be67242a3adf26a1f30"
     },
     {
+      "path": "apps/platform/app/(app)/layout.tsx",
+      "bytes": 845,
+      "sha256": "309a85e2307d16f203a4d82cd7d1d407b2afc3ca09c4e28827b2e7967825914f"
+    },
+    {
+      "path": "apps/platform/app/(app)/page.tsx",
+      "bytes": 3952,
+      "sha256": "42b6b3d5debd1039bdfd6e5678c486ff7279bf8ac8d493b82f45930dd95facba"
+    },
+    {
+      "path": "apps/platform/app/(auth)/forgot-password/page.tsx",
+      "bytes": 460,
+      "sha256": "5b618e2fce938cac9700ca08ba72956dd51d9ccd5733ae6e25f381f1778638f5"
+    },
+    {
+      "path": "apps/platform/app/(auth)/layout.tsx",
+      "bytes": 120,
+      "sha256": "e87f9553130678cb47a300e2af0bf9de3def00e1894c9ff6bb9560f1d54afb2d"
+    },
+    {
+      "path": "apps/platform/app/(auth)/loading.tsx",
+      "bytes": 510,
+      "sha256": "98e76b2829c309faa70fdaca38dde13c68f42eec3b58d560db7561f7c539257b"
+    },
+    {
+      "path": "apps/platform/app/(auth)/reset-password/page.tsx",
+      "bytes": 525,
+      "sha256": "192d1ab8ef6df8bffb04649158f4cf90b2cbc7d00c8f5bf4b35d470e2c6c1942"
+    },
+    {
+      "path": "apps/platform/app/(auth)/sign-in/page.tsx",
+      "bytes": 594,
+      "sha256": "ecdac668379b31d04a10758cc1ff237d0ce070baf8167e604aebe527808fe161"
+    },
+    {
+      "path": "apps/platform/app/(auth)/sign-up/page.tsx",
+      "bytes": 494,
+      "sha256": "d41e7b3ad41e7cb40de86ae07aea652916882acc2618c4e83863867ec18be8b7"
+    },
+    {
       "path": "apps/platform/app/error.tsx",
       "bytes": 682,
       "sha256": "91eb36113849aa544c284de5cb62831bd921242e58abefb504e7196e56a68761"
     },
     {
       "path": "apps/platform/app/globals.css",
-      "bytes": 447,
-      "sha256": "6c2c22aa59dd72aa6dde066e913b37d07f9f1f0c787d8c818723bdfb45827945"
+      "bytes": 11173,
+      "sha256": "dfdbe6879a64c3c5add47c004e95f657713d228b5fabe99b83c58c39b9bd3a32"
     },
     {
       "path": "apps/platform/app/layout.tsx",
-      "bytes": 1061,
-      "sha256": "8025c2efe9be852281ff1fde9d53b496bae7b881f5d475d0d32aeec16a098da1"
+      "bytes": 326,
+      "sha256": "e85b2483bfbadaf818cd31f607c95d3cc43521e65de06f8b897ca22b628f348d"
     },
     {
       "path": "apps/platform/app/loading.tsx",
@@ -858,19 +1245,39 @@
       "sha256": "5a23e611e29309763640723073e1583823c3fcebf995336be901c62daff1ad01"
     },
     {
-      "path": "apps/platform/app/page.tsx",
-      "bytes": 3952,
-      "sha256": "42b6b3d5debd1039bdfd6e5678c486ff7279bf8ac8d493b82f45930dd95facba"
+      "path": "apps/platform/components/account-state-card.tsx",
+      "bytes": 467,
+      "sha256": "06df80ae3ac4cec45a7f37a04ac3b92d9375e4b981d7de9d2242d43dd1592790"
+    },
+    {
+      "path": "apps/platform/components/auth-form-feedback.tsx",
+      "bytes": 824,
+      "sha256": "53eb492b99e2cdf6e8332d6403bb9611c105605e76ab5f0ec1508f2c57de718e"
+    },
+    {
+      "path": "apps/platform/components/auth-shell.tsx",
+      "bytes": 2451,
+      "sha256": "09bf7037f100780d35e7f42f0ea145d9c56305376f5040d39220bdc353870732"
+    },
+    {
+      "path": "apps/platform/components/credential-form.tsx",
+      "bytes": 6624,
+      "sha256": "a89c6c47773c07825ef19d091076a6d7e4b8c12152f223df4423957bd9e63952"
+    },
+    {
+      "path": "apps/platform/components/password-field.tsx",
+      "bytes": 1972,
+      "sha256": "8a8abb8251dd6b19fbc0bde162d7b3213d3d5fab0c7b8e3c1d84591f4e5f9034"
     },
     {
       "path": "apps/platform/next.config.mjs",
-      "bytes": 407,
-      "sha256": "7426689449e63cbbc8ef0c37c9aed6312f38130e47bb80681c4e110621122a9b"
+      "bytes": 426,
+      "sha256": "5c5601b62c139e4075ee4540374d604cef44ff21041b1d14de66638ba96186e3"
     },
     {
       "path": "apps/platform/package.json",
-      "bytes": 644,
-      "sha256": "d341c999daea552725ac63fb2847028d2983a8d2c00f72780c846cffaaaabd42"
+      "bytes": 683,
+      "sha256": "247a680d811199abcd04eda52ba9304398e39f6abf41f476f97ff6c1d7438416"
     },
     {
       "path": "apps/platform/tsconfig.json",
@@ -1069,13 +1476,13 @@
     },
     {
       "path": "docs/AUTHENTICATION.md",
-      "bytes": 1534,
-      "sha256": "99bc138e3bbf2bcc8786fdebfdee5a635a8677842a9e5f41bffe9959007ecd94"
+      "bytes": 3732,
+      "sha256": "7447c28f2c04b62d54c6fa4e4b237e87ea2f2658138ecd694283d32de9137cdc"
     },
     {
       "path": "docs/CHANGELOG.md",
-      "bytes": 13115,
-      "sha256": "d0c7b609f7edf369fdba0dc1291c6ed19cb4e904f2ed3d354478b16bfc0584c2"
+      "bytes": 16403,
+      "sha256": "ae05d79d51bbd44aff942ddaf4d547df9dc5d166126c14c36f46b0a168a0297d"
     },
     {
       "path": "docs/CONFIGURATION.md",
@@ -1094,18 +1501,23 @@
     },
     {
       "path": "docs/DATABASE.md",
-      "bytes": 3537,
-      "sha256": "55eda2c7ca1334ba8ca7295485bce945b94510ca268110bd6d278fcf87eb4098"
+      "bytes": 2667,
+      "sha256": "f5662cb4b1db7cfd0335be841bdded5d795417b6b8a5279d2fc11f86289b77e1"
     },
     {
       "path": "docs/DESIGN-SYSTEM.md",
-      "bytes": 3608,
-      "sha256": "a21b25a7d6a488c7c0f020a801fce9e0c3f5251a22043703835a7b94e1442d7e"
+      "bytes": 4453,
+      "sha256": "ce9f0862de8c53f1851a91a98100ea16d9cd7d793050a9a8dca70233ba0a4234"
     },
     {
       "path": "docs/DOCS-APP.md",
       "bytes": 535,
       "sha256": "3f456b6c910fc08fe36c4b3eb8ce4633e9961ad199dd2768d13445e2faacb684"
+    },
+    {
+      "path": "docs/EMS.md",
+      "bytes": 9131,
+      "sha256": "3a8f2006cb10310caa2e6f5bcca4bb44367ea71125e905dea0bb84d10d83c30b"
     },
     {
       "path": "docs/FULLSTACK.md",
@@ -1118,9 +1530,14 @@
       "sha256": "3dd6d13e3c376b64cda8b3b8d7b7eb92b85fb37c18debb8123e2cdf4df781674"
     },
     {
+      "path": "docs/OPERATIONS-BACKEND.md",
+      "bytes": 2022,
+      "sha256": "d10a3197b4b01343bc2dcaea15d4bb3f9c48b9349df7f8e3f7f904442afdb654"
+    },
+    {
       "path": "docs/PACKAGES.md",
-      "bytes": 1559,
-      "sha256": "611a58f327541352348226281b563f628e5a81eb1ee615583cf08c207230715f"
+      "bytes": 1507,
+      "sha256": "7074d8587821fd1da31a274aadd695beea51a9e61ca083908a495b7a67c281d9"
     },
     {
       "path": "docs/POSTMAN.md",
@@ -1139,8 +1556,8 @@
     },
     {
       "path": "docs/README.md",
-      "bytes": 1316,
-      "sha256": "465871cf90cc86f2688d27f641ab28784841d6e2491cb865866467df149671b9"
+      "bytes": 1207,
+      "sha256": "105f53394b2ea7f90ea0f1a71b8f7f6f8453bffcb8b46f88838d86b78d780324"
     },
     {
       "path": "docs/REALTIME.md",
@@ -1161,6 +1578,11 @@
       "path": "docs/SECURITY.md",
       "bytes": 1227,
       "sha256": "2908f5a4653cadb3fbcf425132a92a04e3a9f2282f97a5472d7fc96106bbeb6a"
+    },
+    {
+      "path": "docs/SERVICE-MODULES.md",
+      "bytes": 3285,
+      "sha256": "5d0f977fd7b5001c41c432d4ff10bfd5afc2a5496792bddca3c4904889ecaa92"
     },
     {
       "path": "docs/SHARED.md",
@@ -1223,6 +1645,11 @@
       "sha256": "40a2c92c3566eae3f73a06972c68c51686053f0cac33ae252635abd5404a2722"
     },
     {
+      "path": "docs/apps/backend.md",
+      "bytes": 1037,
+      "sha256": "e3972824269126529f71130e7e4a21b3459d904037f2d128ce8d653a3cd88736"
+    },
+    {
       "path": "docs/apps/charging.md",
       "bytes": 1597,
       "sha256": "700dca0bfc4db9624f4fb7c89e146978104b6063154d6888d47860d4ea7b0349"
@@ -1239,8 +1666,8 @@
     },
     {
       "path": "docs/apps/energy.md",
-      "bytes": 1660,
-      "sha256": "37ea9a6d48c10bb57612f22a0395fd7c75b00f226b6e6ca556bd24af178eb636"
+      "bytes": 2326,
+      "sha256": "15e2c25a7149e70cebaa357da57258f07d5849f397c221ac622f34ff8fdaf835"
     },
     {
       "path": "docs/apps/grid.md",
@@ -1329,18 +1756,18 @@
     },
     {
       "path": "docs/reports/VALIDATION-REPORT.md",
-      "bytes": 1929,
-      "sha256": "69679d9167a4fb461af9f4cffa6f3f3ddbeeba204727e0451b139cd0dcfce031"
+      "bytes": 2468,
+      "sha256": "3ed3c964f1ce1a69a22cf26ffffcabef162965e9e709b34c79a78ff36b5c0b5a"
     },
     {
       "path": "env/development.env.example",
-      "bytes": 4256,
-      "sha256": "fda2768dc80ae084859caed77a75bb352547b44beb0be87ae903940c4e4de95b"
+      "bytes": 4763,
+      "sha256": "66389c076c065737130cf457fbcf9ac20f568bb983fcfcdf5dbbd299f730e4db"
     },
     {
       "path": "env/production.env.example",
-      "bytes": 4060,
-      "sha256": "39516a4f99712758782e4d400c7fa77784a67b911c74ae5f08a9ec77700c3b47"
+      "bytes": 4567,
+      "sha256": "d48106d8e3b15685d9bbe54f6fe5a3ded29bb8f1988fe6456c83a6111168653d"
     },
     {
       "path": "env/staging.env.example",
@@ -1359,18 +1786,48 @@
     },
     {
       "path": "package.json",
-      "bytes": 3755,
-      "sha256": "1aa86599f048c15be3028848395aba5a3f39481003895f09a656818a1d75bba0"
+      "bytes": 4283,
+      "sha256": "4f7b7f02282a6aca5f39c501bb151bc8da124389db2763ccf4f9969ee1798f08"
+    },
+    {
+      "path": "packages/adapters/package.json",
+      "bytes": 418,
+      "sha256": "9662490fc52ab1597e5630ee2025f25810c7430da90d153f9a16fbf1626600c5"
+    },
+    {
+      "path": "packages/adapters/src/auth.ts",
+      "bytes": 1157,
+      "sha256": "0ebd540ef727b316489a8e00306d5d009efbe80872f05fd3bc2d813b31bbb0fe"
+    },
+    {
+      "path": "packages/adapters/src/index.ts",
+      "bytes": 78,
+      "sha256": "f7886f623b916873f8db19e6a24b29f23c2e120e9ca9394463f2f646c4c7986b"
+    },
+    {
+      "path": "packages/adapters/src/registry.ts",
+      "bytes": 380,
+      "sha256": "d858ffe56f0c3676a7a38bfb486468f7eb5a8de5e3485858ae61dd91a8e68d78"
+    },
+    {
+      "path": "packages/adapters/src/wallet.ts",
+      "bytes": 1222,
+      "sha256": "ac9486110bed337c77ce748686c77ce4fdc0433d05ecd274c3c566893c5c9138"
+    },
+    {
+      "path": "packages/adapters/tsconfig.json",
+      "bytes": 131,
+      "sha256": "e0a174a3e114c0d205c3a6ab86c302b85d9c540701bef579172750a1a2bf42e0"
     },
     {
       "path": "packages/api/api/v1/manifest.json",
-      "bytes": 5961,
-      "sha256": "8891aa115e6097d83c68932f7d47009673236a2d76026123611831b68bd3c6b5"
+      "bytes": 6768,
+      "sha256": "222a63a96a7713dd613eb463e924f781a52535170aac8b33da8bc62dc3493739"
     },
     {
       "path": "packages/api/api/v1/routes.json",
-      "bytes": 5966,
-      "sha256": "240e52c29c2c1a6f6545614f2b379724170228d360bea9e65d2fd344d11611d1"
+      "bytes": 6773,
+      "sha256": "83b402a5c7603e9a942d23775ceec947c4f4ff4b928da366b0f62ebf1d34cad1"
     },
     {
       "path": "packages/api/grpc/proto/powerchain/v1/events.proto",
@@ -1394,13 +1851,13 @@
     },
     {
       "path": "packages/api/postman/PowerChain-Local-Energy-OS.postman_collection.json",
-      "bytes": 39556,
-      "sha256": "7cd2d71ef7f6eba34f36c5483a57dfadfdceb33acb436a0917927e2429189f28"
+      "bytes": 42738,
+      "sha256": "e6e8932aecd4b380aeeabc42525c75ee457616188c1d662d2bb055938703c191"
     },
     {
       "path": "packages/api/postman/PowerChain-Local.postman_environment.json",
-      "bytes": 1168,
-      "sha256": "08701b435cf596e292aac6238c6f38d7703480ae2496dc1a5945e113ae89d9c5"
+      "bytes": 1254,
+      "sha256": "7c2bc16d245202a3bd4324aef564ac168dc21872126b0f97c5e1935aaedd633f"
     },
     {
       "path": "packages/api/postman/flows/powerchain-api-health.template.json",
@@ -1454,8 +1911,8 @@
     },
     {
       "path": "packages/api/swagger/openapi.yaml",
-      "bytes": 17376,
-      "sha256": "2d76ae9d13186ce892cc0d0b133dccc7083b295d9e93277e66d613a33d610492"
+      "bytes": 19803,
+      "sha256": "b69d723afadc6c269d2187cf22d63d72275590663a7d30b3c33e4b6c4333f800"
     },
     {
       "path": "packages/api/swagger/swagger-ui.config.json",
@@ -1504,13 +1961,23 @@
     },
     {
       "path": "packages/auth/package.json",
-      "bytes": 392,
-      "sha256": "e8f4d758556f6eca0e33e9f2417e2e38ec01976eb357ec5236527083950c4ca7"
+      "bytes": 494,
+      "sha256": "749e22df8c02043b84d1cfca34ca6dcdee1824544feecc7a1db2c2dad0c8a6a9"
+    },
+    {
+      "path": "packages/auth/src/account-state.ts",
+      "bytes": 1661,
+      "sha256": "852a11a51efd4fb68e88efff1f49a362b067fe02daea655b1002f7fbe7a18ded"
     },
     {
       "path": "packages/auth/src/index.ts",
       "bytes": 3159,
       "sha256": "c06b50205da441e35c331563938fbfdff071577e0d50afcb31a180bf5bd779a7"
+    },
+    {
+      "path": "packages/auth/src/password-policy.ts",
+      "bytes": 2599,
+      "sha256": "9f83fbdf7f2028fab43d22ec7ac7f1fd66a52db1008942a11c121739999e6970"
     },
     {
       "path": "packages/auth/tsconfig.json",
@@ -1531,6 +1998,41 @@
       "path": "packages/charging/tsconfig.json",
       "bytes": 102,
       "sha256": "7776d37d98a2f460efb6548b3fdb741148c0cfc4f775f0faa7e68d3aae72e9f0"
+    },
+    {
+      "path": "packages/clients/package.json",
+      "bytes": 554,
+      "sha256": "a2ef395f0bda9954cf96aa7fc3d0635bcf4ffee8133d4b1a1022a7cdf871dfe4"
+    },
+    {
+      "path": "packages/clients/src/index.ts",
+      "bytes": 308,
+      "sha256": "553787564cf5777d94f88db47f2e7efeb5e329d5a2b317fecf66650a3c0a0558"
+    },
+    {
+      "path": "packages/clients/src/market-data.ts",
+      "bytes": 1576,
+      "sha256": "48a0d52298da53f4b1b52e4fc5879de0b9a3f8dd048b410ab673f501f1e09fe9"
+    },
+    {
+      "path": "packages/clients/src/rpc.ts",
+      "bytes": 944,
+      "sha256": "41d466068ab7828f4f579a16ac7559faf3db683e469b176c9ea6a0462d2b47e8"
+    },
+    {
+      "path": "packages/clients/src/solana.ts",
+      "bytes": 679,
+      "sha256": "18271285f741dcb62298e5aa2c3d10066c00179776327e2c4f86baa398c2eab6"
+    },
+    {
+      "path": "packages/clients/src/sui.ts",
+      "bytes": 670,
+      "sha256": "0af074f6204c51e4776959500e50a0a1ace8cf0344e1d6a082bcc1dc24ddb7e5"
+    },
+    {
+      "path": "packages/clients/tsconfig.json",
+      "bytes": 131,
+      "sha256": "e0a174a3e114c0d205c3a6ab86c302b85d9c540701bef579172750a1a2bf42e0"
     },
     {
       "path": "packages/config/package.json",
@@ -1623,6 +2125,41 @@
       "sha256": "ae429d7fda06f5e202226e7157e952aef629525b29db1f065505e6edc74336c1"
     },
     {
+      "path": "packages/depin/package.json",
+      "bytes": 366,
+      "sha256": "202b7028e2f3d6f3a01b4297e203a0dfbb02426870aa9d7e269f030769637495"
+    },
+    {
+      "path": "packages/depin/src/index.ts",
+      "bytes": 1356,
+      "sha256": "cee84fb00436192f119c573d2cb35e0bd5c2e4483012cecb98947a781a2de576"
+    },
+    {
+      "path": "packages/depin/tsconfig.json",
+      "bytes": 131,
+      "sha256": "e0a174a3e114c0d205c3a6ab86c302b85d9c540701bef579172750a1a2bf42e0"
+    },
+    {
+      "path": "packages/ems/package.json",
+      "bytes": 476,
+      "sha256": "af7315821867f2f16d51d876692f9236d225f9a879c8d640a0ad9a6c6a1e0392"
+    },
+    {
+      "path": "packages/ems/src/dispatch-action.ts",
+      "bytes": 2119,
+      "sha256": "fc3fd1bc2521c8106332154ab69f06770dc38bcde8b28569a8f4ddec1fb9cc10"
+    },
+    {
+      "path": "packages/ems/src/index.ts",
+      "bytes": 3631,
+      "sha256": "48365a9554430518084c075da6edd23bcd63b26c0ad4e2c6bd4b2324862ce6f7"
+    },
+    {
+      "path": "packages/ems/tsconfig.json",
+      "bytes": 131,
+      "sha256": "e0a174a3e114c0d205c3a6ab86c302b85d9c540701bef579172750a1a2bf42e0"
+    },
+    {
       "path": "packages/energy-core/package.json",
       "bytes": 262,
       "sha256": "8cc25b5b070b3c2a613406694ca71c6308d72b1e2f2fe0fad8fe4b5c31c7fb89"
@@ -1696,6 +2233,51 @@
       "path": "packages/grid/tsconfig.json",
       "bytes": 102,
       "sha256": "7776d37d98a2f460efb6548b3fdb741148c0cfc4f775f0faa7e68d3aae72e9f0"
+    },
+    {
+      "path": "packages/hooks/package.json",
+      "bytes": 645,
+      "sha256": "b9806b6fc89f8625f0bd5fa5e94221ba11a7f32d92869f09038dcfc5a53dd3fa"
+    },
+    {
+      "path": "packages/hooks/src/api-operations.ts",
+      "bytes": 3704,
+      "sha256": "98e2eca767cab1d57578e5326737af2a79dd4690b352140d09fb9eec5346f485"
+    },
+    {
+      "path": "packages/hooks/src/core.ts",
+      "bytes": 2004,
+      "sha256": "557f8470c82756022784750cbf02ade29e07935a65799583d1fdfea4b17c37ea"
+    },
+    {
+      "path": "packages/hooks/src/index.ts",
+      "bytes": 103,
+      "sha256": "279b841cfe7f7ffc2268f32dea95af8ff0270365653cef78a205a5a04feb3115"
+    },
+    {
+      "path": "packages/hooks/src/operational.ts",
+      "bytes": 2350,
+      "sha256": "eea2623d1d4eb13fba7069a1f08fd812e550cde9a605c2ffd0f3e05ddcfe36ec"
+    },
+    {
+      "path": "packages/hooks/tsconfig.json",
+      "bytes": 151,
+      "sha256": "7f34b68d0021f6641962dfb5224e59a967998f9b4c7a71cd4a0bbb9dc7bd648e"
+    },
+    {
+      "path": "packages/iot/package.json",
+      "bytes": 364,
+      "sha256": "efb6f608c4593355c2bef1e1f8206c240f6fd66df087ddfa871a578461e3803a"
+    },
+    {
+      "path": "packages/iot/src/index.ts",
+      "bytes": 1712,
+      "sha256": "a783fec19d1e246c6db48c9fca02ef47af3e3dfe1290f75decd300cda072c303"
+    },
+    {
+      "path": "packages/iot/tsconfig.json",
+      "bytes": 131,
+      "sha256": "e0a174a3e114c0d205c3a6ab86c302b85d9c540701bef579172750a1a2bf42e0"
     },
     {
       "path": "packages/ledger/package.json",
@@ -1848,6 +2430,21 @@
       "sha256": "20604a7c457a3b94737ec4524f9c8183667625dad959b3a0aaa237e228a3d767"
     },
     {
+      "path": "packages/safe-actions/package.json",
+      "bytes": 305,
+      "sha256": "ffc6669fa4c3568cbbd51afa70c1b1718c555abc853dd91b1dec11c72a6d9463"
+    },
+    {
+      "path": "packages/safe-actions/src/index.ts",
+      "bytes": 5178,
+      "sha256": "a1a5cdcf744ddc37aa68ae5cf3c27d7a8a96699b117114ab2c82804830bcf536"
+    },
+    {
+      "path": "packages/safe-actions/tsconfig.json",
+      "bytes": 131,
+      "sha256": "e0a174a3e114c0d205c3a6ab86c302b85d9c540701bef579172750a1a2bf42e0"
+    },
+    {
       "path": "packages/settlement/package.json",
       "bytes": 261,
       "sha256": "e02327f2d55189ef752eba2f3d0b8a97abce620e3f0ba3f752d3b866f0c4e157"
@@ -1869,8 +2466,8 @@
     },
     {
       "path": "packages/shared/src/index.ts",
-      "bytes": 10079,
-      "sha256": "831113d05daa9cb5bd706c2557021a0c0e455c708b2f3cd9d8411e0e9b9543f1"
+      "bytes": 11369,
+      "sha256": "27aaebdd77d39d01fa02d57bd9356569f70e4356d415d7e048129fd6c4b3d4e5"
     },
     {
       "path": "packages/shared/tsconfig.json",
@@ -1969,8 +2566,8 @@
     },
     {
       "path": "packages/ui/src/app-shell.tsx",
-      "bytes": 7510,
-      "sha256": "54fe4edd7c0b7d3c06378901fdbdde6b51f887958ed76cd8904471d53bc5a26c"
+      "bytes": 7616,
+      "sha256": "e8a9b49ca1843260c9af01f2565199593aa541d62635bf03309071c436bbb027"
     },
     {
       "path": "packages/ui/src/brand.tsx",
@@ -1984,23 +2581,28 @@
     },
     {
       "path": "packages/ui/src/data-display.tsx",
-      "bytes": 1872,
-      "sha256": "b79c6982e79634dcb1929e39b4e9e28216b2045b36d4e7cf47cfc1c758adf34f"
+      "bytes": 1995,
+      "sha256": "afbf5341123b19e45dd14ea3afdd765ddf8a162e31465f9467ec8795f0188ade"
     },
     {
       "path": "packages/ui/src/icons.tsx",
-      "bytes": 3111,
-      "sha256": "d6076c5bc4ae9a9482e95c4d7d03f232e685b57967464bd6e8dc3eb4f36f702a"
+      "bytes": 3876,
+      "sha256": "6d5a4d848ac4290d8312e88dc34656e5356a9d6d17fec3be422deab9ca0341db"
     },
     {
       "path": "packages/ui/src/index.ts",
-      "bytes": 173,
-      "sha256": "af9516ff45cd1f7eca0158e17b20b90690a71b92d4818fd92f7d43f1ff78bbc0"
+      "bytes": 205,
+      "sha256": "c28e14da4ff19bbc2ff913bec2a5efc59e8fff6622219da02301f7ec44c24b98"
+    },
+    {
+      "path": "packages/ui/src/operational.tsx",
+      "bytes": 2497,
+      "sha256": "6530d85fd7272b3bb7e5d9386cae6acfacd95d73887afd6c892069137ff2912f"
     },
     {
       "path": "packages/ui/src/styles.css",
-      "bytes": 23406,
-      "sha256": "95cee41d78b34ad5307e6406e9a870982375ea7c3b47296553ace6f11434b774"
+      "bytes": 31975,
+      "sha256": "578914686e9772b9796b58221ea663c604b917b82adc148277a3f788a29a9d8b"
     },
     {
       "path": "packages/ui/src/surface.tsx",
@@ -2059,8 +2661,8 @@
     },
     {
       "path": "pnpm-workspace.yaml",
-      "bytes": 446,
-      "sha256": "fe40e84ff2a648455dcc06c2f126ec4a1eebe21994ab7931860cfdf3cdb9418b"
+      "bytes": 335,
+      "sha256": "18cb10159f99edd924a09d65da4e048716035186ada0adc66d25c8bb8445d16e"
     },
     {
       "path": "prisma/migrations/.gitkeep",
@@ -2079,8 +2681,8 @@
     },
     {
       "path": "prisma.config.ts",
-      "bytes": 1500,
-      "sha256": "3109c04ead78632b615929c0f587a5d774400a1c1b646b708db28a6668984eeb"
+      "bytes": 1414,
+      "sha256": "246add5247ce6b336df8b4c0840f4625e201e2790732801f79e504fd1296c411"
     },
     {
       "path": "programs/README.md",
@@ -2184,8 +2786,8 @@
     },
     {
       "path": "tools/db.mjs",
-      "bytes": 7434,
-      "sha256": "fd8676444c7d669f3fd599566f771c19f8634ec4e41dc71bfa81524e8257b031"
+      "bytes": 6289,
+      "sha256": "ebac02b86cd4fcdf8488d17cc0ee6c5515ca6a46380832c40c33abc29dab5e60"
     },
     {
       "path": "tools/env-setup.mjs",
@@ -2209,13 +2811,13 @@
     },
     {
       "path": "tools/prisma-env.mjs",
-      "bytes": 2766,
-      "sha256": "7a791a5f900c117348f1b389c3296baae5c79d1194d9c8f87c210772ca4aba0e"
+      "bytes": 4207,
+      "sha256": "f93436be96efdde3154cabb080310c1bd9c921ee56f3378de3b8a6bf450c4102"
     },
     {
       "path": "tools/release-verify.mjs",
-      "bytes": 1054,
-      "sha256": "a5b4974dc6c8d5b86e857dcbda77522d0bc590bd5c6a5a4c565cc91de7012405"
+      "bytes": 1229,
+      "sha256": "78c579d40affb19dfaa6efa4f417a90d147b01b2fa919fda04197b11648b3c3a"
     },
     {
       "path": "tools/solana.mjs",
@@ -2238,19 +2840,24 @@
       "sha256": "bad37c4a417beb113f9ad6f44b9f211a34af82906e1ab408d0b532a3e724d652"
     },
     {
+      "path": "tools/verify-operations.mjs",
+      "bytes": 2320,
+      "sha256": "28b6ee65f322be7ccc0acc38a9c6ff5f6226cc1fd7c0b78d4d4717beea17bad5"
+    },
+    {
       "path": "tools/workspace-bootstrap.mjs",
       "bytes": 5339,
       "sha256": "8636322feba8a5d58d0e8b013192b546da1c665d462c55210761b4258f62cc9a"
     },
     {
       "path": "tools/workspace-doctor.mjs",
-      "bytes": 12947,
-      "sha256": "73915b8af152269eaeb32eab038fa3a06c3a4b60e53a0d4df626539d70c94353"
+      "bytes": 12607,
+      "sha256": "7dacc59c2131856dc33edfc04548b96f532cf0b5c5d11d409695b1dd9028fb68"
     },
     {
       "path": "tsconfig.base.json",
-      "bytes": 3366,
-      "sha256": "3d8e1bff4aef6b80379b1fce07b4c31f827a0b824a9a311cd3f7a05230aca51c"
+      "bytes": 4142,
+      "sha256": "f6b5ac9f081dc6864dfa0ee2138b6e82007c858e456b5d2d05a675c6a2dfbf2d"
     },
     {
       "path": "tsconfig.node.json",
@@ -2259,8 +2866,8 @@
     },
     {
       "path": "turbo.json",
-      "bytes": 2304,
-      "sha256": "edbafd2e0c01325a9b518dd5fed71bce733e1ef2da54c3935a3f7ee226b236a2"
+      "bytes": 2477,
+      "sha256": "1a2f110924cb5902a8cc86e6cc28e0584a2313de3de6e09d898df19cb1d92ab7"
     }
   ]
 }

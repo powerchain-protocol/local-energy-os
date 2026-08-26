@@ -27,9 +27,7 @@
     "@powerchain/audit": "workspace:*",
     "@powerchain/storage": "workspace:*",
     "@powerchain/ui": "workspace:*",
-    "swagger-ui-dist": "5.32.14",
-    "@powerchain/system-management": "workspace:*",
-    "@powerchain/svm": "workspace:*"
+    "swagger-ui-dist": "5.32.14"
   },
   "devDependencies": {
     "typescript": "7.0.2",

@@ -16,7 +16,8 @@
     "@powerchain/contracts": "workspace:*",
     "@powerchain/api-client": "workspace:*",
     "@powerchain/saas": "workspace:*",
-    "@powerchain/ui": "workspace:*"
+    "@powerchain/ui": "workspace:*",
+    "@powerchain/auth": "workspace:*"
   },
   "devDependencies": {
     "typescript": "7.0.2",

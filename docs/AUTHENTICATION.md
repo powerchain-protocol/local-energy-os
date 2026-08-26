@@ -1,6 +1,68 @@
 # Authentication
 
-PowerChain separates account/session authentication, wallet ownership verification, and blockchain transaction authorization.
+PowerChain separates **account/session authentication**, **wallet ownership verification**, **organization authorization**, and **transaction/dispatch approval**. UI must never imply that signing in grants authority to move assets or change physical energy state.
+
+## Authentication surfaces
+
+The Platform app provides standalone account UX at:
+
+```text
+/sign-in
+/sign-up
+/forgot-password
+/reset-password
+```
+
+These routes intentionally do not render the authenticated application sidebar. On desktop they use a split trust/auth layout; on mobile the trust narrative collapses into a compact PowerChain header and single-column form.
+
+The password UI is currently **contract-ready but fail-closed**: the repository does not yet implement a credential-provider API, so password submissions display an explicit provider-not-configured state and do not store or transmit credentials. Solana message authentication remains the implemented authentication backend.
+
+## Account states
+
+Canonical account UI states are:
+
+```text
+SIGNED_OUT
+AUTHENTICATING
+AUTHENTICATED
+EMAIL_VERIFICATION_REQUIRED
+PASSWORD_RESET_REQUIRED
+SESSION_EXPIRED
+SUSPENDED
+UNAVAILABLE
+```
+
+Do not collapse these into a generic “login failed” message. The user should know whether the problem is credentials, verification, session lifetime, suspension, or service availability.
+
+## Password policy
+
+The shared client-safe policy is exported from `@powerchain/auth/password-policy`.
+
+A password must:
+
+- be 12–128 characters;
+- contain lowercase and uppercase letters;
+- contain at least one number;
+- contain at least one symbol;
+- have no leading or trailing whitespace;
+- not contain the email local-part when that part is meaningful;
+- not match the small explicit common/PowerChain-branded denylist.
+
+The UI shows every rule while the user types and provides a separate strength indicator. Strength never overrides a failed rule.
+
+## Loading and errors
+
+Authentication UI uses:
+
+- route-level skeleton loading;
+- in-button pending state with `aria-busy`;
+- `aria-live` feedback for success/information;
+- `role="alert"` for actionable validation/authentication errors;
+- inline password mismatch feedback;
+- disabled pending submit controls;
+- reduced-motion handling.
+
+Generic reset requests must not reveal whether an email address is registered.
 
 ## Solana sign-in
 

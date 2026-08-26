@@ -1,12 +1,10 @@
 import { spawnSync } from "node:child_process";
-
 import fs from "node:fs";
 
 if (!fs.existsSync("pnpm-lock.yaml")) {
   console.error("Release verification requires a committed pnpm-lock.yaml. Run pnpm install --no-frozen-lockfile on Node 24 and commit the generated lockfile first.");
   process.exit(1);
 }
-
 const major = Number(process.versions.node.split(".")[0]);
 if (major !== 24) {
   console.error(`PowerChain release verification requires Node 24.x; current ${process.version}`);
@@ -15,10 +13,15 @@ if (major !== 24) {
 const commands = [
   ["pnpm", ["doctor:strict"]],
   ["pnpm", ["validate"]],
+  ["pnpm", ["operations:verify"]],
   ["pnpm", ["api:docs:verify"]],
+  ["pnpm", ["peers:check"]],
   ["pnpm", ["prisma:validate"]],
   ["pnpm", ["prisma:generate"]],
+  ["pnpm", ["backend:prisma:validate"]],
+  ["pnpm", ["backend:prisma:generate"]],
   ["pnpm", ["typecheck"]],
+  ["pnpm", ["backend:build"]],
   ["pnpm", ["build:apps"]],
 ];
 for (const [command, args] of commands) {

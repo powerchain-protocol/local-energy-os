@@ -25,7 +25,7 @@ Internal physical accounting uses integer **Wh**. Active Energy RWA supply canno
 
 ```text
 apps/
-  energy/       Local Energy OS / Command Center
+  energy/       Energy Management System + Local Energy Command Center
   platform/     SaaS tenant and entitlement control plane
   admin/        Organizations, memberships, policy, audit and system admin
   mapper/       Grid/infrastructure geospatial workspace
@@ -76,6 +76,36 @@ docs/           Canonical project documentation
 All operational web applications share `@powerchain/ui`. The canonical shell uses a fixed **100dvh** desktop sidebar, independently scrolling grouped navigation, a sticky top bar, responsive drawer behavior, restrained forest-green design tokens, and **no application footer**. Physical infrastructure and operational state are shown before token/network details.
 
 See `docs/DESIGN-SYSTEM.md`. Package versions and upgrade policy are tracked in `docs/PACKAGES.md`.
+
+## Energy Management System
+
+`apps/energy` now exposes the canonical EMS workspace:
+
+```text
+Overview                     /
+
+Monitor                      /monitor
+├── Live Flow                /monitor/live-flow
+├── Generation               /monitor/generation
+├── Consumption              /monitor/consumption
+└── Storage                  /monitor/storage
+
+Plan & Operate               /operate
+├── Forecast                 /operate/forecast
+├── Flexibility              /operate/flexibility
+├── Dispatch                 /operate/dispatch
+└── Grid                     /operate/grid
+
+Context                      /context
+├── Markets                  /context/markets
+└── Events                   /context/events
+```
+
+The dashboard at `/` remains the overview entry, while Monitor, Plan & Operate, and Context use purpose-specific canonical URLs and a shared responsive operational subnavigation. Legacy `/energy/*` URLs redirect to the canonical routes.
+
+The EMS is physical-state-first: live power uses `kW/MW`, accumulated/verified energy uses integer `Wh` with `kWh/MWh/GWh` presentation, and every operational value requires a source timestamp plus freshness/quality state. Missing telemetry remains `UNCONFIGURED`; PowerChain does not derive realtime power, SOC or grid exchange from settlement-grade energy totals. Dispatch follows `Context → Simulate → Policy → Approve → Execute → Verify`. See `docs/EMS.md`.
+
+The Live Flow surface uses a responsive 4/2/1-column site-state grid with a separate power-balance equation, explicit MW/MVAr/MWh/kV/Hz/SOC/°C labeling, source/interval/quality metadata and no horizontal topology canvas. The Energy app uses Tailwind CSS v4 with shadcn-style semantic variables and stable `data-slot` component hooks; shared operational tables reflow into labeled mobile records rather than horizontal scrollers.
 
 ## Docs UI workspace boundary
 
@@ -323,6 +353,20 @@ The API client now normalizes PowerChain error envelopes and non-PowerChain HTTP
 
 PowerChain libraries currently use typecheck-only `build` scripts and export TypeScript source to workspace consumers. Turbo therefore treats library builds as no-output tasks, while Next.js application tasks separately cache `.next/**`. These warnings should no longer appear.
 
+
+### Account and authentication UX
+
+The Platform app provides standalone identity routes:
+
+```text
+/sign-in
+/sign-up
+/forgot-password
+/reset-password
+```
+
+These surfaces preserve the PowerChain trust boundary: account authentication, wallet ownership, organization membership and transaction/dispatch authorization remain separate. Password UI enforces the shared 12–128 character policy and is intentionally fail-closed until a real credential provider is configured; Solana message authentication remains the implemented backend flow.
+
 ## Authentication
 
 Solana wallet authentication is a non-transactional message-signature flow:
@@ -494,3 +538,12 @@ GET /api/v1/system/management
 ```
 
 The Administration app exposes matching System Status, Runtime Config, and Management Policy views. Status never returns database passwords, Helius API keys, private RPC credentials, session secrets, or service-role keys. See `docs/SYSTEM-MANAGEMENT.md`.
+
+## Service modules and isolated backend
+
+See [`docs/SERVICE-MODULES.md`](docs/SERVICE-MODULES.md) for EMS/IoT/DePIN services, provider-neutral adapters, chain/market-data clients, safe actions, hooks and the isolated Express backend.
+
+
+## Isolated operations backend
+
+EMS, IoT, DePIN, market-data and safe-action preparation run through `apps/backend`, with a dedicated Prisma `operations` schema and explicit `site_access` authorization. `apps/api` is the authenticated gateway. No physical dispatch or settlement execution endpoint is exposed. See `docs/OPERATIONS-BACKEND.md`.

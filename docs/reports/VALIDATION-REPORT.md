@@ -1,72 +1,53 @@
 # PowerChain Local Energy OS v1.0.0 — Validation Report
 
-## System-management / database hardening pass
+**Date:** 2026-08-26  
+**Repository policy:** Node.js 24.19.x + pnpm 11.23.0
 
-Validated in the packaging environment:
+## Completed source/structural checks
 
-- Workspace doctor: PASS
-- Workspace projects: 53
-- OpenAPI 3.1 method coverage: PASS
-- Repository aggregate validation: PASS
-- `@powerchain/system-management` TypeScript compile: PASS
-- TypeScript/TSX parser: PASS, 190 files, 0 parse errors
-- Prisma schema structural contract: PASS through repository validation
-- API route manifest coverage: PASS
-- Root Markdown policy: PASS (`README.md`, `CONTRIBUTING.md` only)
-- Development DB fallback resolution: PASS (`127.0.0.1:5432/powerchain`)
-- Database offline classification: PASS (`unreachable`, not `unconfigured`)
-- ZIP integrity: generated after this report
+- Workspace doctor: **PASS** — 61 projects, no warnings
+- Aggregate repository validation: **PASS**
+- OpenAPI 3.1 route/method coverage: **PASS**
+- Operations static/security verification: **PASS**
+- TypeScript/TSX syntax parser: **PASS** — 285 files, 0 parse errors
+- Root Markdown policy: **PASS** — only `README.md` and `CONTRIBUTING.md`
+- Full-height sidebar / five-part mobile navigation / no application footer: **PASS**
 
-## New canonical system surfaces
+## EMS operational information architecture
 
-```text
-GET /api/v1/system/status
-GET /api/v1/system/status?probe=deep
-GET /api/v1/system/config
-GET /api/v1/system/management
-GET /api/v1/system/health
-```
+The Energy dashboard remains canonical at `/` and the detailed EMS is split by decision purpose:
 
-The canonical status contract lives at:
+- **Monitor** — `/monitor`, `/monitor/live-flow`, `/monitor/generation`, `/monitor/consumption`, `/monitor/storage`
+- **Plan & Operate** — `/operate`, `/operate/forecast`, `/operate/flexibility`, `/operate/dispatch`, `/operate/grid`
+- **Context** — `/context`, `/context/markets`, `/context/events`
 
-```text
-packages/system-management/src/types/status.ts
-```
+All three workspaces use the same responsive operational section layout. Sidebar, mobile navigation and section navigation resolve to these canonical URLs. Eleven legacy `/energy/*` routes remain compatibility redirects and do not duplicate page implementations.
 
-## Database semantics
+The root Overview now links directly to Monitor, Plan & Operate and Context while preserving the existing Command Center content.
 
-Prisma schema validation and client generation do not require a live PostgreSQL server. Migration status, migration resolution, `db push`, and migration deployment do.
+## Operational trust boundaries
 
-Datasource resolution:
-
-```text
-DIRECT_URL
-→ DATABASE_URL
-→ PG* variables
-→ development-only 127.0.0.1 fallback
-```
-
-A derived/configured datasource that cannot be reached is reported as `UNAVAILABLE`. Production has no localhost fallback.
+- Monitor remains authoritative for physical energy state and evidence.
+- Plan & Operate cannot promote forecast/flexibility into execution without simulation, policy, approval and verification.
+- Context can add market/event evidence but cannot overwrite physical telemetry or verification.
+- Existing EMS/IoT/DePIN `site_access`, provider-neutral auth/wallet and safe-action preparation boundaries remain unchanged.
+- No physical dispatch or settlement execution endpoint was introduced by this UI/IA change.
 
 ## Target-machine release gates
 
-Run on Node 24.19.0 + pnpm 11.23.0 with installed workspace dependencies:
+This packaging environment runs Node 22 and does not contain the canonical pnpm workspace dependency graph. Run dependency-aware certification on Node 24.19.x:
 
 ```bash
+corepack enable
+corepack use pnpm@11.23.0
 pnpm install --frozen-lockfile
 pnpm peers:check
-pnpm local-energy:verify
+pnpm prisma:validate
+pnpm prisma:generate
+pnpm backend:prisma:validate
+pnpm backend:prisma:generate
+pnpm operations:verify
 pnpm typecheck
+pnpm backend:build
 pnpm build:apps
 ```
-
-For migration integration tests, PostgreSQL must also be reachable:
-
-```bash
-pnpm db:status
-pnpm db:up
-pnpm db:doctor
-pnpm prisma:migrate:status
-```
-
-Anchor/Rust and Sui Move tests remain target-toolchain gates.

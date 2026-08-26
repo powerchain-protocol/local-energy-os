@@ -1,0 +1,12 @@
+{
+  "name": "@powerchain/safe-actions",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "build": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": { "typescript": "7.0.2" }
+}

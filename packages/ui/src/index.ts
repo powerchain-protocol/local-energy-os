@@ -4,3 +4,5 @@ export * from "./command-palette";
 export * from "./data-display";
 export * from "./icons";
 export * from "./surface";
+
+export * from "./operational";

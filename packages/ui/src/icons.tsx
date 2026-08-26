@@ -5,7 +5,8 @@ export type PowerChainIconName =
   | "charging" | "market" | "copilot" | "agents" | "commerce" | "treasury"
   | "organization" | "settings" | "admin" | "map" | "docs" | "api" | "search"
   | "bell" | "menu" | "close" | "status" | "supply" | "wallet" | "arrow"
-  | "chevron" | "activity" | "shield" | "clock" | "refresh" | "plus" | "warning";
+  | "chevron" | "activity" | "shield" | "clock" | "refresh" | "plus" | "warning"
+  | "flow" | "generation" | "consumption" | "storage" | "forecast" | "flexibility" | "dispatch" | "events";
 
 const paths: Record<PowerChainIconName, string> = {
   overview: "M3 3h7v7H3V3Zm11 0h7v4h-7V3ZM3 14h7v7H3v-7Zm11-3h7v10h-7V11Z",
@@ -41,9 +42,31 @@ const paths: Record<PowerChainIconName, string> = {
   clock: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 5v5l3 2",
   refresh: "M20 7v5h-5M4 17v-5h5M6.1 8A7 7 0 0 1 18 6l2 6M17.9 16A7 7 0 0 1 6 18l-2-6",
   plus: "M12 5v14M5 12h14",
-  warning: "M12 3 2.5 20h19L12 3Zm0 6v5m0 3h.01"
+  warning: "M12 3 2.5 20h19L12 3Zm0 6v5m0 3h.01",
+  flow: "M3 7h5l3 5h5l5-5M3 17h5l3-5h5l5 5",
+  generation: "M12 2v4m7.1-1.1-2.8 2.8M22 12h-4M19.1 19.1l-2.8-2.8M12 22v-4M4.9 19.1l2.8-2.8M2 12h4M4.9 4.9l2.8 2.8M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z",
+  consumption: "M4 5h16v14H4V5Zm4 4h8M8 13h5M8 17h3",
+  storage: "M5 4h12v16H5V4Zm12 5h2v6h-2M8 8h6M8 12h6M8 16h4",
+  forecast: "M4 19V9m5 10V5m5 14v-7m5 7V3M3 21h18",
+  flexibility: "M4 7h10m0 0-3-3m3 3-3 3M20 17H10m0 0 3-3m-3 3 3 3",
+  dispatch: "M4 4h16v16H4V4Zm4 4 8 4-8 4V8Z",
+  events: "M5 3h14v18H5V3Zm3 5h8m-8 4h8m-8 4h5"
 };
 
 export function PowerChainIcon({ name, ...props }: { name: PowerChainIconName } & SVGProps<SVGSVGElement>) {
-  return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false" {...props}><path d={paths[name]} /></svg>;
+  return <svg
+    data-slot="icon"
+    viewBox="0 0 24 24"
+    width={16}
+    height={16}
+    fill="none"
+    stroke="currentColor"
+    strokeWidth={1.75}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    vectorEffect="non-scaling-stroke"
+    aria-hidden="true"
+    focusable="false"
+    {...props}
+  ><path d={paths[name]} /></svg>;
 }

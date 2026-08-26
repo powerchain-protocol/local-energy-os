@@ -86,3 +86,15 @@ Financial or external actions must disclose destination, maximum amount, network
 ## Footer policy
 
 Authenticated PowerChain applications and the documentation shell do not render a footer. Product/version and runtime identity belong in navigation/header metadata or dedicated system surfaces, keeping the full-height sidebar continuous from top to bottom.
+
+## EMS operational section navigation
+
+The Energy app uses one shared responsive section context bar for the canonical operational workspaces:
+
+- `/monitor/*` — physical state and evidence
+- `/operate/*` — forecasting, flexibility, grid constraints and safe-action preparation
+- `/context/*` — markets and operational event context
+
+The section context bar is intentionally secondary to the application sidebar and primary page heading. It communicates the active decision domain, keeps related tools adjacent, and reflows from four-column desktop navigation to two-column tablet and one-column mobile navigation without horizontal scrolling.
+
+The root dashboard `/` remains the Overview entry and links to all three workspaces. Legacy `/energy/*` paths are redirects only and must not be added back as competing navigation destinations.

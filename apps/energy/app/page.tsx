@@ -112,6 +112,14 @@ export default function Page() {
         </div>}
       </Panel>
 
+      <Panel className="pc-span-12" eyebrow="Operational workspaces" title="Monitor → Plan & Operate → Context" description="The dashboard remains the overview entry. Move into the workspace that matches the operational question without mixing physical state, planning and contextual data.">
+        <div className="pc-action-grid energy-workspace-grid">
+          <ActionCard icon="activity" title="Monitor" description="Observe live physical state, verified generation evidence, demand and storage condition." meta="Source · timestamp · freshness" href="/monitor" />
+          <ActionCard icon="dispatch" title="Plan & Operate" description="Forecast, assess flexibility, prepare dispatch intent and apply grid constraints." meta="Simulation · policy · approval" href="/operate" />
+          <ActionCard icon="events" title="Context" description="Add market commitments and operational events without overriding physical truth." meta="Markets · events · external context" href="/context" />
+        </div>
+      </Panel>
+
       <Panel className="pc-span-8" eyebrow="Operations" title="Priority actions" description="Only actions supported by configured sources should become executable.">
         <div className="pc-action-grid">
           <ActionCard icon="shield" title="Review Energy RWA backing" description="Inspect verified batches, positioned supply and retirement state before market execution." meta={`${data?.rwa.positionCount ?? 0} positions`} />

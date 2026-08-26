@@ -124,6 +124,36 @@
       ],
       "@powerchain/config/*": [
         "packages/config/src/*.ts"
+      ],
+      "@powerchain/ems": [
+        "packages/ems/src/index.ts"
+      ],
+      "@powerchain/iot": [
+        "packages/iot/src/index.ts"
+      ],
+      "@powerchain/depin": [
+        "packages/depin/src/index.ts"
+      ],
+      "@powerchain/adapters": [
+        "packages/adapters/src/index.ts"
+      ],
+      "@powerchain/clients": [
+        "packages/clients/src/index.ts"
+      ],
+      "@powerchain/safe-actions": [
+        "packages/safe-actions/src/index.ts"
+      ],
+      "@powerchain/hooks": [
+        "packages/hooks/src/index.ts"
+      ],
+      "@powerchain/ems/*": [
+        "packages/ems/src/*.ts"
+      ],
+      "@powerchain/adapters/*": [
+        "packages/adapters/src/*.ts"
+      ],
+      "@powerchain/clients/*": [
+        "packages/clients/src/*.ts"
       ]
     },
     "forceConsistentCasingInFileNames": true,

@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./password-policy": "./src/password-policy.ts",
+    "./account-state": "./src/account-state.ts"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json --noEmit",

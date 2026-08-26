@@ -1,0 +1,6 @@
+import { EmsBoundaryPage } from "../../../components/ems-boundary-page";
+export default function FlexibilityPage(){return <EmsBoundaryPage title="Flexibility" icon="flexibility" description="Controllable import/export/load/storage capability with availability windows, limits, duration and confidence." sourceLabel="Flexibility is derived only from verified asset capability, current physical state and operating constraints" requirements={[
+  {label:"Direction",value:"increase/decrease load or export"},{label:"Capacity",value:"kW / MW"},{label:"Energy",value:"kWh / MWh if duration-limited"},{label:"Window",value:"available from/to"},{label:"Duration",value:"minimum/maximum activation"},{label:"Constraints",value:"SOC, comfort, grid, equipment, policy"}
+]} cards={[
+  {icon:"storage",title:"Battery Flexibility",description:"Charge/discharge headroom without violating SOC limits.",href:"/monitor/storage"},{icon:"charging",title:"EV Flexibility",description:"Shift charging or V2G only when vehicle/charger policy allows.",href:"/operate/flexibility"},{icon:"dispatch",title:"Prepare Dispatch",description:"Convert an eligible flexibility position into a simulation intent.",href:"/operate/dispatch"}
+]}/>}
