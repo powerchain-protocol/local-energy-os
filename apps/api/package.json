@@ -27,7 +27,7 @@
     "@powerchain/system-management": "workspace:*",
     "@powerchain/ui": "workspace:*",
     "@powerchain/validation": "workspace:*",
-    "next": "16.3.2",
+    "next": "16.3.3",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "swagger-ui-dist": "5.32.14"
